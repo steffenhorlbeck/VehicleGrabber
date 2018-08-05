@@ -211,7 +211,7 @@
           "lib/netstandard2.0/MySql.Data.dll": {}
         }
       },
-      "NETStandard.Library/2.0.1": {
+      "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -1554,14 +1554,13 @@
         "mysql.data.nuspec"
       ]
     },
-    "NETStandard.Library/2.0.1": {
-      "sha512": "oA6nwv9MhEKYvLpjZ0ggSpb1g4CQViDVQjLUcDWg598jtvJbpfeP2reqwI1GLW2TbxC/Ml7xL6BBR1HmKPXlTg==",
+    "NETStandard.Library/2.0.3": {
+      "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
-      "path": "netstandard.library/2.0.1",
+      "path": "netstandard.library/2.0.3",
       "files": [
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
-        "build/NETStandard.Library.targets",
         "build/netstandard2.0/NETStandard.Library.targets",
         "build/netstandard2.0/ref/Microsoft.Win32.Primitives.dll",
         "build/netstandard2.0/ref/System.AppContext.dll",
@@ -1678,7 +1677,7 @@
         "build/netstandard2.0/ref/netstandard.dll",
         "build/netstandard2.0/ref/netstandard.xml",
         "lib/netstandard1.0/_._",
-        "netstandard.library.2.0.1.nupkg.sha512",
+        "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
     },
@@ -4377,7 +4376,7 @@
       "FileHelpers.Analyzer >= 1.1.0",
       "HtmlAgilityPack >= 1.8.5",
       "MySql.Data >= 8.0.11",
-      "NETStandard.Library >= 2.0.1",
+      "NETStandard.Library >= 2.0.3",
       "linq2db.MySql >= 2.1.0"
     ]
   },
@@ -4388,11 +4387,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "L:\\projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
+      "projectUniqueName": "C:\\projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
       "projectName": "VehicleGrabberCore",
-      "projectPath": "L:\\projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
+      "projectPath": "C:\\projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
       "packagesPath": "C:\\Users\\horlbeck\\.nuget\\packages\\",
-      "outputPath": "L:\\projects\\VehicleGrabber\\VehicleGrabberCore\\obj\\",
+      "outputPath": "C:\\projects\\VehicleGrabber\\VehicleGrabberCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4441,7 +4440,7 @@
           "NETStandard.Library": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.1, )",
+            "version": "[2.0.3, )",
             "autoReferenced": true
           },
           "linq2db.MySql": {
