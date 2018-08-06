@@ -13,6 +13,7 @@ namespace VehicleGrabberCore.Exporter
         public const string ROOT = "C:\\KFZ";
         public const string MODELS = "models";
         public const string MAKERS = "makers";
+        public const string DELIMITER = ";";
         private string modelsFileName = "model.csv";
         private string modelTypesFileName = "modeltypes.csv";
         private string carDetailsFileName = "cardetails.csv";
@@ -23,6 +24,9 @@ namespace VehicleGrabberCore.Exporter
 
         public CSVExporter(List<MakerObj> MakerObjects, List<ModelObj> modelsObjects, List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string modelsFile = "", string typesFile = "")
         {
+            Directory.CreateDirectory(Path.Combine(ROOT, MODELS));
+            Directory.CreateDirectory(Path.Combine(ROOT, MAKERS));
+
             if (!string.IsNullOrWhiteSpace(modelsFile))
             {
                 modelsFileName = modelsFile;
@@ -41,7 +45,16 @@ namespace VehicleGrabberCore.Exporter
 
         public void ExportModels()
         {
-            var engine = new FileHelperEngine<ModelsClass>(Encoding.UTF8);
+            var engine = new FileHelperEngine<ModelsClass>(Encoding.GetEncoding("UTF-8"))
+            {
+                HeaderText =
+                    typeof(ModelsClass)
+                        .GetCsvHeader()
+            };
+
+
+            
+
             var models = new List<ModelsClass>();
 
             foreach(ModelObj model in modelObjList)
@@ -60,13 +73,29 @@ namespace VehicleGrabberCore.Exporter
                 });
             }
 
-            string fileName = Path.Combine(ROOT, this.modelsFileName);
-            engine.WriteFile(fileName, models);
+            try
+            {
+                Directory.CreateDirectory(ROOT);
+
+                string fileName = Path.Combine(ROOT, this.modelsFileName);
+                engine.WriteFile(fileName, models);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void ExportModelTypes()
         {
-            var engine = new FileHelperEngine<ModelTypesClass>(Encoding.UTF8);
+            //var engine = new FileHelperEngine<ModelTypesClass>(Encoding.UTF8);
+            var engine = new FileHelperEngine<ModelTypesClass>(Encoding.GetEncoding("UTF-8"))
+            {
+                HeaderText =
+                    typeof(ModelsClass)
+                        .GetCsvHeader()
+            };
+
             var modeltypes = new List<ModelTypesClass>();
 
             foreach (ModelTypeObj type in modelTypeObjList)
@@ -88,14 +117,30 @@ namespace VehicleGrabberCore.Exporter
                 });
             }
 
-            string fileName = Path.Combine(ROOT, this.modelTypesFileName);
-            engine.WriteFile(fileName, modeltypes);
+            try
+            {
+                Directory.CreateDirectory(ROOT);
+                string fileName = Path.Combine(ROOT, this.modelTypesFileName);
+                engine.WriteFile(fileName, modeltypes);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
 
         public void ExportCarDetails()
         {
-            var engine = new FileHelperEngine<CarDetailsClass>(Encoding.UTF8);
+            //var engine = new FileHelperEngine<CarDetailsClass>(Encoding.UTF8);
+
+            var engine = new FileHelperEngine<CarDetailsClass>(Encoding.GetEncoding("UTF-8"))
+            {
+                HeaderText =
+                    typeof(ModelsClass)
+                        .GetCsvHeader()
+            };
+
             var cardetails = new List<CarDetailsClass>();
 
             foreach (CarDetailsObj car in carDetailsObjList)
@@ -160,8 +205,16 @@ namespace VehicleGrabberCore.Exporter
                 });
             }
 
-            string fileName = Path.Combine(ROOT, this.carDetailsFileName);
-            engine.WriteFile(fileName, cardetails);
+            try
+            {
+                Directory.CreateDirectory(ROOT);
+                string fileName = Path.Combine(ROOT, this.carDetailsFileName);
+                engine.WriteFile(fileName, cardetails);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

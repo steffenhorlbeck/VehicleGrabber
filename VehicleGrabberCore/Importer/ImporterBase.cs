@@ -47,7 +47,7 @@ public abstract class ImporterBase
                 string fileName = Path.Combine(CSVExporter.ROOT, CSVExporter.MODELS, imgUrl.Substring(imgUrl.LastIndexOf("/") + 1));
                 if (!File.Exists(fileName))
                 {
-                    client.DownloadFileAsync(new Uri(url), fileName);
+                    client.DownloadFile(new Uri(url), fileName);
                 }
                 result = fileName;
             }
@@ -71,7 +71,7 @@ public abstract class ImporterBase
                 string fileName = Path.Combine(CSVExporter.ROOT, CSVExporter.MAKERS, imgUrl.Substring(imgUrl.LastIndexOf("/") + 1));
                 if (!File.Exists(fileName))
                 {
-                    client.DownloadFileAsync(new Uri(url), fileName);
+                    client.DownloadFile(new Uri(url), fileName);
                 }
                 result = fileName;
             }
