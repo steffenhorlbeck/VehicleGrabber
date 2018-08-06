@@ -22,7 +22,7 @@ namespace VehicleGrabberGUI
             InitializeComponent();            
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         {
             
             core = new VGCore();
@@ -52,7 +52,7 @@ namespace VehicleGrabberGUI
             
         }
 
-        private void bwImport_DoWork(object sender, DoWorkEventArgs e)
+        private void BwImport_DoWork(object sender, DoWorkEventArgs e)
         {
             if (bwImport.CancellationPending)
             {
@@ -87,18 +87,18 @@ namespace VehicleGrabberGUI
             }
         }
 
-        private void bwImport_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void BwImport_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             toolProgressBar.Value = e.ProgressPercentage;
             toollblStatus.Text = "Processing......" + toolProgressBar.Value.ToString() + "%";
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             bwImport.CancelAsync();
         }
 
-        private void bwImport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void BwImport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // The background process is complete. We need to inspect
             // our response to see if an error occurred, a cancel was
@@ -125,7 +125,7 @@ namespace VehicleGrabberGUI
             btnCancel.Enabled = false;
         }
 
-        private void btnExport_Click(object sender, EventArgs e)
+        private void BtnExport_Click(object sender, EventArgs e)
         {
             if(core != null)
             {

@@ -10,7 +10,7 @@ namespace VehicleGrabberCore.Exporter
 {
     class SQLCarModelType
     {
-        private MySQLExporter _mySqlExporter;
+        private static MySQLExporter _mySqlExporter;
 
         public SQLCarModelType(MySQLExporter mySqlExporter)
         {
@@ -93,11 +93,13 @@ namespace VehicleGrabberCore.Exporter
             if (_mySqlExporter.OpenConnection() == true)
             {
                 //create mysql command
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = new MySqlCommand
+                {
+                    CommandText = query,
+                    Connection = _mySqlExporter.connection
+                };
                 //Assign the query using CommandText
-                cmd.CommandText = query;
                 //Assign the connection using Connection
-                cmd.Connection = _mySqlExporter.connection;
 
                 SetSQLParameters(obj, cmd, makerId, modelId);
 
@@ -116,7 +118,7 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 string query = string.Format("SELECT id FROM {0} WHERE name LIKE {1}", MySQLExporter.MODELTYPE_TABLE, modeltype);
-                int Count = -1;
+                //int Count = -1;
 
                 //Open Connection
                 if (_mySqlExporter.OpenConnection() == true)

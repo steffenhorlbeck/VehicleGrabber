@@ -142,11 +142,13 @@ class SQLCarDetails
         if (_mySqlExporter.OpenConnection() == true)
         {
             //create mysql command
-            MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd = new MySqlCommand
+            {
+                CommandText = query,
+                Connection = _mySqlExporter.connection
+            };
             //Assign the query using CommandText
-            cmd.CommandText = query;
             //Assign the connection using Connection
-            cmd.Connection = _mySqlExporter.connection;
 
             SetSQLParameters(obj, cmd, makerId, modelId, typeId);
 

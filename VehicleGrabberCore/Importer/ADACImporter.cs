@@ -66,11 +66,15 @@ public class ADACImporter : ImporterBase
 
             foreach (var node in MakerNodes)//.Zip(descriptions, (n, d) => new MakerClass { MakerName = n.InnerText, MakerUrlPath = d.InnerText }))
             {
-                MakerObj MakerObj = new MakerObj();
+                MakerObj MakerObj = new MakerObj
+                {
+                    MakerName = node.SelectSingleNode("/li[1]/a[1]/span[1]").InnerText,
+                    MakerLogoUrl = node.SelectSingleNode("/li[1]/a[1]/div[1]/img[1]").Attributes
+                        .AttributesWithName("src").First().Value
+                };
 
                 //Maker name
-                MakerObj.MakerName = node.SelectSingleNode("/li[1]/a[1]/span[1]").InnerText;
-                MakerObj.MakerLogoUrl = node.SelectSingleNode("/li[1]/a[1]/div[1]/img[1]").Attributes.AttributesWithName("src").First().Value;//   ChildNodes[1].ChildNodes[0].InnerText;
+                //   ChildNodes[1].ChildNodes[0].InnerText;
 
                 string localImgFile = DownloadMakerImage(MakerObj.MakerLogoUrl);
                 MakerObj.MakerLogoLocalFile = localImgFile;
@@ -110,22 +114,25 @@ public class ADACImporter : ImporterBase
             {
                 foreach (HtmlNode modelNode in model_div)
                 {
-                    ModelObj modelObj = new ModelObj();
+                    ModelObj modelObj = new ModelObj
+                    {
+                        ModelID = this.modelsList.Count + 1,
+                        ModelName = modelNode.ChildNodes[3].ChildNodes[0].InnerText,
+                        ModelUrlPath = modelNode.Attributes.AttributesWithName("href").First().Value,
+                        ModelThumbUrl = modelNode.ChildNodes[1].ChildNodes[1].Attributes.AttributesWithName("src")
+                            .First().Value,
+                        MakerName = obj.MakerName,
+                        MakerUrlPath = obj.MakerUrlPath,
+                        MakerLogoUrl = obj.MakerLogoUrl,
+                        MakerLogoBase64 = obj.MakerLogoBase64
+                    };
 
-                    modelObj.ModelID = this.modelsList.Count + 1;
                     // get Model name
-                    modelObj.ModelName = modelNode.ChildNodes[3].ChildNodes[0].InnerText;
 
                     // get model link
-                    modelObj.ModelUrlPath = modelNode.Attributes.AttributesWithName("href").First().Value;
 
                     // get image url
-                    modelObj.ModelThumbUrl = modelNode.ChildNodes[1].ChildNodes[1].Attributes.AttributesWithName("src").First().Value;
 
-                    modelObj.MakerName = obj.MakerName;
-                    modelObj.MakerUrlPath = obj.MakerUrlPath;
-                    modelObj.MakerLogoUrl = obj.MakerLogoUrl;
-                    modelObj.MakerLogoBase64 = obj.MakerLogoBase64;
 
                     if (this.modelsList.Find(x => x.MakerName.ToUpper().Equals(obj.MakerName.ToUpper()) && x.ModelName.ToUpper().Equals(modelObj.ModelName.ToUpper())) == null)
                     {
@@ -135,6 +142,7 @@ public class ADACImporter : ImporterBase
                         GetModelTypes(modelObj);
                     }
 
+                    //DEBUG: Break after x number of models
                     if (debug_cnt >= 1)
                     {
                         break;
@@ -172,28 +180,36 @@ public class ADACImporter : ImporterBase
                 {
                     debug_cnt++;
 
-                    ModelTypeObj typeObj = new ModelTypeObj();
+                    ModelTypeObj typeObj = new ModelTypeObj
+                    {
+                        ModelTypeID = modelTypesList.Count + 1,
+                        ModelID = modelObj.ModelID,
+                        MakerName = modelObj.MakerName,
+                        ModelName = modelObj.ModelName,
+                        ModelTypeDetailsUrl = node.ChildNodes[3].ChildNodes[1].Attributes.AttributesWithName("href")
+                            .First().Value,
+                        ModelTypeName = node.ChildNodes[5].InnerText.Trim(),
+                        ModelTypeChassis = node.ChildNodes[7].InnerText.Trim(),
+                        ModelTypeDoors = int.Parse(node.ChildNodes[9].InnerText.Trim()),
+                        ModelTypeFuel = node.ChildNodes[11].InnerText.Trim(),
+                        ModelTypePower = node.ChildNodes[13].InnerText.Trim(),
+                        ModelTypeCubic = node.ChildNodes[17].InnerText.Trim()
+                    };
 
-                    typeObj.ModelTypeID = modelTypesList.Count + 1;
-                    typeObj.ModelID = modelObj.ModelID;
-                    typeObj.MakerName = modelObj.MakerName;
-                    typeObj.ModelName = modelObj.ModelName;
 
                     //link to details page
-                    typeObj.ModelTypeDetailsUrl = node.ChildNodes[3].ChildNodes[1].Attributes.AttributesWithName("href").First().Value;
 
-                    typeObj.ModelTypeName = node.ChildNodes[5].InnerText.Trim(); //Type Name
-                    typeObj.ModelTypeChassis = node.ChildNodes[7].InnerText.Trim(); //Chassis
-                    typeObj.ModelTypeDoors = int.Parse(node.ChildNodes[9].InnerText.Trim()); //Doors
-                    typeObj.ModelTypeFuel = node.ChildNodes[11].InnerText.Trim(); //Fuel
-                    typeObj.ModelTypePower = node.ChildNodes[13].InnerText.Trim(); //KW
+                    //Type Name
+                    //Chassis
+                    //Doors
+                    //Fuel
+                    //KW
 
-                    typeObj.ModelTypeCubic = node.ChildNodes[17].InnerText.Trim();
 
                     modelTypesList.Add(typeObj);
 
-                    //for debugging break after 3 types
-                    if(debug_cnt >= 3)
+                    //DEBUG: Break after x number of model types
+                    if (debug_cnt >= 3)
                     {
                         break;
                     }
@@ -223,25 +239,27 @@ public class ADACImporter : ImporterBase
 
             if (cars_div != null)
             {
-                CarDetailsObj carObj = new CarDetailsObj();
+                CarDetailsObj carObj = new CarDetailsObj
+                {
+                    ModelTypeID = type.ModelTypeID,
+                    ModelID = type.ModelID,
+                    Maker = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[1].ChildNodes[1].InnerText),
+                    Model = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[2].ChildNodes[1].InnerText),
+                    Type = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[3].ChildNodes[1].InnerText),
+                    Series = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[4].ChildNodes[1].InnerText),
+                    InternalClassName = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[5].ChildNodes[1].InnerText),
+                    ModelStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[6].ChildNodes[1].InnerText),
+                    ModelEnd = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[7].ChildNodes[1].InnerText),
+                    SeriesStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[8].ChildNodes[1].InnerText),
+                    SeriesEnd = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[9].ChildNodes[1].InnerText),
+                    HSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[10].ChildNodes[1].InnerText),
+                    TSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[11].ChildNodes[1].InnerText),
+                    TSN2 = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[12].ChildNodes[1].InnerText),
+                    CarTax = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[13].ChildNodes[1].InnerText),
+                    CO2Class = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[14].ChildNodes[1].InnerText),
+                    BasePrice = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[15].ChildNodes[1].InnerText)
+                };
 
-                carObj.ModelTypeID = type.ModelTypeID;
-                carObj.ModelID = type.ModelID;
-                carObj.Maker = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[1].ChildNodes[1].InnerText);
-                carObj.Model = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[2].ChildNodes[1].InnerText);
-                carObj.Type = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[3].ChildNodes[1].InnerText);
-                carObj.Series = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[4].ChildNodes[1].InnerText);
-                carObj.InternalClassName = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[5].ChildNodes[1].InnerText);
-                carObj.ModelStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[6].ChildNodes[1].InnerText);
-                carObj.ModelEnd = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[7].ChildNodes[1].InnerText);
-                carObj.SeriesStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[8].ChildNodes[1].InnerText);
-                carObj.SeriesEnd = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[9].ChildNodes[1].InnerText);
-                carObj.HSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[10].ChildNodes[1].InnerText);
-                carObj.TSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[11].ChildNodes[1].InnerText);
-                carObj.TSN2 = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[12].ChildNodes[1].InnerText);
-                carObj.CarTax = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[13].ChildNodes[1].InnerText);
-                carObj.CO2Class = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[14].ChildNodes[1].InnerText);
-                carObj.BasePrice = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[15].ChildNodes[1].InnerText);
 
 
                 // Motor & Antrieb

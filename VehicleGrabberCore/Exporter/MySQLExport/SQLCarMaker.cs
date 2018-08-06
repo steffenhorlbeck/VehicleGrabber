@@ -10,7 +10,7 @@ namespace VehicleGrabberCore.Exporter
 {
     class SQLCarMaker
     {
-        private MySQLExporter _mySqlExporter;
+        private static MySQLExporter _mySqlExporter;
 
         public SQLCarMaker(MySQLExporter mySqlExporter)
         {
@@ -89,11 +89,13 @@ namespace VehicleGrabberCore.Exporter
             if (_mySqlExporter.OpenConnection() == true)
             {
                 //create mysql command
-                MySqlCommand cmd = new MySqlCommand();
+                MySqlCommand cmd = new MySqlCommand
+                {
+                    CommandText = query,
+                    Connection = _mySqlExporter.connection
+                };
                 //Assign the query using CommandText
-                cmd.CommandText = query;
                 //Assign the connection using Connection
-                cmd.Connection = _mySqlExporter.connection;
 
                 cmd.Parameters.AddWithValue("@name", maker.MakerName);
                 cmd.Parameters.AddWithValue("@url", string.Empty);

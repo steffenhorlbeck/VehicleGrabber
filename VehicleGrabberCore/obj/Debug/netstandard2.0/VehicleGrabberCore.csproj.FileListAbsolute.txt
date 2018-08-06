@@ -7,3 +7,9 @@ L:\projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGr
 L:\projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\VehicleGrabberCore.pdb
 L:\projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.dll
 L:\projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.pdb
+C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.csprojAssemblyReference.cache
+C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.csproj.CoreCompileInputs.cache
+C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.AssemblyInfoInputs.cache
+C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.AssemblyInfo.cs
+C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.dll
+C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.pdb

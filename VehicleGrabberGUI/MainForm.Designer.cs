@@ -60,7 +60,7 @@
             this.btnStart.TabIndex = 2;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // browser
             // 
@@ -194,9 +194,9 @@
             // 
             this.bwImport.WorkerReportsProgress = true;
             this.bwImport.WorkerSupportsCancellation = true;
-            this.bwImport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwImport_DoWork);
-            this.bwImport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwImport_ProgressChanged);
-            this.bwImport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwImport_RunWorkerCompleted);
+            this.bwImport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BwImport_DoWork);
+            this.bwImport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BwImport_ProgressChanged);
+            this.bwImport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BwImport_RunWorkerCompleted);
             // 
             // btnCancel
             // 
@@ -206,7 +206,7 @@
             this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Abbruch";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // toollblStatus
             // 
@@ -222,7 +222,7 @@
             this.btnExport.TabIndex = 8;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
             // VehicleGrabber
             // 
