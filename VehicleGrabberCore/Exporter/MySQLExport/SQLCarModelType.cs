@@ -117,7 +117,7 @@ namespace VehicleGrabberCore.Exporter
             long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name LIKE {1}", MySQLExporter.MODELTYPE_TABLE, modeltype);
+                string query = string.Format("SELECT id FROM {0} WHERE name LIKE '{1}'", MySQLExporter.MODELTYPE_TABLE, modeltype);
                 //int Count = -1;
 
                 //Open Connection
@@ -164,7 +164,7 @@ namespace VehicleGrabberCore.Exporter
             bool result = false;
             try
             {
-                string query = string.Format("SELECT Count(*) FROM {0} WHERE name LIKE {1}", MySQLExporter.MODELTYPE_TABLE, modeltype);
+                string query = string.Format("SELECT Count(*) FROM {0} WHERE name LIKE '{1}'", MySQLExporter.MODELTYPE_TABLE, modeltype);
                 int Count = -1;
 
                 //Open Connection

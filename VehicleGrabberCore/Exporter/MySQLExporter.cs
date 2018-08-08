@@ -59,7 +59,7 @@ namespace VehicleGrabberCore.Exporter
 
             string connectionString;
             connectionString = "SERVER=" + this.SQLServer + ";" + "DATABASE=" +
-            SQLDBName + ";" + "UID=" + this.SQLUser + ";" + "PASSWORD=" + this.SQLPassword + ";";
+            SQLDBName + ";" + "UID=" + this.SQLUser + ";" + "PASSWORD=" + this.SQLPassword + ";SslMode=none;";
 
             connection = new MySqlConnection(connectionString);
         }

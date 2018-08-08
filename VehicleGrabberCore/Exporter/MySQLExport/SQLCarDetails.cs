@@ -166,7 +166,7 @@ class SQLCarDetails
     {
         try
         {
-            string query = string.Format("SELECT id FROM {0} WHERE maker LIKE {1} AND mode LIKE {2} AND type LIKE {3} AND series LIKE {4}", MySQLExporter.MODELTYPE_TABLE,
+            string query = string.Format("SELECT id FROM {0} WHERE maker LIKE '{1}' AND mode LIKE '{2}' AND type LIKE '{3}' AND series LIKE '{4}'", MySQLExporter.MODELTYPE_TABLE,
                 maker, model, type, series);
             int id = -1;
 
@@ -256,7 +256,7 @@ class SQLCarDetails
         bool result = false;
         try
         {
-            string query = string.Format("SELECT Count(*) FROM {0} WHERE maker LIKE {1} AND mode LIKE {2} AND type LIKE {3} AND series LIKE {4}", MySQLExporter.MODELTYPE_TABLE,
+            string query = string.Format("SELECT Count(*) FROM {0} WHERE maker LIKE '{1}' AND mode LIKE '{2}' AND type LIKE '{3}' AND series LIKE '{4}'", MySQLExporter.MODELTYPE_TABLE,
                 maker, model, type, series);
             int Count = -1;
 

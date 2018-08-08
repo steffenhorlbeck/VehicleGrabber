@@ -131,7 +131,7 @@ namespace VehicleGrabberGUI
             {
                 core.ExportToCSV();
 
-                //core.ExportToMySQL();
+                core.ExportToMySQL();
             }
         }
     }
