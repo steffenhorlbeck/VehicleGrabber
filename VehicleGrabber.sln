@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleGrabberGUI", "VehicleGrabberGUI\VehicleGrabberGUI.csproj", "{BFAD263F-92B9-43FB-B884-7A71ED678182}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleGrabberCore", "VehicleGrabberCore\VehicleGrabberCore.csproj", "{402762F8-EBA5-4CDD-B56C-BF542C04A0BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleGrabberCore", "VehicleGrabberCore\VehicleGrabberCore.csproj", "{402762F8-EBA5-4CDD-B56C-BF542C04A0BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

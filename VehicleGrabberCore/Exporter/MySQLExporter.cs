@@ -32,6 +32,7 @@ namespace VehicleGrabberCore.Exporter
         private readonly SQLCarModelType _sqlCarModelType;
         private readonly SQLCarDetails _sqlCarDetail;
 
+        public VGCore Core { get; set; }
 
         public MySQLExporter(List<MakerObj> MakerObjObjects, List<ModelObj> modelsObjects, List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string server = "megraso.de", int port = 3306, string user = "h26346_cardata", string password = "1Master!01")
         {

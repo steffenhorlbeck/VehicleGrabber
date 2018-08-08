@@ -44,7 +44,7 @@
           "lib/netstandard2.0/HtmlAgilityPack.dll": {}
         }
       },
-      "linq2db/2.1.0": {
+      "linq2db/2.2.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.4.0",
@@ -58,11 +58,11 @@
           "lib/netstandard2.0/linq2db.dll": {}
         }
       },
-      "linq2db.MySql/2.1.0": {
+      "linq2db.MySql/2.2.0": {
         "type": "package",
         "dependencies": {
           "MySql.Data": "6.10.6",
-          "linq2db": "2.1.0"
+          "linq2db": "2.2.0"
         },
         "contentFiles": {
           "contentFiles/any/any/LinqToDB.Templates/CopyMe.MySql.tt.txt": {
@@ -196,13 +196,13 @@
           }
         }
       },
-      "MySql.Data/8.0.11": {
+      "MySql.Data/8.0.12": {
         "type": "package",
         "dependencies": {
           "Google.Protobuf": "3.5.1",
-          "System.Configuration.ConfigurationManager": "4.4.0",
-          "System.Security.Permissions": "4.4.0",
-          "System.Text.Encoding.CodePages": "4.0.1"
+          "System.Configuration.ConfigurationManager": "4.4.1",
+          "System.Security.Permissions": "4.4.1",
+          "System.Text.Encoding.CodePages": "4.4.0"
         },
         "compile": {
           "lib/netstandard2.0/MySql.Data.dll": {}
@@ -460,7 +460,7 @@
           "lib/netstandard2.0/System.ComponentModel.Annotations.dll": {}
         }
       },
-      "System.Configuration.ConfigurationManager/4.4.0": {
+      "System.Configuration.ConfigurationManager/4.4.1": {
         "type": "package",
         "dependencies": {
           "System.Security.Cryptography.ProtectedData": "4.4.0"
@@ -1046,7 +1046,7 @@
           }
         }
       },
-      "System.Security.Permissions/4.4.0": {
+      "System.Security.Permissions/4.4.1": {
         "type": "package",
         "dependencies": {
           "System.Security.AccessControl": "4.4.0"
@@ -1342,10 +1342,10 @@
         "lib/uap10.0/HtmlAgilityPack.pri"
       ]
     },
-    "linq2db/2.1.0": {
-      "sha512": "OQVWEZT204Mmi3KZkP58xAFhXazbb630HxRQMAz8aUlAy6LFmsbOoZDrcjgPbGbMdT0A+sOgDMhwB4qP/TaDfw==",
+    "linq2db/2.2.0": {
+      "sha512": "zXh4kPVSJ8aZySJXhOqYY56plCyvshaSsR1UHjzuiqwtc1Aft2rDhGiYj8BGgGkgDFF43fLyx0NHGqxmpwdrNA==",
       "type": "package",
-      "path": "linq2db/2.1.0",
+      "path": "linq2db/2.2.0",
       "files": [
         "MIT-LICENSE.txt",
         "Readme.txt",
@@ -1361,14 +1361,14 @@
         "lib/netstandard2.0/linq2db.dll",
         "lib/netstandard2.0/linq2db.pdb",
         "lib/netstandard2.0/linq2db.xml",
-        "linq2db.2.1.0.nupkg.sha512",
+        "linq2db.2.2.0.nupkg.sha512",
         "linq2db.nuspec"
       ]
     },
-    "linq2db.MySql/2.1.0": {
-      "sha512": "jTYgR6h3mwTa4pASBhMGjcX2jwe468rAla5PlgxKXUX41dVbD69IAidLH1mILVLfscPNYbV4XhlOm24aJym3Ag==",
+    "linq2db.MySql/2.2.0": {
+      "sha512": "hV6pZf+D6PoM8mhDyzfHpPmZGEjrp2DPx9EKvUFQc1oeESEgIbR/BBaUHPASQmiLYrkUy7qpww3i+LnFJOGMIw==",
       "type": "package",
-      "path": "linq2db.mysql/2.1.0",
+      "path": "linq2db.mysql/2.2.0",
       "files": [
         "build/linq2db.MySql.props",
         "content/LinqToDB.Templates/CopyMe.MySql.tt.txt",
@@ -1403,7 +1403,7 @@
         "contentFiles/any/any/LinqToDB.Templates/PluralizationService.ttinclude",
         "contentFiles/any/any/LinqToDB.Templates/T4Model.ttinclude",
         "contentFiles/any/any/LinqToDB.Templates/Validation.ttinclude",
-        "linq2db.mysql.2.1.0.nupkg.sha512",
+        "linq2db.mysql.2.2.0.nupkg.sha512",
         "linq2db.mysql.nuspec",
         "tools/MySql.Data.dll",
         "tools/linq2db.dll"
@@ -1537,10 +1537,10 @@
         "version.txt"
       ]
     },
-    "MySql.Data/8.0.11": {
-      "sha512": "P5zKcnM2SVtdHD6gfReymJguIYLhNL5Og8Qm5TC9MEsSupsAYrRu4AB4nsbalrjqqv8VHBqVREWsXg9lY+q03A==",
+    "MySql.Data/8.0.12": {
+      "sha512": "I2jGfuyeomrGJ+N9O+vuV2ucyeayf/tMFREKPdjUcs1/wUF0t+WgUnnzJmJl4sNePNR1fEvAGaGbVAo4uLSF2A==",
       "type": "package",
-      "path": "mysql.data/8.0.11",
+      "path": "mysql.data/8.0.12",
       "files": [
         "lib/net452/MySql.Data.dll",
         "lib/net452/MySql.Data.xml",
@@ -1550,7 +1550,7 @@
         "lib/netstandard1.6/MySql.Data.xml",
         "lib/netstandard2.0/MySql.Data.dll",
         "lib/netstandard2.0/MySql.Data.xml",
-        "mysql.data.8.0.11.nupkg.sha512",
+        "mysql.data.8.0.12.nupkg.sha512",
         "mysql.data.nuspec"
       ]
     },
@@ -2133,10 +2133,10 @@
         "version.txt"
       ]
     },
-    "System.Configuration.ConfigurationManager/4.4.0": {
-      "sha512": "gWwQv/Ug1qWJmHCmN17nAbxJYmQBM/E94QxKLksvUiiKB1Ld3Sc/eK1lgmbSjDFxkQhVuayI/cGFZhpBSodLrg==",
+    "System.Configuration.ConfigurationManager/4.4.1": {
+      "sha512": "jz3TWKMAeuDEyrPCK5Jyt4bzQcmzUIMcY9Ud6PkElFxTfnsihV+9N/UCqvxe1z5gc7jMYAnj7V1COMS9QKIuHQ==",
       "type": "package",
-      "path": "system.configuration.configurationmanager/4.4.0",
+      "path": "system.configuration.configurationmanager/4.4.1",
       "files": [
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -2146,7 +2146,7 @@
         "ref/net461/System.Configuration.ConfigurationManager.xml",
         "ref/netstandard2.0/System.Configuration.ConfigurationManager.dll",
         "ref/netstandard2.0/System.Configuration.ConfigurationManager.xml",
-        "system.configuration.configurationmanager.4.4.0.nupkg.sha512",
+        "system.configuration.configurationmanager.4.4.1.nupkg.sha512",
         "system.configuration.configurationmanager.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -3723,10 +3723,10 @@
         "system.security.cryptography.x509certificates.nuspec"
       ]
     },
-    "System.Security.Permissions/4.4.0": {
-      "sha512": "ArK+Kh7BSqWhspqO3qe8R25MeUzBm3ZdWbYiN6Q0kLO3nR4dLeZzS03C0QUI/470w7pGRm7lUZ9sjfDQKJjRcQ==",
+    "System.Security.Permissions/4.4.1": {
+      "sha512": "l8IxQ9mEAkKv85uoEcjcYhrh+yTLZtLgNqb2T7QChTdKXh45EUnmKd+Ckdt1D+VYW2dk2Pb5MT+0zwQ74Jd2Xg==",
       "type": "package",
-      "path": "system.security.permissions/4.4.0",
+      "path": "system.security.permissions/4.4.1",
       "files": [
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -3735,7 +3735,7 @@
         "ref/net461/System.Security.Permissions.dll",
         "ref/netstandard2.0/System.Security.Permissions.dll",
         "ref/netstandard2.0/System.Security.Permissions.xml",
-        "system.security.permissions.4.4.0.nupkg.sha512",
+        "system.security.permissions.4.4.1.nupkg.sha512",
         "system.security.permissions.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -4375,13 +4375,13 @@
       "FileHelpers >= 3.3.0",
       "FileHelpers.Analyzer >= 1.1.0",
       "HtmlAgilityPack >= 1.8.5",
-      "MySql.Data >= 8.0.11",
+      "MySql.Data >= 8.0.12",
       "NETStandard.Library >= 2.0.3",
-      "linq2db.MySql >= 2.1.0"
+      "linq2db.MySql >= 2.2.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\horlbeck\\.nuget\\packages\\": {},
+    "C:\\Users\\shorlbeck\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -4390,14 +4390,14 @@
       "projectUniqueName": "C:\\Projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
       "projectName": "VehicleGrabberCore",
       "projectPath": "C:\\Projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
-      "packagesPath": "C:\\Users\\horlbeck\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\shorlbeck\\.nuget\\packages\\",
       "outputPath": "C:\\Projects\\VehicleGrabber\\VehicleGrabberCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\horlbeck\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\shorlbeck\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4405,6 +4405,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Projects\\Travel Data Suite\\TDhub\\packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4435,7 +4436,7 @@
           },
           "MySql.Data": {
             "target": "Package",
-            "version": "[8.0.11, )"
+            "version": "[8.0.12, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",
@@ -4445,7 +4446,7 @@
           },
           "linq2db.MySql": {
             "target": "Package",
-            "version": "[2.1.0, )"
+            "version": "[2.2.0, )"
           }
         },
         "imports": [

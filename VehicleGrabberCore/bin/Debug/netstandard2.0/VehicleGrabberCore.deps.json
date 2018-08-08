@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "c0b31c5e7bc402522a593b9080a8b40b3defb8f7"
+    "signature": "07814a2fabd5e9a8096c717bb4dfc25d38c65d48"
   },
   "compilationOptions": {},
   "targets": {
@@ -12,9 +12,9 @@
           "FileHelpers": "3.3.0",
           "FileHelpers.Analyzer": "1.1.0",
           "HtmlAgilityPack": "1.8.5",
-          "MySql.Data": "8.0.11",
+          "MySql.Data": "8.0.12",
           "NETStandard.Library": "2.0.3",
-          "linq2db.MySql": "2.1.0"
+          "linq2db.MySql": "2.2.0"
         },
         "runtime": {
           "VehicleGrabberCore.dll": {}
@@ -48,7 +48,7 @@
           "lib/netstandard2.0/HtmlAgilityPack.dll": {}
         }
       },
-      "linq2db/2.1.0": {
+      "linq2db/2.2.0": {
         "dependencies": {
           "Microsoft.CSharp": "4.4.0",
           "System.ComponentModel.Annotations": "4.4.1",
@@ -58,10 +58,10 @@
           "lib/netstandard2.0/linq2db.dll": {}
         }
       },
-      "linq2db.MySql/2.1.0": {
+      "linq2db.MySql/2.2.0": {
         "dependencies": {
-          "MySql.Data": "8.0.11",
-          "linq2db": "2.1.0"
+          "MySql.Data": "8.0.12",
+          "linq2db": "2.2.0"
         }
       },
       "Microsoft.CSharp/4.4.0": {
@@ -80,11 +80,11 @@
           "lib/netstandard2.0/Microsoft.Win32.Registry.dll": {}
         }
       },
-      "MySql.Data/8.0.11": {
+      "MySql.Data/8.0.12": {
         "dependencies": {
           "Google.Protobuf": "3.5.1",
-          "System.Configuration.ConfigurationManager": "4.4.0",
-          "System.Security.Permissions": "4.4.0",
+          "System.Configuration.ConfigurationManager": "4.4.1",
+          "System.Security.Permissions": "4.4.1",
           "System.Text.Encoding.CodePages": "4.4.0"
         },
         "runtime": {
@@ -177,7 +177,7 @@
           "lib/netstandard2.0/System.ComponentModel.Annotations.dll": {}
         }
       },
-      "System.Configuration.ConfigurationManager/4.4.0": {
+      "System.Configuration.ConfigurationManager/4.4.1": {
         "dependencies": {
           "System.Security.Cryptography.ProtectedData": "4.4.0"
         },
@@ -537,7 +537,7 @@
           "runtime.native.System.Security.Cryptography.OpenSsl": "4.3.0"
         }
       },
-      "System.Security.Permissions/4.4.0": {
+      "System.Security.Permissions/4.4.1": {
         "dependencies": {
           "System.Security.AccessControl": "4.4.0"
         },
@@ -717,19 +717,19 @@
       "path": "htmlagilitypack/1.8.5",
       "hashPath": "htmlagilitypack.1.8.5.nupkg.sha512"
     },
-    "linq2db/2.1.0": {
+    "linq2db/2.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-OQVWEZT204Mmi3KZkP58xAFhXazbb630HxRQMAz8aUlAy6LFmsbOoZDrcjgPbGbMdT0A+sOgDMhwB4qP/TaDfw==",
-      "path": "linq2db/2.1.0",
-      "hashPath": "linq2db.2.1.0.nupkg.sha512"
+      "sha512": "sha512-zXh4kPVSJ8aZySJXhOqYY56plCyvshaSsR1UHjzuiqwtc1Aft2rDhGiYj8BGgGkgDFF43fLyx0NHGqxmpwdrNA==",
+      "path": "linq2db/2.2.0",
+      "hashPath": "linq2db.2.2.0.nupkg.sha512"
     },
-    "linq2db.MySql/2.1.0": {
+    "linq2db.MySql/2.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jTYgR6h3mwTa4pASBhMGjcX2jwe468rAla5PlgxKXUX41dVbD69IAidLH1mILVLfscPNYbV4XhlOm24aJym3Ag==",
-      "path": "linq2db.mysql/2.1.0",
-      "hashPath": "linq2db.mysql.2.1.0.nupkg.sha512"
+      "sha512": "sha512-hV6pZf+D6PoM8mhDyzfHpPmZGEjrp2DPx9EKvUFQc1oeESEgIbR/BBaUHPASQmiLYrkUy7qpww3i+LnFJOGMIw==",
+      "path": "linq2db.mysql/2.2.0",
+      "hashPath": "linq2db.mysql.2.2.0.nupkg.sha512"
     },
     "Microsoft.CSharp/4.4.0": {
       "type": "package",
@@ -759,12 +759,12 @@
       "path": "microsoft.win32.registry/4.4.0",
       "hashPath": "microsoft.win32.registry.4.4.0.nupkg.sha512"
     },
-    "MySql.Data/8.0.11": {
+    "MySql.Data/8.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-P5zKcnM2SVtdHD6gfReymJguIYLhNL5Og8Qm5TC9MEsSupsAYrRu4AB4nsbalrjqqv8VHBqVREWsXg9lY+q03A==",
-      "path": "mysql.data/8.0.11",
-      "hashPath": "mysql.data.8.0.11.nupkg.sha512"
+      "sha512": "sha512-I2jGfuyeomrGJ+N9O+vuV2ucyeayf/tMFREKPdjUcs1/wUF0t+WgUnnzJmJl4sNePNR1fEvAGaGbVAo4uLSF2A==",
+      "path": "mysql.data/8.0.12",
+      "hashPath": "mysql.data.8.0.12.nupkg.sha512"
     },
     "NETStandard.Library/2.0.3": {
       "type": "package",
@@ -927,12 +927,12 @@
       "path": "system.componentmodel.annotations/4.4.1",
       "hashPath": "system.componentmodel.annotations.4.4.1.nupkg.sha512"
     },
-    "System.Configuration.ConfigurationManager/4.4.0": {
+    "System.Configuration.ConfigurationManager/4.4.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-gWwQv/Ug1qWJmHCmN17nAbxJYmQBM/E94QxKLksvUiiKB1Ld3Sc/eK1lgmbSjDFxkQhVuayI/cGFZhpBSodLrg==",
-      "path": "system.configuration.configurationmanager/4.4.0",
-      "hashPath": "system.configuration.configurationmanager.4.4.0.nupkg.sha512"
+      "sha512": "sha512-jz3TWKMAeuDEyrPCK5Jyt4bzQcmzUIMcY9Ud6PkElFxTfnsihV+9N/UCqvxe1z5gc7jMYAnj7V1COMS9QKIuHQ==",
+      "path": "system.configuration.configurationmanager/4.4.1",
+      "hashPath": "system.configuration.configurationmanager.4.4.1.nupkg.sha512"
     },
     "System.Data.SqlClient/4.4.2": {
       "type": "package",
@@ -1144,12 +1144,12 @@
       "path": "system.security.cryptography.x509certificates/4.3.0",
       "hashPath": "system.security.cryptography.x509certificates.4.3.0.nupkg.sha512"
     },
-    "System.Security.Permissions/4.4.0": {
+    "System.Security.Permissions/4.4.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ArK+Kh7BSqWhspqO3qe8R25MeUzBm3ZdWbYiN6Q0kLO3nR4dLeZzS03C0QUI/470w7pGRm7lUZ9sjfDQKJjRcQ==",
-      "path": "system.security.permissions/4.4.0",
-      "hashPath": "system.security.permissions.4.4.0.nupkg.sha512"
+      "sha512": "sha512-l8IxQ9mEAkKv85uoEcjcYhrh+yTLZtLgNqb2T7QChTdKXh45EUnmKd+Ckdt1D+VYW2dk2Pb5MT+0zwQ74Jd2Xg==",
+      "path": "system.security.permissions/4.4.1",
+      "hashPath": "system.security.permissions.4.4.1.nupkg.sha512"
     },
     "System.Security.Principal.Windows/4.4.0": {
       "type": "package",

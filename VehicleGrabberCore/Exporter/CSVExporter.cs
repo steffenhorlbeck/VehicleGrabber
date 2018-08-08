@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using VehicleGrabberCore.Configuration;
 using VehicleGrabberCore.DataObjects;
 
 
@@ -21,6 +22,7 @@ namespace VehicleGrabberCore.Exporter
         private List<ModelObj> modelObjList;
         private List<ModelTypeObj> modelTypeObjList;
         private List<CarDetailsObj> carDetailsObjList;
+        public VGCore Core { get; set; }
 
         public CSVExporter(List<MakerObj> MakerObjects, List<ModelObj> modelsObjects, List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string modelsFile = "", string typesFile = "")
         {
@@ -45,7 +47,7 @@ namespace VehicleGrabberCore.Exporter
 
         public void ExportModels()
         {
-            var engine = new FileHelperEngine<ModelsClass>(Encoding.GetEncoding("UTF-8"))
+            var engine = new FileHelperEngine<ModelsClass>(Encoding.GetEncoding(this.Core.Conf.DefaultCSVEncoding))
             {
                 HeaderText =
                     typeof(ModelsClass)
@@ -82,14 +84,14 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-
+                this.Core.Log.Error(string.Format("CSVExporter::ExportModels : {0}", ex.Message));
             }
         }
 
         public void ExportModelTypes()
         {
             //var engine = new FileHelperEngine<ModelTypesClass>(Encoding.UTF8);
-            var engine = new FileHelperEngine<ModelTypesClass>(Encoding.GetEncoding("UTF-8"))
+            var engine = new FileHelperEngine<ModelTypesClass>(Encoding.GetEncoding(this.Core.Conf.DefaultCSVEncoding))
             {
                 HeaderText =
                     typeof(ModelsClass)
@@ -125,7 +127,7 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-
+                this.Core.Log.Error(string.Format("CSVExporter::ExportModelTypes : {0}", ex.Message));
             }
         }
 
@@ -134,10 +136,10 @@ namespace VehicleGrabberCore.Exporter
         {
             //var engine = new FileHelperEngine<CarDetailsClass>(Encoding.UTF8);
 
-            var engine = new FileHelperEngine<CarDetailsClass>(Encoding.GetEncoding("UTF-8"))
+            var engine = new FileHelperEngine<CarDetailsClass>(Encoding.GetEncoding(this.Core.Conf.DefaultCSVEncoding))
             {
                 HeaderText =
-                    typeof(ModelsClass)
+                    typeof(CarDetailsClass)
                         .GetCsvHeader()
             };
 
@@ -213,8 +215,9 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-
+                this.Core.Log.Error(string.Format("CSVExporter::ExportCarDetails : {0}", ex.Message));
             }
         }
+
     }
 }

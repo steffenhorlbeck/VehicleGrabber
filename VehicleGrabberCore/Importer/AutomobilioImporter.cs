@@ -1,176 +1,190 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using VehicleGrabberCore.DataObjects;
 
 
-public class AutomobilioImporter : ImporterBase
+namespace VehicleGrabberCore.Importer
 {
-
-    public AutomobilioImporter()
+    public class AutomobilioImporter : ImporterBase
     {
-        this.baseUrl = "http://automobilio.info";
-        this.baseUrlLang = "/de/";
-    }
 
-    private string pageContent = string.Empty;
-
-
-    public override string GetBaseUrl()
-    {
-        return this.baseUrl;
-    }
-
-    public override string GetPageContent()
-    {
-        return this.pageContent;
-    }
-
-    public override void StartImport()
-    {
-        try
+        public AutomobilioImporter()
         {
-            string url = string.Format("{0}{1}", this.baseUrl, this.baseUrlLang);
-            this.pageContent = GetContent(url);
-            GetMakers();
-            GetModels();
+            this.baseUrl = "http://automobilio.info";
+            this.baseUrlLang = "/de/";
         }
-        catch (Exception ex)
+
+        private string pageContent = string.Empty;
+
+
+        public override string GetBaseUrl()
         {
-            throw new Exception("AutomobilioImporter::ReadPageContent", ex);
+            return this.baseUrl;
         }
-    }
 
-
-
-
-
-    private void GetModels()
-    {
-        foreach (MakerObj obj in this.MakersList)
+        public override string GetPageContent()
         {
-            string modelsUrl = string.Format("{0}{1}", this.baseUrl, obj.MakerUrlPath);
-            string modelsContent = GetContent(modelsUrl);
+            return this.pageContent;
+        }
+
+        public override void StartImport(BackgroundWorker bw = null)
+        {
+            try
+            {
+                string url = string.Format("{0}{1}", this.baseUrl, this.baseUrlLang);
+                this.pageContent = GetContent(url);
+                GetMakers();
+                if (bw != null) { bw.ReportProgress(10); }
+                GetModels();
+                if (bw != null) { bw.ReportProgress(25); }
+
+                if (bw != null) { bw.ReportProgress(100); }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("AutomobilioImporter::ReadPageContent", ex);
+            }
+        }
+
+
+
+
+
+        private void GetModels()
+        {
+            foreach (MakerObj obj in this.MakersList)
+            {
+                string modelsUrl = string.Format("{0}{1}", this.baseUrl, obj.MakerUrlPath);
+                string modelsContent = GetContent(modelsUrl);
+
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(modelsContent);
+
+                HtmlNodeCollection model_div = null;
+                if (htmlDoc.DocumentNode != null && htmlDoc.ParseErrors != null && !htmlDoc.ParseErrors.Any())
+                {
+                    model_div = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"content\"]/div/div[4]/div[1]/ul[1]/li");
+
+
+                }
+                //sleep(1000);
+
+                if (model_div != null)
+                {
+                    foreach (HtmlNode modelNode in model_div)
+                    {
+                        ModelObj modelObj = new ModelObj();
+
+                        modelObj.ModelID = this.modelsList.Count + 1;
+                        // get Model name
+                        modelObj.ModelName = modelNode.ChildNodes[3].ChildNodes[1].InnerText;
+
+                        // get model link
+                        modelObj.ModelUrlPath = modelNode.ChildNodes[3].ChildNodes[1].Attributes
+                            .AttributesWithName("href").First().Value;
+
+                        // get image url
+                        modelObj.ModelThumbUrl = modelNode.ChildNodes[1].ChildNodes[0].Attributes
+                            .AttributesWithName("src").First().Value;
+
+                        modelObj.MakerName = obj.MakerName;
+                        modelObj.MakerUrlPath = obj.MakerUrlPath;
+                        modelObj.MakerLogoUrl = obj.MakerLogoUrl;
+                        modelObj.MakerLogoBase64 = obj.MakerLogoBase64;
+
+                        if (this.modelsList.Find(x =>
+                                x.MakerName.ToUpper().Equals(obj.MakerName.ToUpper()) &&
+                                x.ModelName.ToUpper().Equals(modelObj.ModelName.ToUpper())) == null)
+                        {
+                            this.modelsList.Add(modelObj);
+                            DownloadModelImage(modelObj.ModelThumbUrl);
+                            GetModelTypes(modelObj);
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+
+
+        private void GetModelTypes(ModelObj modelObj)
+        {
+            string modelTypesUrl = string.Format("{0}{1}", this.baseUrl, modelObj.ModelUrlPath);
+            string modelsContent = GetContent(modelTypesUrl);
 
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(modelsContent);
 
-            HtmlNodeCollection model_div = null;
+            HtmlNodeCollection types_div = null;
             if (htmlDoc.DocumentNode != null && htmlDoc.ParseErrors != null && !htmlDoc.ParseErrors.Any())
             {
-                model_div = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"content\"]/div/div[4]/div[1]/ul[1]/li");
-
-
+                types_div = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"modelis\"]/table");
             }
-            //sleep(1000);
 
-            if (model_div != null)
+            if (types_div != null)
             {
-                foreach (HtmlNode modelNode in model_div)
+                foreach (var node in types_div.First().ChildNodes)
                 {
-                    ModelObj modelObj = new ModelObj();
 
-                    modelObj.ModelID = this.modelsList.Count + 1;
-                    // get Model name
-                    modelObj.ModelName = modelNode.ChildNodes[3].ChildNodes[1].InnerText;
+                    ModelTypeObj typeObj = new ModelTypeObj();
 
-                    // get model link
-                    modelObj.ModelUrlPath = modelNode.ChildNodes[3].ChildNodes[1].Attributes.AttributesWithName("href").First().Value;
+                    typeObj.ModelTypeID = modelTypesList.Count + 1;
+                    typeObj.ModelID = modelObj.ModelID;
+                    typeObj.ModelTypeName = node.ChildNodes[0].InnerText;
+                    typeObj.ModelTypeCubic = node.ChildNodes[1].InnerText
+                        .Substring(0, node.ChildNodes[1].InnerText.IndexOf("cm3"));
+                    typeObj.ModelTypeFuel = node.ChildNodes[2].InnerText;
+                    typeObj.ModelTypePower = node.ChildNodes[3].InnerText;
+                    typeObj.ModelTypeTank = node.ChildNodes[4].InnerText;
+                    typeObj.ModelTypeFromYear = node.ChildNodes[5].InnerText;
+                    typeObj.ModelTypeToYear = node.ChildNodes[6].InnerText;
 
-                    // get image url
-                    modelObj.ModelThumbUrl = modelNode.ChildNodes[1].ChildNodes[0].Attributes.AttributesWithName("src").First().Value;
+                    string value = node.ChildNodes[0].Attributes.AttributesWithName("onclick").First().Value;
+                    value = value.Substring(value.IndexOf("'") + 1, value.LastIndexOf("'") - value.IndexOf("'") - 1);
 
-                    modelObj.MakerName = obj.MakerName;
-                    modelObj.MakerUrlPath = obj.MakerUrlPath;
-                    modelObj.MakerLogoUrl = obj.MakerLogoUrl;
-                    modelObj.MakerLogoBase64 = obj.MakerLogoBase64;
+                    typeObj.ModelTypeDetailsUrl = value;
 
-                    if (this.modelsList.Find(x => x.MakerName.ToUpper().Equals(obj.MakerName.ToUpper()) && x.ModelName.ToUpper().Equals(modelObj.ModelName.ToUpper())) == null)
-                    {
-                        this.modelsList.Add(modelObj);
-                        DownloadModelImage(modelObj.ModelThumbUrl);
-                        GetModelTypes(modelObj);
-                    }
-
-
+                    modelTypesList.Add(typeObj);
                 }
             }
         }
-    }
 
-
-
-
-    private void GetModelTypes(ModelObj modelObj)
-    {
-        string modelTypesUrl = string.Format("{0}{1}", this.baseUrl, modelObj.ModelUrlPath);
-        string modelsContent = GetContent(modelTypesUrl);
-
-        var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(modelsContent);
-
-        HtmlNodeCollection types_div = null;
-        if (htmlDoc.DocumentNode != null && htmlDoc.ParseErrors != null && !htmlDoc.ParseErrors.Any())
+        private void GetMakers()
         {
-            types_div = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"modelis\"]/table");
-        }
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(this.pageContent);
 
-        if (types_div != null)
-        {
-            foreach (var node in types_div.First().ChildNodes)
+            HtmlNodeCollection Maker_div = null;
+            if (htmlDoc.DocumentNode != null && htmlDoc.ParseErrors != null && !htmlDoc.ParseErrors.Any())
             {
+                Maker_div = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"marke\"]");
 
-                ModelTypeObj typeObj = new ModelTypeObj();
-
-                typeObj.ModelTypeID = modelTypesList.Count + 1;
-                typeObj.ModelID = modelObj.ModelID;
-                typeObj.ModelTypeName = node.ChildNodes[0].InnerText;
-                typeObj.ModelTypeCubic = node.ChildNodes[1].InnerText.Substring(0, node.ChildNodes[1].InnerText.IndexOf("cm3"));
-                typeObj.ModelTypeFuel = node.ChildNodes[2].InnerText;
-                typeObj.ModelTypePower = node.ChildNodes[3].InnerText;
-                typeObj.ModelTypeTank = node.ChildNodes[4].InnerText;
-                typeObj.ModelTypeFromYear = node.ChildNodes[5].InnerText;
-                typeObj.ModelTypeToYear = node.ChildNodes[6].InnerText;
-
-                string value = node.ChildNodes[0].Attributes.AttributesWithName("onclick").First().Value;
-                value = value.Substring(value.IndexOf("'") + 1, value.LastIndexOf("'") - value.IndexOf("'") - 1);
-
-                typeObj.ModelTypeDetailsUrl = value;
-
-                modelTypesList.Add(typeObj);
             }
-        }
-    }
 
-    private void GetMakers()
-    {
-        var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(this.pageContent);
-
-        HtmlNodeCollection Maker_div = null;
-        if (htmlDoc.DocumentNode != null && htmlDoc.ParseErrors != null && !htmlDoc.ParseErrors.Any())
-        {
-            Maker_div = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"marke\"]");
-
-        }
-
-        if (Maker_div != null)
-        {
-            htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(Maker_div.First().InnerHtml);
-            var MakerNodes = htmlDoc.DocumentNode.SelectNodes("//*//td");
-
-            foreach (var node in MakerNodes)//.Zip(descriptions, (n, d) => new MakerClass { MakerName = n.InnerText, MakerUrlPath = d.InnerText }))
+            if (Maker_div != null)
             {
-                MakerObj MakerObj = new MakerObj();
+                htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(Maker_div.First().InnerHtml);
+                var MakerNodes = htmlDoc.DocumentNode.SelectNodes("//*//td");
 
-                MakerObj.MakerName = node.InnerText;
-                string value = node.Attributes.AttributesWithName("onclick").First().Value;
-                value = value.Substring(value.IndexOf("'") + 1, value.LastIndexOf("'") - value.IndexOf("'") - 1);
-                MakerObj.MakerUrlPath = value;
+                foreach (var node in MakerNodes
+                ) //.Zip(descriptions, (n, d) => new MakerClass { MakerName = n.InnerText, MakerUrlPath = d.InnerText }))
+                {
+                    MakerObj MakerObj = new MakerObj();
 
-                this.MakersList.Add(MakerObj);
+                    MakerObj.MakerName = node.InnerText;
+                    string value = node.Attributes.AttributesWithName("onclick").First().Value;
+                    value = value.Substring(value.IndexOf("'") + 1, value.LastIndexOf("'") - value.IndexOf("'") - 1);
+                    MakerObj.MakerUrlPath = value;
+
+                    this.MakersList.Add(MakerObj);
+                }
             }
         }
     }
