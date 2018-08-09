@@ -39,7 +39,7 @@ namespace VehicleGrabberCore.Exporter
                 {
                     if (Core != null && Core.Log != null)
                     {
-                        Core.Log.Error(string.Format("SQLCarModel::Add_CarModels", ex));
+                        Core.Log.Error(string.Format("SQLCarModel::Add_CarModels : {0}", ex.Message));
                     }
                     else
                     {
@@ -154,7 +154,7 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (Core != null && Core.Log != null)
                 {
-                    Core.Log.Error(string.Format("SQLCarModel::Add_CarModels", ex));
+                    Core.Log.Error(string.Format("SQLCarModel::Add_CarModels : {0}", ex.Message));
                 }
                 else
                 {
@@ -207,7 +207,7 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (Core != null && Core.Log != null)
                 {
-                    Core.Log.Error(string.Format("SQLCarModel::ModelExists", ex));
+                    Core.Log.Error(string.Format("SQLCarModel::ModelExists : {0}", ex.Message));
                 }
                 else
                 {

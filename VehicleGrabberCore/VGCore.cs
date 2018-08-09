@@ -94,13 +94,38 @@ namespace VehicleGrabberCore
 
         public void ExportToMySQL(BackgroundWorker bw = null)
         {
-            MySQLExporter exporter = new MySQLExporter(this, Importer.MakersList, Importer.modelsList, Importer.modelTypesList, Importer.carDetailsList);
-            exporter.HandleMakers();
-            if (bw != null) { bw.ReportProgress(10); }
-            exporter.HandleModels();
-            if (bw != null) { bw.ReportProgress(25); }
-            exporter.HandleCarDetails();
-            if (bw != null) { bw.ReportProgress(100); }
+            string server = this.Conf.SQLServer;
+            string db = this.Conf.SQLDataBase;
+            string user = this.Conf.SQLUser;
+            string pw = this.Conf.SQLPassword;
+            long port = this.Conf.SQLPort;
+            bool ssl = this.Conf.SQLSSLConnection;
+
+            MySQLExporter exporter = new MySQLExporter(this, Importer.MakersList, Importer.modelsList, Importer.modelTypesList, Importer.carDetailsList, server, db, ssl, port, user, pw);
+
+            // try to connect and continue on success
+            if (exporter.OpenConnection())
+            {
+                exporter.CloseConnection();
+
+                exporter.HandleMakers();
+                if (bw != null)
+                {
+                    bw.ReportProgress(10);
+                }
+
+                exporter.HandleModels();
+                if (bw != null)
+                {
+                    bw.ReportProgress(25);
+                }
+
+                exporter.HandleCarDetails();
+                if (bw != null)
+                {
+                    bw.ReportProgress(100);
+                }
+            }
         }
 
         public string GetPageContent()

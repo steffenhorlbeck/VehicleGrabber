@@ -60,6 +60,7 @@ namespace VehicleGrabberCore.Configuration
 
             //MySQL Export
             this.SQLServer = string.Empty;
+            this.SQLDataBase = string.Empty;
             this.SQLPort = 3306;
             this.SQLUser = string.Empty;
             this.SQLPassword = String.Empty;
@@ -105,6 +106,7 @@ namespace VehicleGrabberCore.Configuration
 
                     //MySQL Export
                     this.SQLServer = conf.SQLServer;
+                    this.SQLDataBase = conf.SQLDataBase;
                     this.SQLPort = conf.SQLPort;
                     this.SQLUser = conf.SQLUser;                    
                     this.SQLSSLConnection = conf.SQLSSLConnection;

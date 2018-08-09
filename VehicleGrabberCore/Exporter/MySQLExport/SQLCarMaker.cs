@@ -43,7 +43,7 @@ namespace VehicleGrabberCore.Exporter
                 {
                     if (Core != null && Core.Log != null)
                     {
-                        Core.Log.Error(string.Format("SQLCarMaker::Add_CarMakers", ex));
+                        Core.Log.Error(string.Format("SQLCarMaker::Add_CarMakers : {0}", ex.Message));
                     }
                     else
                     {
@@ -151,7 +151,7 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (Core != null && Core.Log != null)
                 {
-                    Core.Log.Error(string.Format("SQLCarMaker::GetMakerId", ex));
+                    Core.Log.Error(string.Format("SQLCarMaker::GetMakerId : {0}", ex.Message));
                 }
                 else
                 {
@@ -195,7 +195,7 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (Core != null && Core.Log != null)
                 {
-                    Core.Log.Error(string.Format("SQLCarMaker::MakerExists", ex));
+                    Core.Log.Error(string.Format("SQLCarMaker::MakerExists : {0}", ex.Message));
                 }
                 else
                 {

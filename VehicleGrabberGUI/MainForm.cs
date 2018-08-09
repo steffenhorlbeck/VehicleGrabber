@@ -44,8 +44,8 @@ namespace VehicleGrabberGUI
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            
-            
+            this.UpdateConfiguration();
+
 
             try
             {
@@ -119,10 +119,17 @@ namespace VehicleGrabberGUI
 
         private void UpdateStatus()
         {
-            tooledtMakers.Text = Core.Importer.MakersList.Count.ToString();
-            tooledtModels.Text = Core.Importer.modelsList.Count.ToString();
-            tooledtModelTypes.Text = Core.Importer.modelTypesList.Count.ToString();
-            tooledtCars.Text = Core.Importer.carDetailsList.Count.ToString();
+            try
+            {
+                tooledtMakers.Text = Core.Importer.MakersList.Count.ToString();
+                tooledtModels.Text = Core.Importer.modelsList.Count.ToString();
+                tooledtModelTypes.Text = Core.Importer.modelTypesList.Count.ToString();
+                tooledtCars.Text = Core.Importer.carDetailsList.Count.ToString();
+            }
+            catch (Exception ex)
+            {
+                // do nothing here
+            }
         }
 
 
@@ -170,7 +177,9 @@ namespace VehicleGrabberGUI
         {
             if(Core != null)
             {
-                if(this.Core.Conf.ExportCSV)
+                this.UpdateConfiguration();
+
+                if (this.Core.Conf.ExportCSV)
                 {
                     Core.ExportToCSV();
                 }

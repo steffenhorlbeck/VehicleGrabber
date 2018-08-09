@@ -17,9 +17,10 @@ namespace VehicleGrabberCore.Exporter
         internal const string MODELTYPE_TABLE = @"car_modeltype";
         internal const string DETAILS_TABLE = @"car_details";
 
-        private const string SQLDBName = @"h26346_cardata";
         private string SQLServer = string.Empty;
-        private int SQLPort = 3306;
+        private string SQLDatabase = string.Empty;
+        private bool SQLSSL = true;
+        private long SQLPort = 3306;
         private string SQLUser = string.Empty;
         private string SQLPassword = string.Empty;
 
@@ -36,9 +37,12 @@ namespace VehicleGrabberCore.Exporter
 
         public MySQLExporter(VGCore core, List<MakerObj> MakerObjObjects, List<ModelObj> modelsObjects,
             List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string server = "megraso.de",
-            int port = 3306, string user = "h26346_cardata", string password = "1Master!01")
+            string database = "h26346_cardata", bool ssl = true,
+            long port = 3306, string user = "h26346_cardata", string password = "1Master!01")
         {
             this.SQLServer = server;
+            this.SQLDatabase = database;
+            this.SQLSSL = ssl;
             this.SQLPort = port;
             this.SQLUser = user;
             this.SQLPassword = password;
@@ -65,9 +69,24 @@ namespace VehicleGrabberCore.Exporter
         private void Initialize()
         {
 
-            string connectionString;
+            string user = !string.IsNullOrWhiteSpace(this.SQLUser)
+                ? string.Format("UID={0};", this.SQLUser)
+                : string.Empty;
+            
+            string password = !string.IsNullOrWhiteSpace(this.SQLPassword)
+                ? string.Format("PASSWORD={0};", this.SQLPassword)
+                : string.Empty;
+
+            string ssl = !this.SQLSSL
+                ? "SslMode=none;"
+                : string.Empty;
+
+            string connectionString = string.Format("SERVER={0};DATABASE={1};{2}{3}{4}", this.SQLServer, this.SQLDatabase, user, password, ssl);
+
+            /*
             connectionString = "SERVER=" + this.SQLServer + ";" + "DATABASE=" +
-            SQLDBName + ";" + "UID=" + this.SQLUser + ";" + "PASSWORD=" + this.SQLPassword + ";SslMode=none;";
+                               this.SQLDatabase + ";" + "UID=" + this.SQLUser + ";" + "PASSWORD=" + this.SQLPassword + ";SslMode=none;";
+            */
 
             connection = new MySqlConnection(connectionString);
         }
@@ -93,7 +112,7 @@ namespace VehicleGrabberCore.Exporter
                 //    case 0:
                         if (this.Core != null && this.Core.Log != null)
                         {
-                            this.Core.Log.Error(string.Format("MySQLExporter::OpenConnection", ex));
+                            this.Core.Log.Error(string.Format("MySQLExporter::OpenConnection : {0}", ex.Message));
                         }
                         else
                         {
@@ -103,7 +122,7 @@ namespace VehicleGrabberCore.Exporter
                 /*    case 1045:
                         if (this.Core != null && this.Core.Log != null)
                         {
-                            this.Core.Log.Error(string.Format("MySQLExporter::OpenConnection", ex));
+                            this.Core.Log.Error(string.Format("MySQLExporter::OpenConnection : {0}", ex.Message));
                         }
                         else
                         {
@@ -126,7 +145,7 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (this.Core != null && this.Core.Log != null)
                 {
-                    this.Core.Log.Error(string.Format("MySQLExporter::CloseConnection", ex));
+                    this.Core.Log.Error(string.Format("MySQLExporter::CloseConnection : {0}", ex.Message));
                 }
                 else
                 {
