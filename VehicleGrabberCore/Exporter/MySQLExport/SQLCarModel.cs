@@ -111,7 +111,7 @@ namespace VehicleGrabberCore.Exporter
                                              "maker=@maker, " +
                                              "maker_id=@maker_id, " +
                                              "image=@image, " +
-                                             "model_url=@model_url " +
+                                             "model_url=@model_url, " +
                                              "img_url=@img_url " +
                                              "WHERE id={1}", MySQLExporter.MODEL_TABLE,
                     modelId);
@@ -162,7 +162,7 @@ namespace VehicleGrabberCore.Exporter
             long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name LIKE '{1}'", MySQLExporter.MODEL_TABLE, model);
+                string query = string.Format("SELECT id FROM {0} WHERE name = upper('{1}')", MySQLExporter.MODEL_TABLE, model.ToUpper());
 
                 //Open Connection
                 if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)

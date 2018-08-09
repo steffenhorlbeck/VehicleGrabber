@@ -247,5 +247,10 @@ public class CarDetailsClass
     [FieldTrim(TrimMode.Both)]
     [FieldQuoted('"', QuoteMode.AlwaysQuoted)]
     public string Tank2; //Tankgröße(2.Antrieb)   -
+
+    [FieldOrder(470), FieldTitle("ModelType")]
+    [FieldTrim(TrimMode.Both)]
+    [FieldQuoted('"', QuoteMode.AlwaysQuoted)]
+    public string ModelType; 
 }
 

@@ -15,6 +15,7 @@ namespace VehicleGrabberCore.DataObjects
             Model= string.Empty; //Modell up! 1.0
             Type= string.Empty; //Typ take up!
             Series= string.Empty; //Baureihe up!
+            ModelTypeName = string.Empty;
             InternalClassName= string.Empty; //Herstellerinterne Baureihenbezeichnung  AA
             ModelStart= string.Empty; //Modellstart	06/2016
             ModelEnd= string.Empty; //Modellende
@@ -72,6 +73,7 @@ namespace VehicleGrabberCore.DataObjects
         public string Model { get; set; } //Modell up! 1.0
         public string Type { get; set; } //Typ take up!
         public string Series { get; set; } //Baureihe up!
+        public string ModelTypeName { get; set; }
         public string InternalClassName { get; set; } //Herstellerinterne Baureihenbezeichnung  AA
         public string ModelStart { get; set; } //Modellstart	06/2016
         public string ModelEnd { get; set; } //Modellende

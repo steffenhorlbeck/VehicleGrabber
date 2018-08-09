@@ -27,10 +27,10 @@ namespace VehicleGrabberCore.Exporter
                 try
                 {
                     long makerId = SQLCarMaker.GetMakerId(obj.Maker);
-                    long modelId = SQLCarModel.GetModelId(obj.Model);
-                    long typeId = SQLCarModelType.GetModelTypeId(obj.Type);
+                    long modelId = SQLCarModel.GetModelId(obj.Series);
+                    long typeId = SQLCarModelType.GetModelTypeId(obj.ModelTypeName);
 
-                    long id = GetCarDetailsId(obj.Maker, obj.Model, obj.Type, obj.Series);
+                    long id = GetCarDetailsId(makerId, modelId, typeId, obj.ModelTypeName);
                     if (id == -1)
                     {
                         Insert_CarDetails(obj, makerId, modelId, typeId);
@@ -62,14 +62,14 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 string query = string.Format("INSERT INTO {0} " +
-                                             "(maker_id, model_id, modeltype_id, maker, model, type, series, internal_class_name, model_start, model_end, " +
+                                             "(maker_id, model_id, modeltype_id, maker, model, type, series, modeltypename, internal_class_name, model_start, model_end, " +
                                              "series_start, series_end, hsn, tsn, tsn2, car_tax, co2_class, base_price, engine_type, fuel, fuel2, " +
                                              "emission_control, engine_design, cylinder, fuel_type, charge, valves, cubic, power_kw, power_ps, " +
                                              "max_power, turning_moment, max_turning_moment, type_of_drive, gearing, gears, start_stop_automatic, " +
                                              "emission_class, length, width, height, chassis, doors, car_class, seats, speed_up, max_speed, tank, tank2) " +
                                              "VALUES" +
-                                             "(@maker_id, @model_id, @modeltype_id, @maker, @model, @type, @series, @internal_class_name, @model_start, @model_end, " +
-                                             "@series_start, @series_end, @hsn, @tsn, @tsn2, @car_tax, @co2_class, @base_price, @engine_type, @fuel, @fuel2, " +
+                                             "(@maker_id, @model_id, @modeltype_id, @maker, @model, @type, @series, @modeltypename, @internal_class_name, STR_TO_DATE(@model_start, '%d/%m/%Y'), STR_TO_DATE(@model_end, '%d/%m/%Y'), " +
+                                             "STR_TO_DATE(@series_start, '%d/%m/%Y'), STR_TO_DATE(@series_end, '%d/%m/%Y'), @hsn, @tsn, @tsn2, @car_tax, @co2_class, @base_price, @engine_type, @fuel, @fuel2, " +
                                              "@emission_control, @engine_design, @cylinder, @fuel_type, @charge, @valves, @cubic, @power_kw, @power_ps, " +
                                              "@max_power, @turning_moment, @max_turning_moment, @type_of_drive, @gearing, @gears, @start_stop_automatic, " +
                                              "@emission_class, @length, @width, @height, @chassis, @doors, @car_class, @seats, @speed_up, @max_speed, @tank, @tank2)",
@@ -82,7 +82,7 @@ namespace VehicleGrabberCore.Exporter
                     //create command and assign the query and connection from the constructor
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
-                    cmd.CommandText = query;
+                    //cmd.CommandText = query;
 
                     SetSQLParameters(obj, cmd, makerId, modelId, typeId);
 
@@ -113,52 +113,53 @@ namespace VehicleGrabberCore.Exporter
                 string query = string.Format("UPDATE {0} SET " +
                                              "maker_id=@maker_id, " +
                                              "model_id=@model_id, " +
-                                             "modeltype_id=@modeltype_id" +
-                                             "maker=@maker" +
-                                             "model=@model" +
-                                             "type=@type" +
-                                             "series=@series" +
-                                             "internal_class_name=@internal_class_name" +
-                                             "model_start=@model_start" +
-                                             "model_end=@model_end" +
-                                             "series_start=@series_start" +
-                                             "series_end=@series_end" +
-                                             "hsn=@hsn" +
-                                             "tsn=@tsn" +
-                                             "tsn2=@tsn2" +
-                                             "car_tax=@car_tax" +
-                                             "co2_class=@co2_class" +
-                                             "base_price=@base_price" +
-                                             "engine_type=@engine_type" +
-                                             "fuel=@fuel" +
-                                             "fuel2=@fuel2" +
-                                             "emission_control=@emission_control" +
-                                             "engine_design=@engine_design" +
-                                             "cylinder=@cylinder" +
-                                             "fuel_type=@fuel_type" +
-                                             "charge=@charge" +
-                                             "valves=@valves" +
-                                             "cubic=@cubic" +
-                                             "power_kw=@power_kw" +
-                                             "power_ps=@power_ps" +
-                                             "max_power=@max_power" +
-                                             "turning_moment=@turning_moment" +
-                                             "max_turning_moment=@max_turning_moment" +
-                                             "type_of_drive=@type_of_drive" +
-                                             "gearing=@gearing" +
-                                             "gears=@gears" +
-                                             "start_stop_automatic=@start_stop_automatic" +
-                                             "emission_class=@emission_class" +
-                                             "length=@length" +
-                                             "width=@width" +
-                                             "height=@height" +
-                                             "chassis=@chassis" +
-                                             "doors=@doors" +
-                                             "car_class=@car_class" +
-                                             "seats=@seats" +
-                                             "speed_up=@speed_up" +
-                                             "max_speed=@max_speed" +
-                                             "tank=@tank" +
+                                             "modeltype_id=@modeltype_id, " +
+                                             "maker=@maker, " +
+                                             "model=@model, " +
+                                             "type=@type, " +
+                                             "series=@series, " +
+                                             "modeltypename=@modeltypename, " +
+                                             "internal_class_name=@internal_class_name, " +
+                                             "model_start=STR_TO_DATE(@model_start, '%d/%m/%Y'), " +
+                                             "model_end=STR_TO_DATE( @model_end, '%d/%m/%Y'), " +
+                                             "series_start=STR_TO_DATE(@series_start, '%d/%m/%Y') , " +
+                                             "series_end=STR_TO_DATE(@series_end, '%d/%m/%Y') , " +
+                                             "hsn=@hsn, " +
+                                             "tsn=@tsn, " +
+                                             "tsn2=@tsn2, " +
+                                             "car_tax=@car_tax, " +
+                                             "co2_class=@co2_class, " +
+                                             "base_price=@base_price, " +
+                                             "engine_type=@engine_type, " +
+                                             "fuel=@fuel, " +
+                                             "fuel2=@fuel2, " +
+                                             "emission_control=@emission_control, " +
+                                             "engine_design=@engine_design, " +
+                                             "cylinder=@cylinder, " +
+                                             "fuel_type=@fuel_type, " +
+                                             "charge=@charge, " +
+                                             "valves=@valves, " +
+                                             "cubic=@cubic, " +
+                                             "power_kw=@power_kw, " +
+                                             "power_ps=@power_ps, " +
+                                             "max_power=@max_power, " +
+                                             "turning_moment=@turning_moment, " +
+                                             "max_turning_moment=@max_turning_moment, " +
+                                             "type_of_drive=@type_of_drive, " +
+                                             "gearing=@gearing, " +
+                                             "gears=@gears, " +
+                                             "start_stop_automatic=@start_stop_automatic, " +
+                                             "emission_class=@emission_class, " +
+                                             "length=@length, " +
+                                             "width=@width, " +
+                                             "height=@height, " +
+                                             "chassis=@chassis, " +
+                                             "doors=@doors, " +
+                                             "car_class=@car_class, " +
+                                             "seats=@seats, " +
+                                             "speed_up=@speed_up, " +
+                                             "max_speed=@max_speed, " +
+                                             "tank=@tank, " +
                                              "tank2=@tank2" +
                                              " WHERE id={1}", MySQLExporter.DETAILS_TABLE,
                     id);
@@ -204,15 +205,15 @@ namespace VehicleGrabberCore.Exporter
         }
 
 
-        public long GetCarDetailsId(string maker, string model, string type, string series)
+        public long GetCarDetailsId(long maker_id, long model_id, long modeltype_id, string modeltypename)
         {
             long id = -1;
             try
             {
                 string query = string.Format(
-                    "SELECT id FROM {0} WHERE maker LIKE '{1}' AND mode LIKE '{2}' AND type LIKE '{3}' AND series LIKE '{4}'",
-                    MySQLExporter.MODELTYPE_TABLE,
-                    maker, model, type, series);
+                    "SELECT id FROM {0} WHERE maker_id = {1} AND model_id = {2} AND modeltype_id = {3} AND modeltypename = upper('{4}');",
+                    MySQLExporter.DETAILS_TABLE,
+                    maker_id, model_id, modeltype_id, modeltypename.ToUpper());
 
                 //Open Connection
                 if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
@@ -220,10 +221,10 @@ namespace VehicleGrabberCore.Exporter
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
-                    cmd.CommandText = query;
+                    //cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
-                    var retVal = cmd.ExecuteScalar() + "";
+                    var retVal = cmd.ExecuteScalar();
                     id = retVal == null ? -1 : Convert.ToInt32(retVal);
 
                     //close Connection
@@ -258,13 +259,14 @@ namespace VehicleGrabberCore.Exporter
             cmd.Parameters.AddWithValue("@model", obj.Model);
             cmd.Parameters.AddWithValue("@type", obj.Type);
             cmd.Parameters.AddWithValue("@series", obj.Series);
+            cmd.Parameters.AddWithValue("@modeltypename", obj.ModelTypeName);
             cmd.Parameters.AddWithValue("@internal_class_name", obj.InternalClassName);
 
             //dateTime ?
-            cmd.Parameters.AddWithValue("@model_start", obj.ModelStart);
-            cmd.Parameters.AddWithValue("@model_end", obj.ModelEnd);
-            cmd.Parameters.AddWithValue("@series_start", obj.SeriesStart);
-            cmd.Parameters.AddWithValue("@series_end", obj.SeriesEnd);
+            cmd.Parameters.AddWithValue("@model_start", obj.ModelStart.Length <= 7 ? string.Format("01/{0}",obj.ModelStart) : obj.ModelStart);
+            cmd.Parameters.AddWithValue("@model_end", obj.ModelEnd.Length <= 7 ? string.Format("28/{0}", obj.ModelEnd) : obj.ModelEnd);  
+            cmd.Parameters.AddWithValue("@series_start", obj.SeriesStart.Length <= 7 ? string.Format("01/{0}", obj.SeriesStart) : obj.SeriesStart);
+            cmd.Parameters.AddWithValue("@series_end", obj.SeriesEnd.Length <= 7 ? string.Format("28/{0}", obj.SeriesEnd) : obj.SeriesEnd); 
 
             cmd.Parameters.AddWithValue("@hsn", obj.HSN);
             cmd.Parameters.AddWithValue("@tsn", obj.TSN);
@@ -279,7 +281,6 @@ namespace VehicleGrabberCore.Exporter
             cmd.Parameters.AddWithValue("@engine_design", obj.EngineDesign);
             cmd.Parameters.AddWithValue("@cylinder", obj.Cylinder);
 
-            cmd.Parameters.AddWithValue("@cylinder", obj.Cylinder);
             cmd.Parameters.AddWithValue("@fuel_type", obj.FuelType);
             cmd.Parameters.AddWithValue("@charge", obj.Charge);
             cmd.Parameters.AddWithValue("@valves", obj.Valves);

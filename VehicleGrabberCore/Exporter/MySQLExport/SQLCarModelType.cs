@@ -30,14 +30,15 @@ namespace VehicleGrabberCore.Exporter
                    
                     long makerId = SQLCarMaker.GetMakerId(obj.MakerName);
                     long modelId = SQLCarModel.GetModelId(obj.ModelName);
-                    if (!ModelTypeExists(obj.ModelTypeName))
+
+                    long modelTypeId = GetModelTypeId(obj.ModelTypeName);
+                    if (modelTypeId == -1)                        
                     {
-                        Insert_CarModel(obj, makerId, modelId);
+                        Insert_CarModelType(obj, makerId, modelId);
                     }
                     else
-                    {
-                        long id = GetModelTypeId(obj.ModelTypeName);
-                        Update_CarModel(obj, makerId, modelId, id);
+                    {                        
+                        Update_CarModelType(obj, makerId, modelId, modelTypeId);
                     }
 
                 }
@@ -56,7 +57,7 @@ namespace VehicleGrabberCore.Exporter
             }
         }
 
-        public void Insert_CarModel(ModelTypeObj obj, long makerId, long modelId)
+        public void Insert_CarModelType(ModelTypeObj obj, long makerId, long modelId)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace VehicleGrabberCore.Exporter
                     //create command and assign the query and connection from the constructor
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
-                    cmd.CommandText = query;
+                    //cmd.CommandText = query;
 
                     SetSQLParameters(obj, cmd, makerId, modelId);
 
@@ -97,23 +98,23 @@ namespace VehicleGrabberCore.Exporter
             }
         }
 
-        public void Update_CarModel(ModelTypeObj obj, long makerId, long modelId, long id)
+        public void Update_CarModelType(ModelTypeObj obj, long makerId, long modelId, long id)
         {
             try
             {
                 string query = string.Format("UPDATE {0} SET " +
                                              "maker_id=@maker_id, " +
                                              "model_id=@model_id, " +
-                                             "modeltype_id=@modeltype_id" +
-                                             "name=@name" +
-                                             "cubic=@cubic" +
-                                             "fuel=@fuel" +
-                                             "power=@power" +
-                                             "tank=@tank" +
-                                             "from_year=@from_year" +
-                                             "to_year=@to_year" +
-                                             "chassis=@chassis" +
-                                             "doors=@doors" +
+                                             "modeltype_id=@modeltype_id," +
+                                             "name=@name," +
+                                             "cubic=@cubic," +
+                                             "fuel=@fuel," +
+                                             "power=@power," +
+                                             "tank=@tank," +
+                                             "from_year=@from_year," +
+                                             "to_year=@to_year," +
+                                             "chassis=@chassis," +
+                                             "doors=@doors," +
                                              "type_url=@type_url" +
                                              " WHERE id={1}", MySQLExporter.MODELTYPE_TABLE,
                     id);
@@ -159,7 +160,7 @@ namespace VehicleGrabberCore.Exporter
             long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name LIKE '{1}'", MySQLExporter.MODELTYPE_TABLE, modeltype);
+                string query = string.Format("SELECT id FROM {0} WHERE name = upper('{1}')", MySQLExporter.MODELTYPE_TABLE, modeltype.ToUpper());
                 //int Count = -1;
 
                 //Open Connection
@@ -168,10 +169,10 @@ namespace VehicleGrabberCore.Exporter
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
-                    cmd.CommandText = query;
+                    //cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
-                    var retVal = cmd.ExecuteScalar() + "";
+                    var retVal = cmd.ExecuteScalar();
                     id = retVal == null ? -1 : Convert.ToInt32(retVal);
 
                     //close Connection
@@ -184,11 +185,11 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (Core != null && Core.Log != null)
                 {
-                    Core.Log.Error(string.Format("SQLCarModelType::ModelTypeExists : {0}", ex.Message));
+                    Core.Log.Error(string.Format("SQLCarModelType::GetModelTypeId : {0}", ex.Message));
                 }
                 else
                 {
-                    throw new Exception("SQLCarModelType::ModelTypeExists", ex);
+                    throw new Exception("SQLCarModelType::GetModelTypeId", ex);
                 }
 
                 return id;
@@ -200,7 +201,7 @@ namespace VehicleGrabberCore.Exporter
         {
             cmd.Parameters.AddWithValue("@maker_id", makerId);
             cmd.Parameters.AddWithValue("@model_id", modelId);
-            //cmd.Parameters.AddWithValue("@modeltype_id", obj.ModelTypeID);
+            cmd.Parameters.AddWithValue("@modeltype_id", obj.ModelTypeID);
             cmd.Parameters.AddWithValue("@name", obj.ModelTypeName);
             cmd.Parameters.AddWithValue("@cubic", obj.ModelTypeCubic);
             cmd.Parameters.AddWithValue("@fuel", obj.ModelTypeFuel);

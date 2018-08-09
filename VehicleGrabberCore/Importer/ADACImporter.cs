@@ -296,6 +296,7 @@ namespace VehicleGrabberCore.Importer
                     carObj.Model = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[2].ChildNodes[1].InnerText);
                     carObj.Type = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[3].ChildNodes[1].InnerText);
                     carObj.Series = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[4].ChildNodes[1].InnerText);
+                    carObj.ModelTypeName = type.ModelTypeName;
                     carObj.InternalClassName =
                         HttpUtility.HtmlDecode(cars_div.First().ChildNodes[5].ChildNodes[1].InnerText);
                     carObj.ModelStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[6].ChildNodes[1].InnerText);

@@ -117,7 +117,13 @@ namespace VehicleGrabberCore
                 exporter.HandleModels();
                 if (bw != null)
                 {
-                    bw.ReportProgress(25);
+                    bw.ReportProgress(20);
+                }
+
+                exporter.HandleModelTypes();
+                if (bw != null)
+                {
+                    bw.ReportProgress(30);
                 }
 
                 exporter.HandleCarDetails();
