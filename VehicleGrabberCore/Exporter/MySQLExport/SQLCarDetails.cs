@@ -59,119 +59,147 @@ namespace VehicleGrabberCore.Exporter
 
         public void Insert_CarDetails(CarDetailsObj obj, long makerId, long modelId, long typeId)
         {
-            string query = string.Format("INSERT INTO {0} " +
-                                         "(maker_id, model_id, modeltype_id, maker, model, type, series, internal_class_name, model_start, model_end, " +
-                                         "series_start, series_end, hsn, tsn, tsn2, car_tax, co2_class, base_price, engine_type, fuel, fuel2, " +
-                                         "emission_control, engine_design, cylinder, fuel_type, charge, valves, cubic, power_kw, power_ps, " +
-                                         "max_power, turning_moment, max_turning_moment, type_of_drive, gearing, gears, start_stop_automatic, " +
-                                         "emission_class, length, width, height, chassis, doors, car_class, seats, speed_up, max_speed, tank, tank2) " +
-                                         "VALUES" +
-                                         "(@maker_id, @model_id, @modeltype_id, @maker, @model, @type, @series, @internal_class_name, @model_start, @model_end, " +
-                                         "@series_start, @series_end, @hsn, @tsn, @tsn2, @car_tax, @co2_class, @base_price, @engine_type, @fuel, @fuel2, " +
-                                         "@emission_control, @engine_design, @cylinder, @fuel_type, @charge, @valves, @cubic, @power_kw, @power_ps, " +
-                                         "@max_power, @turning_moment, @max_turning_moment, @type_of_drive, @gearing, @gears, @start_stop_automatic, " +
-                                         "@emission_class, @length, @width, @height, @chassis, @doors, @car_class, @seats, @speed_up, @max_speed, @tank, @tank2)",
-                MySQLExporter.DETAILS_TABLE);
-
-
-            //open connection
-            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+            try
             {
-                //create command and assign the query and connection from the constructor
-                MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+                string query = string.Format("INSERT INTO {0} " +
+                                             "(maker_id, model_id, modeltype_id, maker, model, type, series, internal_class_name, model_start, model_end, " +
+                                             "series_start, series_end, hsn, tsn, tsn2, car_tax, co2_class, base_price, engine_type, fuel, fuel2, " +
+                                             "emission_control, engine_design, cylinder, fuel_type, charge, valves, cubic, power_kw, power_ps, " +
+                                             "max_power, turning_moment, max_turning_moment, type_of_drive, gearing, gears, start_stop_automatic, " +
+                                             "emission_class, length, width, height, chassis, doors, car_class, seats, speed_up, max_speed, tank, tank2) " +
+                                             "VALUES" +
+                                             "(@maker_id, @model_id, @modeltype_id, @maker, @model, @type, @series, @internal_class_name, @model_start, @model_end, " +
+                                             "@series_start, @series_end, @hsn, @tsn, @tsn2, @car_tax, @co2_class, @base_price, @engine_type, @fuel, @fuel2, " +
+                                             "@emission_control, @engine_design, @cylinder, @fuel_type, @charge, @valves, @cubic, @power_kw, @power_ps, " +
+                                             "@max_power, @turning_moment, @max_turning_moment, @type_of_drive, @gearing, @gears, @start_stop_automatic, " +
+                                             "@emission_class, @length, @width, @height, @chassis, @doors, @car_class, @seats, @speed_up, @max_speed, @tank, @tank2)",
+                    MySQLExporter.DETAILS_TABLE);
 
 
-                SetSQLParameters(obj, cmd, makerId, modelId, typeId);
+                //open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+                {
+                    //create command and assign the query and connection from the constructor
+                    MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
-                //Execute command
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = query;
 
-                //close connection
-                _mySqlExporter.CloseConnection();
+                    SetSQLParameters(obj, cmd, makerId, modelId, typeId);
+
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarDetails::Insert_CarDetails : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarDetails::Insert_CarDetails", ex);
+                }
             }
         }
 
         public void Update_CarDetails(CarDetailsObj obj, long makerId, long modelId, long typeId, long id)
         {
-            string query = string.Format("UPDATE {0} SET " +
-                                         "maker_id=@maker_id, " +
-                                         "model_id=@model_id, " +
-                                         "modeltype_id=@modeltype_id" +
-                                         "maker=@maker" +
-                                         "model=@model" +
-                                         "type=@type" +
-                                         "series=@series" +
-                                         "internal_class_name=@internal_class_name" +
-                                         "model_start=@model_start" +
-                                         "model_end=@model_end" +
-                                         "series_start=@series_start" +
-                                         "series_end=@series_end" +
-                                         "hsn=@hsn" +
-                                         "tsn=@tsn" +
-                                         "tsn2=@tsn2" +
-                                         "car_tax=@car_tax" +
-                                         "co2_class=@co2_class" +
-                                         "base_price=@base_price" +
-                                         "engine_type=@engine_type" +
-                                         "fuel=@fuel" +
-                                         "fuel2=@fuel2" +
-                                         "emission_control=@emission_control" +
-                                         "engine_design=@engine_design" +
-                                         "cylinder=@cylinder" +
-                                         "fuel_type=@fuel_type" +
-                                         "charge=@charge" +
-                                         "valves=@valves" +
-                                         "cubic=@cubic" +
-                                         "power_kw=@power_kw" +
-                                         "power_ps=@power_ps" +
-                                         "max_power=@max_power" +
-                                         "turning_moment=@turning_moment" +
-                                         "max_turning_moment=@max_turning_moment" +
-                                         "type_of_drive=@type_of_drive" +
-                                         "gearing=@gearing" +
-                                         "gears=@gears" +
-                                         "start_stop_automatic=@start_stop_automatic" +
-                                         "emission_class=@emission_class" +
-                                         "length=@length" +
-                                         "width=@width" +
-                                         "height=@height" +
-                                         "chassis=@chassis" +
-                                         "doors=@doors" +
-                                         "car_class=@car_class" +
-                                         "seats=@seats" +
-                                         "speed_up=@speed_up" +
-                                         "max_speed=@max_speed" +
-                                         "tank=@tank" +
-                                         "tank2=@tank2" +
-                                         " WHERE id={1}", MySQLExporter.DETAILS_TABLE,
-                id);
-
-
-
-
-
-
-
-            //Open connection
-            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+            try
             {
-                //create mysql command
-                MySqlCommand cmd = new MySqlCommand
+                string query = string.Format("UPDATE {0} SET " +
+                                             "maker_id=@maker_id, " +
+                                             "model_id=@model_id, " +
+                                             "modeltype_id=@modeltype_id" +
+                                             "maker=@maker" +
+                                             "model=@model" +
+                                             "type=@type" +
+                                             "series=@series" +
+                                             "internal_class_name=@internal_class_name" +
+                                             "model_start=@model_start" +
+                                             "model_end=@model_end" +
+                                             "series_start=@series_start" +
+                                             "series_end=@series_end" +
+                                             "hsn=@hsn" +
+                                             "tsn=@tsn" +
+                                             "tsn2=@tsn2" +
+                                             "car_tax=@car_tax" +
+                                             "co2_class=@co2_class" +
+                                             "base_price=@base_price" +
+                                             "engine_type=@engine_type" +
+                                             "fuel=@fuel" +
+                                             "fuel2=@fuel2" +
+                                             "emission_control=@emission_control" +
+                                             "engine_design=@engine_design" +
+                                             "cylinder=@cylinder" +
+                                             "fuel_type=@fuel_type" +
+                                             "charge=@charge" +
+                                             "valves=@valves" +
+                                             "cubic=@cubic" +
+                                             "power_kw=@power_kw" +
+                                             "power_ps=@power_ps" +
+                                             "max_power=@max_power" +
+                                             "turning_moment=@turning_moment" +
+                                             "max_turning_moment=@max_turning_moment" +
+                                             "type_of_drive=@type_of_drive" +
+                                             "gearing=@gearing" +
+                                             "gears=@gears" +
+                                             "start_stop_automatic=@start_stop_automatic" +
+                                             "emission_class=@emission_class" +
+                                             "length=@length" +
+                                             "width=@width" +
+                                             "height=@height" +
+                                             "chassis=@chassis" +
+                                             "doors=@doors" +
+                                             "car_class=@car_class" +
+                                             "seats=@seats" +
+                                             "speed_up=@speed_up" +
+                                             "max_speed=@max_speed" +
+                                             "tank=@tank" +
+                                             "tank2=@tank2" +
+                                             " WHERE id={1}", MySQLExporter.DETAILS_TABLE,
+                    id);
+
+
+
+
+
+
+
+                //Open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
-                    CommandText = query,
-                    Connection = _mySqlExporter.connection
-                };
-                //Assign the query using CommandText
-                //Assign the connection using Connection
+                    //create mysql command
+                    MySqlCommand cmd = new MySqlCommand
+                    {
+                        CommandText = query,
+                        Connection = _mySqlExporter.connection
+                    };
+                    //Assign the query using CommandText
+                    //Assign the connection using Connection
 
-                SetSQLParameters(obj, cmd, makerId, modelId, typeId);
+                    SetSQLParameters(obj, cmd, makerId, modelId, typeId);
 
 
-                //Execute query
-                cmd.ExecuteNonQuery();
+                    //Execute query
+                    cmd.ExecuteNonQuery();
 
-                //close connection
-                _mySqlExporter.CloseConnection();
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }catch(Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarDetails::Update_CarDetails : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarDetails::Update_CarDetails", ex);
+                }
             }
         }
 
@@ -191,6 +219,8 @@ namespace VehicleGrabberCore.Exporter
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
                     var retVal = cmd.ExecuteScalar() + "";
@@ -294,6 +324,8 @@ namespace VehicleGrabberCore.Exporter
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
                     Count = Convert.ToInt32(cmd.ExecuteScalar() + "");

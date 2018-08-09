@@ -58,68 +58,98 @@ namespace VehicleGrabberCore.Exporter
 
         public void Insert_CarModel(ModelTypeObj obj, long makerId, long modelId)
         {
-            string query = string.Format("INSERT INTO {0} " +
-                                         "(maker_id, model_id, modeltype_id, name, cubic, fuel, power, tank, from_year, to_year, chassis, doors, type_url) " +
-                                         "VALUES" +
-                                         "(@maker_id, @model_id, @modeltype_id, @name, @cubic, @fuel, @power, @tank, @from_year, @to_year, @chassis, @doors, @type_url)", MySQLExporter.MODELTYPE_TABLE);
-
-
-            //open connection
-            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+            try
             {
-                //create command and assign the query and connection from the constructor
-                MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+                string query = string.Format("INSERT INTO {0} " +
+                                             "(maker_id, model_id, modeltype_id, name, cubic, fuel, power, tank, from_year, to_year, chassis, doors, type_url) " +
+                                             "VALUES" +
+                                             "(@maker_id, @model_id, @modeltype_id, @name, @cubic, @fuel, @power, @tank, @from_year, @to_year, @chassis, @doors, @type_url)",
+                    MySQLExporter.MODELTYPE_TABLE);
 
 
-                SetSQLParameters(obj, cmd, makerId, modelId);
+                //open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+                {
+                    //create command and assign the query and connection from the constructor
+                    MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
-                //Execute command
-                cmd.ExecuteNonQuery();
+                    cmd.CommandText = query;
 
-                //close connection
-                _mySqlExporter.CloseConnection();
+                    SetSQLParameters(obj, cmd, makerId, modelId);
+
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarModelType::Insert_CarModel : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarModelType::Insert_CarModel", ex);
+                }
             }
         }
 
         public void Update_CarModel(ModelTypeObj obj, long makerId, long modelId, long id)
         {
-            string query = string.Format("UPDATE {0} SET " +
-                                         "maker_id=@maker_id, " +
-                                         "model_id=@model_id, " +
-                                         "modeltype_id=@modeltype_id" +
-                                         "name=@name" +
-                                         "cubic=@cubic" +
-                                         "fuel=@fuel" +
-                                         "power=@power" +
-                                         "tank=@tank" +
-                                         "from_year=@from_year" +
-                                         "to_year=@to_year" +
-                                         "chassis=@chassis" +
-                                         "doors=@doors" +
-                                         "type_url=@type_url" +
-                                         " WHERE id={1}", MySQLExporter.MODELTYPE_TABLE,
-                id);
-
-
-            //Open connection
-            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+            try
             {
-                //create mysql command
-                MySqlCommand cmd = new MySqlCommand
+                string query = string.Format("UPDATE {0} SET " +
+                                             "maker_id=@maker_id, " +
+                                             "model_id=@model_id, " +
+                                             "modeltype_id=@modeltype_id" +
+                                             "name=@name" +
+                                             "cubic=@cubic" +
+                                             "fuel=@fuel" +
+                                             "power=@power" +
+                                             "tank=@tank" +
+                                             "from_year=@from_year" +
+                                             "to_year=@to_year" +
+                                             "chassis=@chassis" +
+                                             "doors=@doors" +
+                                             "type_url=@type_url" +
+                                             " WHERE id={1}", MySQLExporter.MODELTYPE_TABLE,
+                    id);
+
+
+                //Open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
-                    CommandText = query,
-                    Connection = _mySqlExporter.connection
-                };
-                //Assign the query using CommandText
-                //Assign the connection using Connection
+                    //create mysql command
+                    MySqlCommand cmd = new MySqlCommand
+                    {
+                        CommandText = query,
+                        Connection = _mySqlExporter.connection
+                    };
+                    //Assign the query using CommandText
+                    //Assign the connection using Connection
 
-                SetSQLParameters(obj, cmd, makerId, modelId);
+                    SetSQLParameters(obj, cmd, makerId, modelId);
 
-                //Execute query
-                cmd.ExecuteNonQuery();
+                    //Execute query
+                    cmd.ExecuteNonQuery();
 
-                //close connection
-                _mySqlExporter.CloseConnection();
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarModelType::Update_CarModel : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarModelType::Update_CarModel", ex);
+                }
             }
         }
 
@@ -137,6 +167,8 @@ namespace VehicleGrabberCore.Exporter
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
                     var retVal = cmd.ExecuteScalar() + "";
@@ -194,6 +226,8 @@ namespace VehicleGrabberCore.Exporter
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
                     Count = Convert.ToInt32(cmd.ExecuteScalar() + "");

@@ -56,70 +56,98 @@ namespace VehicleGrabberCore.Exporter
 
         public void Insert_CarMaker(MakerObj maker)
         {
-            string query = string.Format("INSERT INTO {0} (name, url, logo) VALUES (@name, @url, @logo)",
-                MySQLExporter.MAKER_TABLE);
-
-
-            System.IO.FileStream fs = new FileStream(maker.MakerLogoLocalFile, FileMode.Open);
-            System.IO.BufferedStream bf = new BufferedStream(fs);
-            byte[] buffer = new byte[bf.Length];
-            bf.Read(buffer, 0, buffer.Length);
-
-            byte[] buffer_new = buffer;
-
-            //open connection
-            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+            try
             {
-                //create command and assign the query and connection from the constructor
-                MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
-
-                cmd.Parameters.AddWithValue("@name", maker.MakerName);
-                cmd.Parameters.AddWithValue("@url", string.Empty);
-                cmd.Parameters.AddWithValue("@logo", buffer_new);
+                string query = string.Format("INSERT INTO {0} (name, url, logo) VALUES (@name, @url, @logo)",
+                    MySQLExporter.MAKER_TABLE);
 
 
-                //Execute command
-                cmd.ExecuteNonQuery();
+                System.IO.FileStream fs = new FileStream(maker.MakerLogoLocalFile, FileMode.Open);
+                System.IO.BufferedStream bf = new BufferedStream(fs);
+                byte[] buffer = new byte[bf.Length];
+                bf.Read(buffer, 0, buffer.Length);
 
-                //close connection
-                _mySqlExporter.CloseConnection();
+                byte[] buffer_new = buffer;
+
+                //open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+                {
+                    //create command and assign the query and connection from the constructor
+                    MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.Parameters.AddWithValue("@name", maker.MakerName);
+                    cmd.Parameters.AddWithValue("@url", string.Empty);
+                    cmd.Parameters.AddWithValue("@logo", buffer_new);
+
+
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarMaker::Insert_CarMaker : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarMaker::Insert_CarMaker", ex);
+                }
             }
         }
 
         public void Update_CarMaker(long id, MakerObj maker)
         {
-            string query = string.Format("UPDATE {0} SET name=@name, url=@url, logo=@logo WHERE id = {1};",
-                MySQLExporter.MAKER_TABLE,
-                id);
-
-            System.IO.FileStream fs = new FileStream(maker.MakerLogoLocalFile, FileMode.Open);
-            System.IO.BufferedStream bf = new BufferedStream(fs);
-            byte[] buffer = new byte[bf.Length];
-            bf.Read(buffer, 0, buffer.Length);
-
-            byte[] buffer_new = buffer;
-
-            //Open connection
-            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+            try
             {
-                //create mysql command
-                MySqlCommand cmd = new MySqlCommand
+                string query = string.Format("UPDATE {0} SET name=@name, url=@url, logo=@logo WHERE id = {1};",
+                    MySQLExporter.MAKER_TABLE,
+                    id);
+
+                System.IO.FileStream fs = new FileStream(maker.MakerLogoLocalFile, FileMode.Open);
+                System.IO.BufferedStream bf = new BufferedStream(fs);
+                byte[] buffer = new byte[bf.Length];
+                bf.Read(buffer, 0, buffer.Length);
+
+                byte[] buffer_new = buffer;
+
+                //Open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
-                    CommandText = query,
-                    Connection = _mySqlExporter.connection
-                };
-                //Assign the query using CommandText
-                //Assign the connection using Connection
+                    //create mysql command
+                    MySqlCommand cmd = new MySqlCommand
+                    {
+                        CommandText = query,
+                        Connection = _mySqlExporter.connection
+                    };
+                    //Assign the query using CommandText
+                    //Assign the connection using Connection
 
-                cmd.Parameters.AddWithValue("@name", maker.MakerName);
-                cmd.Parameters.AddWithValue("@url", string.Empty);
-                cmd.Parameters.AddWithValue("@logo", buffer_new);
+                    cmd.Parameters.AddWithValue("@name", maker.MakerName);
+                    cmd.Parameters.AddWithValue("@url", string.Empty);
+                    cmd.Parameters.AddWithValue("@logo", buffer_new);
 
-                //Execute query
-                cmd.ExecuteNonQuery();
+                    //Execute query
+                    cmd.ExecuteNonQuery();
 
-                //close connection
-                _mySqlExporter.CloseConnection();
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarMaker::Update_CarMaker : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarMaker::Update_CarMaker", ex);
+                }
             }
         }
 
@@ -136,6 +164,8 @@ namespace VehicleGrabberCore.Exporter
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
                     var retVal = cmd.ExecuteScalar();
@@ -176,6 +206,8 @@ namespace VehicleGrabberCore.Exporter
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandText = query;
 
                     //ExecuteScalar will return one value
                     Count = Convert.ToInt32(cmd.ExecuteScalar() + "");

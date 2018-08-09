@@ -129,6 +129,7 @@ namespace VehicleGrabberGUI
             catch (Exception ex)
             {
                 // do nothing here
+                string msg = ex.Message;
             }
         }
 
@@ -175,7 +176,9 @@ namespace VehicleGrabberGUI
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
-            if(Core != null)
+            bwExport.RunWorkerAsync();
+            /*
+            if (Core != null)
             {
                 this.UpdateConfiguration();
 
@@ -189,7 +192,10 @@ namespace VehicleGrabberGUI
                     Core.ExportToMySQL();
                 }
             }
+            */
         }
+
+
         void WriteLinetoLogWindow(string logLine)
         {
             if (InvokeRequired)
@@ -257,6 +263,7 @@ namespace VehicleGrabberGUI
 
 
 
+#pragma warning disable IDE1006 // Naming Styles
         private void edtMySQLPort_Validated(object sender, EventArgs e)
         {
             this.UpdateConfiguration();
@@ -317,5 +324,135 @@ namespace VehicleGrabberGUI
         {
 
         }
+
+        private void bwExport_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (bwImport.CancellationPending)
+            {
+                // Set the e.Cancel flag so that the WorkerCompleted event
+                // knows that the process was cancelled.
+                e.Cancel = true;
+                bwImport.ReportProgress(0);
+                return;
+            }
+
+            try
+            {
+                if (Core != null)
+                {
+                    this.UpdateConfiguration();
+
+                    if (this.Core.Conf.ExportCSV)
+                    {
+                        Core.ExportToCSV();
+                    }
+
+                    if (this.Core.Conf.ExportMySQL)
+                    {
+                        Core.ExportToMySQL();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void bwExport_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            toolProgressBar.Value = e.ProgressPercentage;
+            toollblStatus.Text = "Processing......" + toolProgressBar.Value.ToString() + "%";
+
+            UpdateStatus();
+        }
+
+        private void bwExport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                tooledtMakers.Text = Core.Importer.MakersList.Count.ToString();
+                tooledtModels.Text = Core.Importer.modelsList.Count.ToString();
+                tooledtModelTypes.Text = Core.Importer.modelTypesList.Count.ToString();
+                tooledtCars.Text = Core.Importer.carDetailsList.Count.ToString();
+            }
+            catch (Exception ex)
+            {
+                // do nothing here
+                string msg = ex.Message;
+            }
+        }
+
+        private void mnuClearLog_Click(object sender, EventArgs e)
+        {
+            this.Core.Log.ClearLog();
+            this.lbLogWindow.Items.Clear();
+            this.Core.Log.GetLogLines();
+        }
+
+        private void mnuSelectAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < this.lbLogWindow.Items.Count; i++)
+            {
+                this.lbLogWindow.SetSelected(i, true);
+            }
+        }
+
+        private void mnuLogInfo_Click(object sender, EventArgs e)
+        {
+            this.Core.Conf.ShowLogInfo = this.mnuLogInfo.Checked;
+
+            RefreshLogWindow();
+        }
+
+        private void mnuLogWarning_Click(object sender, EventArgs e)
+        {
+            this.Core.Conf.ShowLogWarning = this.mnuLogWarning.Checked;
+
+            RefreshLogWindow();
+        }
+
+        private void mnuLogError_Click(object sender, EventArgs e)
+        {
+            this.Core.Conf.ShowLogError = this.mnuLogError.Checked;
+
+            RefreshLogWindow();
+        }
+
+        private void mnuFatal_Click(object sender, EventArgs e)
+        {
+            this.Core.Conf.ShowLogFatal = this.mnuFatal.Checked;
+
+            RefreshLogWindow();
+        }
+
+        private void mnuDebug_Click(object sender, EventArgs e)
+        {
+            this.Core.Conf.ShowLogDebug = this.mnuDebug.Checked;
+            
+            RefreshLogWindow();
+        }
+
+        /// <summary>
+        /// Refresh Log window lines
+        /// </summary>
+        private void RefreshLogWindow()
+        {
+            this.lbLogWindow.Items.Clear();
+            foreach (string line in this.Core.Log.GetLogLines())
+            {
+                this.lbLogWindow.Items.Add(line);
+                //this.lbLogWindow.SelectedIndex = this.lbLogWindow.Items.Count - 1;
+            }
+            this.lbLogWindow.SelectedIndex = this.lbLogWindow.Items.Count - 1;
+        }
+
+
+        private void mnuSaveToFile_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+#pragma warning restore IDE1006 // Naming Styles

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnStart = new System.Windows.Forms.Button();
             this.grpSource = new System.Windows.Forms.GroupBox();
             this.rbAutomobilio = new System.Windows.Forms.RadioButton();
@@ -79,6 +80,17 @@
             this.edtMySQLServer = new System.Windows.Forms.TextBox();
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
+            this.bwExport = new System.ComponentModel.BackgroundWorker();
+            this.mnuContextLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuClearLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuShowTypes = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogWarning = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogError = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFatal = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDebug = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -91,10 +103,12 @@
             this.tabConfigCSV.SuspendLayout();
             this.tabConfigMySQL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).BeginInit();
+            this.mnuContextLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
             // 
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStart.Location = new System.Drawing.Point(986, 14);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(97, 23);
@@ -226,6 +240,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(986, 36);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
@@ -236,6 +251,7 @@
             // 
             // btnExport
             // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Location = new System.Drawing.Point(986, 58);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(97, 23);
@@ -320,6 +336,7 @@
             this.lbLogWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbLogWindow.ContextMenuStrip = this.mnuContextLog;
             this.lbLogWindow.FormattingEnabled = true;
             this.lbLogWindow.HorizontalScrollbar = true;
             this.lbLogWindow.Location = new System.Drawing.Point(6, 6);
@@ -602,6 +619,7 @@
             // 
             // btnLoadConfig
             // 
+            this.btnLoadConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadConfig.Location = new System.Drawing.Point(986, 103);
             this.btnLoadConfig.Name = "btnLoadConfig";
             this.btnLoadConfig.Size = new System.Drawing.Size(97, 23);
@@ -612,6 +630,7 @@
             // 
             // btnSaveConfig
             // 
+            this.btnSaveConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveConfig.Location = new System.Drawing.Point(986, 128);
             this.btnSaveConfig.Name = "btnSaveConfig";
             this.btnSaveConfig.Size = new System.Drawing.Size(97, 23);
@@ -619,6 +638,109 @@
             this.btnSaveConfig.Text = "Save Config";
             this.btnSaveConfig.UseVisualStyleBackColor = true;
             this.btnSaveConfig.Click += new System.EventHandler(this.btnSaveConfig_Click);
+            // 
+            // bwExport
+            // 
+            this.bwExport.WorkerReportsProgress = true;
+            this.bwExport.WorkerSupportsCancellation = true;
+            this.bwExport.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwExport_DoWork);
+            this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
+            this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
+            // 
+            // mnuContextLog
+            // 
+            this.mnuContextLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuClearLog,
+            this.mnuSelectAll,
+            this.mnuShowTypes,
+            this.mnuSaveToFile});
+            this.mnuContextLog.Name = "mnuContextLog";
+            this.mnuContextLog.Size = new System.Drawing.Size(181, 114);
+            // 
+            // mnuClearLog
+            // 
+            this.mnuClearLog.Name = "mnuClearLog";
+            this.mnuClearLog.Size = new System.Drawing.Size(180, 22);
+            this.mnuClearLog.Text = "Clear Log";
+            this.mnuClearLog.Click += new System.EventHandler(this.mnuClearLog_Click);
+            // 
+            // mnuSelectAll
+            // 
+            this.mnuSelectAll.Name = "mnuSelectAll";
+            this.mnuSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.mnuSelectAll.Text = "Select All";
+            this.mnuSelectAll.Visible = false;
+            this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
+            // 
+            // mnuShowTypes
+            // 
+            this.mnuShowTypes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLogInfo,
+            this.mnuLogWarning,
+            this.mnuLogError,
+            this.mnuFatal,
+            this.mnuDebug});
+            this.mnuShowTypes.Name = "mnuShowTypes";
+            this.mnuShowTypes.Size = new System.Drawing.Size(180, 22);
+            this.mnuShowTypes.Text = "Show Types";
+            // 
+            // mnuLogInfo
+            // 
+            this.mnuLogInfo.Checked = true;
+            this.mnuLogInfo.CheckOnClick = true;
+            this.mnuLogInfo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuLogInfo.Name = "mnuLogInfo";
+            this.mnuLogInfo.Size = new System.Drawing.Size(180, 22);
+            this.mnuLogInfo.Text = "Information";
+            this.mnuLogInfo.Click += new System.EventHandler(this.mnuLogInfo_Click);
+            // 
+            // mnuLogWarning
+            // 
+            this.mnuLogWarning.Checked = true;
+            this.mnuLogWarning.CheckOnClick = true;
+            this.mnuLogWarning.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuLogWarning.Name = "mnuLogWarning";
+            this.mnuLogWarning.Size = new System.Drawing.Size(180, 22);
+            this.mnuLogWarning.Text = "Warnings";
+            this.mnuLogWarning.Click += new System.EventHandler(this.mnuLogWarning_Click);
+            // 
+            // mnuLogError
+            // 
+            this.mnuLogError.Checked = true;
+            this.mnuLogError.CheckOnClick = true;
+            this.mnuLogError.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuLogError.Name = "mnuLogError";
+            this.mnuLogError.Size = new System.Drawing.Size(180, 22);
+            this.mnuLogError.Text = "Errors";
+            this.mnuLogError.Click += new System.EventHandler(this.mnuLogError_Click);
+            // 
+            // mnuFatal
+            // 
+            this.mnuFatal.Checked = true;
+            this.mnuFatal.CheckOnClick = true;
+            this.mnuFatal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuFatal.Name = "mnuFatal";
+            this.mnuFatal.Size = new System.Drawing.Size(180, 22);
+            this.mnuFatal.Text = "Fatal";
+            this.mnuFatal.Click += new System.EventHandler(this.mnuFatal_Click);
+            // 
+            // mnuDebug
+            // 
+            this.mnuDebug.Checked = true;
+            this.mnuDebug.CheckOnClick = true;
+            this.mnuDebug.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuDebug.Name = "mnuDebug";
+            this.mnuDebug.Size = new System.Drawing.Size(180, 22);
+            this.mnuDebug.Text = "Debug";
+            this.mnuDebug.Click += new System.EventHandler(this.mnuDebug_Click);
+            // 
+            // mnuSaveToFile
+            // 
+            this.mnuSaveToFile.Name = "mnuSaveToFile";
+            this.mnuSaveToFile.Size = new System.Drawing.Size(180, 22);
+            this.mnuSaveToFile.Text = "Save To File";
+            this.mnuSaveToFile.Visible = false;
+            this.mnuSaveToFile.Click += new System.EventHandler(this.mnuSaveToFile_Click);
             // 
             // VehicleGrabber
             // 
@@ -654,6 +776,7 @@
             this.tabConfigMySQL.ResumeLayout(false);
             this.tabConfigMySQL.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).EndInit();
+            this.mnuContextLog.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -711,6 +834,17 @@
         private System.Windows.Forms.Button btnSaveConfig;
         private System.Windows.Forms.CheckBox chkMySQLSSLEnabled;
         internal System.ComponentModel.BackgroundWorker bwImport;
+        internal System.ComponentModel.BackgroundWorker bwExport;
+        private System.Windows.Forms.ContextMenuStrip mnuContextLog;
+        private System.Windows.Forms.ToolStripMenuItem mnuClearLog;
+        private System.Windows.Forms.ToolStripMenuItem mnuSelectAll;
+        private System.Windows.Forms.ToolStripMenuItem mnuShowTypes;
+        private System.Windows.Forms.ToolStripMenuItem mnuLogInfo;
+        private System.Windows.Forms.ToolStripMenuItem mnuLogWarning;
+        private System.Windows.Forms.ToolStripMenuItem mnuLogError;
+        private System.Windows.Forms.ToolStripMenuItem mnuFatal;
+        private System.Windows.Forms.ToolStripMenuItem mnuDebug;
+        private System.Windows.Forms.ToolStripMenuItem mnuSaveToFile;
     }
 }
 
