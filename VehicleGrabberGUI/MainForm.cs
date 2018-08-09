@@ -20,19 +20,21 @@ namespace VehicleGrabberGUI
 
         public VehicleGrabber()
         {
+            //string appDir = GetAppPath(Assembly.GetExecutingAssembly().Location);
+            string appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VGCore.COMPANY_DIR, VGCore.APPNAME);
+            configFileName = Path.Combine(appDataDir, VGCore.DEFAULT_CONFIG_FILE_NAME);
+
+
+            Directory.CreateDirectory(appDataDir);
+
+            this.Core = new VGCore(configFileName);
+
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
             this.writeLinetoLogWindowDelegate = new WriteLinetoLogWindowDelegate(this.WriteLinetoLogWindow);
 
 
-            //string appDir = GetAppPath(Assembly.GetExecutingAssembly().Location);
-            string appDataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), VGCore.COMPANY_DIR, VGCore.APPNAME);
-            configFileName = Path.Combine(appDataDir, VGCore.DEFAULT_CONFIG_FILE_NAME);
-
-                      
-            Directory.CreateDirectory(appDataDir);
-
-            this.Core = new VGCore(configFileName);
+           
 
             this.Core.TriggerLogLine = this.WriteLinetoLogWindow;
             this.Core.UpdateTriggerLogLine();

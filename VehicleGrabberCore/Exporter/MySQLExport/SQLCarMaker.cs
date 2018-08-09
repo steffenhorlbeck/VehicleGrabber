@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -7,14 +8,17 @@ using VehicleGrabberCore.DataObjects;
 using VehicleGrabberCore.Exporter;
 
 namespace VehicleGrabberCore.Exporter
-{
+{    
     class SQLCarMaker
     {
         private static MySQLExporter _mySqlExporter;
 
+        private static VGCore Core { get; set; }
+
         public SQLCarMaker(MySQLExporter mySqlExporter)
         {
             _mySqlExporter = mySqlExporter;
+            Core = mySqlExporter.Core;
         }
 
         public void Add_CarMakers()
@@ -23,19 +27,29 @@ namespace VehicleGrabberCore.Exporter
             {
                 try
                 {
-                    if (!MakerExists(maker.MakerName))
+                    //if (!MakerExists(maker.MakerName))
+                    long id = GetMakerId(maker.MakerName);
+                    if(id == -1)
                     {
                         Insert_CarMaker(maker);
                     }
                     else
                     {
-                        Update_CarMaker(maker);
+                        Update_CarMaker(id, maker);
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("SQLCarMaker::Add_CarMakers", ex);
+                    if (Core != null && Core.Log != null)
+                    {
+                        Core.Log.Error(string.Format("SQLCarMaker::Add_CarMakers", ex));
+                    }
+                    else
+                    {
+                        //throw new Exception("SQLCarMaker::Add_CarMakers", ex);
+                    }
+                    
                 }
             }
         }
@@ -54,7 +68,7 @@ namespace VehicleGrabberCore.Exporter
             byte[] buffer_new = buffer;
 
             //open connection
-            if (_mySqlExporter.OpenConnection() == true)
+            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
             {
                 //create command and assign the query and connection from the constructor
                 MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
@@ -72,11 +86,11 @@ namespace VehicleGrabberCore.Exporter
             }
         }
 
-        public void Update_CarMaker(MakerObj maker)
+        public void Update_CarMaker(long id, MakerObj maker)
         {
-            string query = string.Format("UPDATE {0} SET name=@name, url=@url, logo=@logo WHERE name LIKE '{1}'",
+            string query = string.Format("UPDATE {0} SET name=@name, url=@url, logo=@logo WHERE id = {1};",
                 MySQLExporter.MAKER_TABLE,
-                maker.MakerName);
+                id);
 
             System.IO.FileStream fs = new FileStream(maker.MakerLogoLocalFile, FileMode.Open);
             System.IO.BufferedStream bf = new BufferedStream(fs);
@@ -86,7 +100,7 @@ namespace VehicleGrabberCore.Exporter
             byte[] buffer_new = buffer;
 
             //Open connection
-            if (_mySqlExporter.OpenConnection() == true)
+            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
             {
                 //create mysql command
                 MySqlCommand cmd = new MySqlCommand
@@ -109,21 +123,23 @@ namespace VehicleGrabberCore.Exporter
             }
         }
 
-        public static int GetMakerId(string name)
+        public static long GetMakerId(string name)
         {
+            long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name LIKE '{1}'", MySQLExporter.MAKER_TABLE, name);
-                int id = -1;
+                string query = string.Format("SELECT id FROM {0} WHERE upper(name) LIKE '{1}'", MySQLExporter.MAKER_TABLE, name.ToUpper());
+                
 
                 //Open Connection
-                if (_mySqlExporter.OpenConnection() == true)
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
                     //ExecuteScalar will return one value
-                    id = int.Parse(cmd.ExecuteScalar() + "");
+                    var retVal = cmd.ExecuteScalar();
+                    id = retVal == null ? -1 : Convert.ToInt32(retVal);
 
                     //close Connection
                     _mySqlExporter.CloseConnection();
@@ -133,7 +149,15 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-                throw new Exception("SQLCarMaker::GetMakerId", ex);
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarMaker::GetMakerId", ex));
+                }
+                else
+                {
+                    throw new Exception("SQLCarMaker::GetMakerId", ex);
+                }
+                return id;
             }
 
         }
@@ -143,18 +167,18 @@ namespace VehicleGrabberCore.Exporter
             bool result = false;
             try
             {
-                string query = string.Format("SELECT Count(*) FROM {0} WHERE name LIKE '{1}'", MySQLExporter.MAKER_TABLE,
-                    maker);
+                string query = string.Format("SELECT Count(*) FROM {0} WHERE upper(name) LIKE '{1}'", MySQLExporter.MAKER_TABLE,
+                    maker.ToUpper());
                 int Count = -1;
 
                 //Open Connection
-                if (_mySqlExporter.OpenConnection() == true)
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
                     //ExecuteScalar will return one value
-                    Count = int.Parse(cmd.ExecuteScalar() + "");
+                    Count = Convert.ToInt32(cmd.ExecuteScalar() + "");
 
                     //close Connection
                     _mySqlExporter.CloseConnection();
@@ -169,7 +193,16 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-                throw new Exception("SQLCarMaker::MakerExists", ex);
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarMaker::MakerExists", ex));
+                }
+                else
+                {
+                    throw new Exception("SQLCarMaker::MakerExists", ex);
+                }
+
+                return result;
             }
         }
     }

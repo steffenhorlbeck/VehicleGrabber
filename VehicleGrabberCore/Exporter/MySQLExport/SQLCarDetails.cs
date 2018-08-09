@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using MySql.Data.MySqlClient;
 using VehicleGrabberCore.DataObjects;
@@ -11,9 +12,12 @@ namespace VehicleGrabberCore.Exporter
     {
         private MySQLExporter _mySqlExporter;
 
+        private VGCore Core { get; set; }
+
         public SQLCarDetails(MySQLExporter mySqlExporter)
         {
             _mySqlExporter = mySqlExporter;
+            Core = mySqlExporter.Core;
         }
 
         public void Add_CarDetails()
@@ -40,7 +44,15 @@ namespace VehicleGrabberCore.Exporter
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("SQLCarDetails::Add_CarDetails", ex);
+                    if (Core != null && Core.Log != null)
+                    {
+                        Core.Log.Error(string.Format("SQLCarDetails::Add_CarDetails", ex));
+                    }
+                    else
+                    {
+                        throw new Exception("SQLCarDetails::Add_CarDetails", ex);
+                    }
+                    
                 }
             }
         }
@@ -63,7 +75,7 @@ namespace VehicleGrabberCore.Exporter
 
 
             //open connection
-            if (_mySqlExporter.OpenConnection() == true)
+            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
             {
                 //create command and assign the query and connection from the constructor
                 MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
@@ -141,7 +153,7 @@ namespace VehicleGrabberCore.Exporter
 
 
             //Open connection
-            if (_mySqlExporter.OpenConnection() == true)
+            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
             {
                 //create mysql command
                 MySqlCommand cmd = new MySqlCommand
@@ -166,22 +178,23 @@ namespace VehicleGrabberCore.Exporter
 
         public long GetCarDetailsId(string maker, string model, string type, string series)
         {
+            long id = -1;
             try
             {
                 string query = string.Format(
                     "SELECT id FROM {0} WHERE maker LIKE '{1}' AND mode LIKE '{2}' AND type LIKE '{3}' AND series LIKE '{4}'",
                     MySQLExporter.MODELTYPE_TABLE,
                     maker, model, type, series);
-                int id = -1;
 
                 //Open Connection
-                if (_mySqlExporter.OpenConnection() == true)
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
                     //ExecuteScalar will return one value
-                    id = int.Parse(cmd.ExecuteScalar() + "");
+                    var retVal = cmd.ExecuteScalar() + "";
+                    id = retVal == null ? -1 : Convert.ToInt32(retVal);
 
                     //close Connection
                     _mySqlExporter.CloseConnection();
@@ -192,7 +205,16 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-                throw new Exception("SQLCarDetails::GetCarDetailsId", ex);
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarDetails::GetCarDetailsId", ex));
+                }
+                else
+                {
+                    throw new Exception("SQLCarDetails::GetCarDetailsId", ex);
+                }
+
+                return id;
             }
         }
 
@@ -268,13 +290,13 @@ namespace VehicleGrabberCore.Exporter
                 int Count = -1;
 
                 //Open Connection
-                if (_mySqlExporter.OpenConnection() == true)
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
                     //ExecuteScalar will return one value
-                    Count = int.Parse(cmd.ExecuteScalar() + "");
+                    Count = Convert.ToInt32(cmd.ExecuteScalar() + "");
 
                     //close Connection
                     _mySqlExporter.CloseConnection();
@@ -289,7 +311,16 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-                throw new Exception("SQLCarDetails::CarDetailsExists", ex);
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarDetails::CarDetailsExists", ex));
+                }
+                else
+                {
+                    throw new Exception("SQLCarDetails::CarDetailsExists", ex);
+                }
+
+                return result;
             }
         }
     }

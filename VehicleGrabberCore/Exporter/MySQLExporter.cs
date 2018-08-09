@@ -34,7 +34,9 @@ namespace VehicleGrabberCore.Exporter
 
         public VGCore Core { get; set; }
 
-        public MySQLExporter(List<MakerObj> MakerObjObjects, List<ModelObj> modelsObjects, List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string server = "megraso.de", int port = 3306, string user = "h26346_cardata", string password = "1Master!01")
+        public MySQLExporter(VGCore core, List<MakerObj> MakerObjObjects, List<ModelObj> modelsObjects,
+            List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string server = "megraso.de",
+            int port = 3306, string user = "h26346_cardata", string password = "1Master!01")
         {
             this.SQLServer = server;
             this.SQLPort = port;
@@ -46,10 +48,15 @@ namespace VehicleGrabberCore.Exporter
             this.modelTypeObjList = modelTypesObjects;
             this.carDetailsObjList = carDetailsObjects;
 
+            this.Core = core;
+
             Initialize();
             _sqlCarMaker = new SQLCarMaker(this);
+
             _sqlCarModel = new SQLCarModel(this);
+
             _sqlCarModelType = new SQLCarModelType(this);
+
             _sqlCarDetail = new SQLCarDetails(this);
 
         }
@@ -80,15 +87,29 @@ namespace VehicleGrabberCore.Exporter
                 //The two most common error numbers when connecting are as follows:
                 //0: Cannot connect to server.
                 //1045: Invalid user name and/or password.
-                switch (ex.Number)
-                {
-                    case 0:
-                        throw new Exception("MySQLExporter::OpenConnection", ex);                        
 
-                    case 1045:
-                        throw new Exception("MySQLExporter::OpenConnection", ex); //wrong username or password
+                //switch (ex.Number)
+                //{
+                //    case 0:
+                        if (this.Core != null && this.Core.Log != null)
+                        {
+                            this.Core.Log.Error(string.Format("MySQLExporter::OpenConnection", ex));
+                        }
+                        else
+                        {
+                            throw new Exception("MySQLExporter::OpenConnection", ex);
+                        }
 
-                }
+                /*    case 1045:
+                        if (this.Core != null && this.Core.Log != null)
+                        {
+                            this.Core.Log.Error(string.Format("MySQLExporter::OpenConnection", ex));
+                        }
+                        else
+                        {
+                            throw new Exception("MySQLExporter::OpenConnection", ex); //wrong username or password
+                        }
+                }*/
                 return false;
             }
         }
@@ -103,12 +124,20 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (MySqlException ex)
             {
-                throw new Exception("MySQLExporter::CloseConnection", ex);
+                if (this.Core != null && this.Core.Log != null)
+                {
+                    this.Core.Log.Error(string.Format("MySQLExporter::CloseConnection", ex));
+                }
+                else
+                {
+                    throw new Exception("MySQLExporter::CloseConnection", ex);
+                }
+                return false;
             }
         }
 
         public void HandleMakers()
-        {
+        {            
             _sqlCarMaker.Add_CarMakers();
         }
 
@@ -127,9 +156,9 @@ namespace VehicleGrabberCore.Exporter
             _sqlCarDetail.Add_CarDetails();
         }
 
-        public int GetMakerID(string name)
+        public long GetMakerID(string name)
         {
-            int id = SQLCarMaker.GetMakerId(name);
+            long id = SQLCarMaker.GetMakerId(name);
             return id;
         }
 
@@ -205,7 +234,7 @@ namespace VehicleGrabberCore.Exporter
                 MySqlCommand cmd = new MySqlCommand(query, connection);
 
                 //ExecuteScalar will return one value
-                Count = int.Parse(cmd.ExecuteScalar() + "");
+                Count = Convert.ToInt32(cmd.ExecuteScalar() + "");
 
                 //close Connection
                 this.CloseConnection();

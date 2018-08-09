@@ -18,6 +18,8 @@ namespace VehicleGrabberCore.Importer
         public List<ModelTypeObj> modelTypesList = new List<ModelTypeObj>();
         public List<CarDetailsObj> carDetailsList = new List<CarDetailsObj>();
 
+        public VGCore Core { get; set; }
+
         public enum ImporterType
         {
             ADAC,

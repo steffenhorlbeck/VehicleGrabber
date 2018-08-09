@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,12 @@ namespace VehicleGrabberCore.Exporter
     {
         private static MySQLExporter _mySqlExporter;
 
+        private static VGCore Core { get; set; }
+
         public SQLCarModelType(MySQLExporter mySqlExporter)
         {
             _mySqlExporter = mySqlExporter;
+            Core = mySqlExporter.Core;
         }
 
         public void Add_CarModelTypes()
@@ -39,7 +43,15 @@ namespace VehicleGrabberCore.Exporter
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("SQLCarModelType::Add_CarModelTypes", ex);
+                    if (Core != null && Core.Log != null)
+                    {
+                        Core.Log.Error(string.Format("SQLCarModelType::Add_CarModelTypes", ex));
+                    }
+                    else
+                    {
+                        throw new Exception("SQLCarModelType::Add_CarModelTypes", ex);
+                    }
+                    
                 }
             }
         }
@@ -53,7 +65,7 @@ namespace VehicleGrabberCore.Exporter
 
 
             //open connection
-            if (_mySqlExporter.OpenConnection() == true)
+            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
             {
                 //create command and assign the query and connection from the constructor
                 MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
@@ -90,7 +102,7 @@ namespace VehicleGrabberCore.Exporter
 
 
             //Open connection
-            if (_mySqlExporter.OpenConnection() == true)
+            if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
             {
                 //create mysql command
                 MySqlCommand cmd = new MySqlCommand
@@ -121,13 +133,14 @@ namespace VehicleGrabberCore.Exporter
                 //int Count = -1;
 
                 //Open Connection
-                if (_mySqlExporter.OpenConnection() == true)
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
                     //ExecuteScalar will return one value
-                    id = int.Parse(cmd.ExecuteScalar() + "");
+                    var retVal = cmd.ExecuteScalar() + "";
+                    id = retVal == null ? -1 : Convert.ToInt32(retVal);
 
                     //close Connection
                     _mySqlExporter.CloseConnection();
@@ -137,7 +150,16 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-                throw new Exception("SQLCarModelType::ModelTypeExists", ex);
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarModelType::ModelTypeExists", ex));
+                }
+                else
+                {
+                    throw new Exception("SQLCarModelType::ModelTypeExists", ex);
+                }
+
+                return id;
             }
         }
 
@@ -168,13 +190,13 @@ namespace VehicleGrabberCore.Exporter
                 int Count = -1;
 
                 //Open Connection
-                if (_mySqlExporter.OpenConnection() == true)
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
                 {
                     //Create Mysql Command
                     MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
 
                     //ExecuteScalar will return one value
-                    Count = int.Parse(cmd.ExecuteScalar() + "");
+                    Count = Convert.ToInt32(cmd.ExecuteScalar() + "");
 
                     //close Connection
                     _mySqlExporter.CloseConnection();
@@ -189,7 +211,16 @@ namespace VehicleGrabberCore.Exporter
             }
             catch (Exception ex)
             {
-                throw new Exception("SQLCarModelType::ModelTypeExists", ex);
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarModelType::ModelTypeExists", ex));
+                }
+                else
+                {
+                    throw new Exception("SQLCarModelType::ModelTypeExists", ex);
+                }
+
+                return result;
             }
         }
     }

@@ -233,7 +233,7 @@ namespace VehicleGrabberCore.Importer
                                 .First().Value;
                             typeObj.ModelTypeName = node.ChildNodes[5].InnerText.Trim();
                             typeObj.ModelTypeChassis = node.ChildNodes[7].InnerText.Trim();
-                            typeObj.ModelTypeDoors = int.Parse(node.ChildNodes[9].InnerText.Trim());
+                            typeObj.ModelTypeDoors = Convert.ToInt32(node.ChildNodes[9].InnerText.Trim());
                             typeObj.ModelTypeFuel = node.ChildNodes[11].InnerText.Trim();
                             typeObj.ModelTypePower = node.ChildNodes[13].InnerText.Trim();
                             typeObj.ModelTypeCubic = node.ChildNodes[17].InnerText.Trim();
@@ -329,16 +329,16 @@ namespace VehicleGrabberCore.Importer
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[3].ChildNodes[1].InnerText);
                         carObj.EngineDesign =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[4].ChildNodes[1].InnerText);
-                        carObj.Cylinder = int.Parse(carEngine_div.First().ChildNodes[5].ChildNodes[1].InnerText);
+                        carObj.Cylinder = Convert.ToInt32(carEngine_div.First().ChildNodes[5].ChildNodes[1].InnerText);
                         carObj.FuelType =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[6].ChildNodes[1].InnerText);
                         carObj.Charge =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[7].ChildNodes[1].InnerText);
-                        carObj.Valves = int.Parse(carEngine_div.First().ChildNodes[8].ChildNodes[1].InnerText);
+                        carObj.Valves = Convert.ToInt32(carEngine_div.First().ChildNodes[8].ChildNodes[1].InnerText);
                         carObj.Cubic =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[9].ChildNodes[1].InnerText);
-                        carObj.PowerKW = int.Parse(carEngine_div.First().ChildNodes[10].ChildNodes[1].InnerText);
-                        carObj.PowerPS = int.Parse(carEngine_div.First().ChildNodes[11].ChildNodes[1].InnerText);
+                        carObj.PowerKW = Convert.ToInt32(carEngine_div.First().ChildNodes[10].ChildNodes[1].InnerText);
+                        carObj.PowerPS = Convert.ToInt32(carEngine_div.First().ChildNodes[11].ChildNodes[1].InnerText);
                         carObj.MaxPower =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[12].ChildNodes[1].InnerText);
                         carObj.TurningMoment =
@@ -349,7 +349,7 @@ namespace VehicleGrabberCore.Importer
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[15].ChildNodes[1].InnerText);
                         carObj.Gearing =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[16].ChildNodes[1].InnerText);
-                        carObj.Gears = int.Parse(carEngine_div.First().ChildNodes[17].ChildNodes[1].InnerText);
+                        carObj.Gears = Convert.ToInt32(carEngine_div.First().ChildNodes[17].ChildNodes[1].InnerText);
                         carObj.StartStopAutomatic =
                             HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[18].ChildNodes[1].InnerText);
                         carObj.EmissionClass =
@@ -382,10 +382,10 @@ namespace VehicleGrabberCore.Importer
                     {
                         carObj.Chassis =
                             HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[0].ChildNodes[1].InnerText);
-                        carObj.Doors = int.Parse(carChassis_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                        carObj.Doors = Convert.ToInt32(carChassis_div.First().ChildNodes[1].ChildNodes[1].InnerText);
                         carObj.CarClass =
                             HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[3].ChildNodes[1].InnerText);
-                        carObj.Seats = int.Parse(carChassis_div.First().ChildNodes[4].ChildNodes[1].InnerText);
+                        carObj.Seats = Convert.ToInt32(carChassis_div.First().ChildNodes[4].ChildNodes[1].InnerText);
                     }
 
                     //Messwerte Hersteller

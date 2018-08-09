@@ -70,6 +70,8 @@ namespace VehicleGrabberCore
                 Importer = new AutomobilioImporter();
             }
 
+            Importer.Core = this;
+
             Importer.StartImport(bw);
         }
 
@@ -79,6 +81,7 @@ namespace VehicleGrabberCore
         {
             CSVExporter exporter = new CSVExporter(Importer.MakersList, Importer.modelsList, Importer.modelTypesList, Importer.carDetailsList);
             exporter.Core = this;
+
             exporter.ExportModels();
             if (bw != null) { bw.ReportProgress(10); }
             exporter.ExportModelTypes();
@@ -91,7 +94,7 @@ namespace VehicleGrabberCore
 
         public void ExportToMySQL(BackgroundWorker bw = null)
         {
-            MySQLExporter exporter = new MySQLExporter(Importer.MakersList, Importer.modelsList, Importer.modelTypesList, Importer.carDetailsList);
+            MySQLExporter exporter = new MySQLExporter(this, Importer.MakersList, Importer.modelsList, Importer.modelTypesList, Importer.carDetailsList);
             exporter.HandleMakers();
             if (bw != null) { bw.ReportProgress(10); }
             exporter.HandleModels();
