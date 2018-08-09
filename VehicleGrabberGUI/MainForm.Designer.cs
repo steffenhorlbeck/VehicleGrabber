@@ -48,10 +48,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabWebsite = new System.Windows.Forms.TabPage();
-            this.browser = new System.Windows.Forms.WebBrowser();
-            this.tabSource = new System.Windows.Forms.TabPage();
-            this.tbContent = new System.Windows.Forms.TextBox();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.lbLogWindow = new System.Windows.Forms.ListBox();
             this.grpConfig = new System.Windows.Forms.GroupBox();
@@ -91,11 +87,13 @@
             this.mnuFatal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabBrowser = new System.Windows.Forms.TabPage();
+            this.browser = new System.Windows.Forms.WebBrowser();
+            this.tabSource = new System.Windows.Forms.TabPage();
+            this.tbContent = new System.Windows.Forms.TextBox();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabWebsite.SuspendLayout();
-            this.tabSource.SuspendLayout();
             this.tabLog.SuspendLayout();
             this.grpConfig.SuspendLayout();
             this.tabConfig.SuspendLayout();
@@ -104,6 +102,8 @@
             this.tabConfigMySQL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).BeginInit();
             this.mnuContextLog.SuspendLayout();
+            this.tabBrowser.SuspendLayout();
+            this.tabSource.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -265,60 +265,14 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabWebsite);
-            this.tabControl1.Controls.Add(this.tabSource);
             this.tabControl1.Controls.Add(this.tabLog);
+            this.tabControl1.Controls.Add(this.tabBrowser);
+            this.tabControl1.Controls.Add(this.tabSource);
             this.tabControl1.Location = new System.Drawing.Point(39, 219);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1054, 311);
             this.tabControl1.TabIndex = 9;
-            // 
-            // tabWebsite
-            // 
-            this.tabWebsite.Controls.Add(this.browser);
-            this.tabWebsite.Location = new System.Drawing.Point(4, 22);
-            this.tabWebsite.Name = "tabWebsite";
-            this.tabWebsite.Padding = new System.Windows.Forms.Padding(3);
-            this.tabWebsite.Size = new System.Drawing.Size(1046, 285);
-            this.tabWebsite.TabIndex = 0;
-            this.tabWebsite.Text = "Website";
-            this.tabWebsite.UseVisualStyleBackColor = true;
-            // 
-            // browser
-            // 
-            this.browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.browser.Location = new System.Drawing.Point(3, 6);
-            this.browser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.browser.Name = "browser";
-            this.browser.ScriptErrorsSuppressed = true;
-            this.browser.Size = new System.Drawing.Size(1037, 389);
-            this.browser.TabIndex = 4;
-            // 
-            // tabSource
-            // 
-            this.tabSource.Controls.Add(this.tbContent);
-            this.tabSource.Location = new System.Drawing.Point(4, 22);
-            this.tabSource.Name = "tabSource";
-            this.tabSource.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSource.Size = new System.Drawing.Size(1046, 285);
-            this.tabSource.TabIndex = 1;
-            this.tabSource.Text = "Source";
-            this.tabSource.UseVisualStyleBackColor = true;
-            // 
-            // tbContent
-            // 
-            this.tbContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbContent.Location = new System.Drawing.Point(3, 6);
-            this.tbContent.Multiline = true;
-            this.tbContent.Name = "tbContent";
-            this.tbContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbContent.Size = new System.Drawing.Size(1037, 389);
-            this.tbContent.TabIndex = 5;
             // 
             // tabLog
             // 
@@ -655,19 +609,19 @@
             this.mnuShowTypes,
             this.mnuSaveToFile});
             this.mnuContextLog.Name = "mnuContextLog";
-            this.mnuContextLog.Size = new System.Drawing.Size(181, 114);
+            this.mnuContextLog.Size = new System.Drawing.Size(137, 92);
             // 
             // mnuClearLog
             // 
             this.mnuClearLog.Name = "mnuClearLog";
-            this.mnuClearLog.Size = new System.Drawing.Size(180, 22);
+            this.mnuClearLog.Size = new System.Drawing.Size(136, 22);
             this.mnuClearLog.Text = "Clear Log";
             this.mnuClearLog.Click += new System.EventHandler(this.mnuClearLog_Click);
             // 
             // mnuSelectAll
             // 
             this.mnuSelectAll.Name = "mnuSelectAll";
-            this.mnuSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.mnuSelectAll.Size = new System.Drawing.Size(136, 22);
             this.mnuSelectAll.Text = "Select All";
             this.mnuSelectAll.Visible = false;
             this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
@@ -681,7 +635,7 @@
             this.mnuFatal,
             this.mnuDebug});
             this.mnuShowTypes.Name = "mnuShowTypes";
-            this.mnuShowTypes.Size = new System.Drawing.Size(180, 22);
+            this.mnuShowTypes.Size = new System.Drawing.Size(136, 22);
             this.mnuShowTypes.Text = "Show Types";
             // 
             // mnuLogInfo
@@ -737,20 +691,67 @@
             // mnuSaveToFile
             // 
             this.mnuSaveToFile.Name = "mnuSaveToFile";
-            this.mnuSaveToFile.Size = new System.Drawing.Size(180, 22);
+            this.mnuSaveToFile.Size = new System.Drawing.Size(136, 22);
             this.mnuSaveToFile.Text = "Save To File";
             this.mnuSaveToFile.Visible = false;
             this.mnuSaveToFile.Click += new System.EventHandler(this.mnuSaveToFile_Click);
+            // 
+            // tabBrowser
+            // 
+            this.tabBrowser.Controls.Add(this.browser);
+            this.tabBrowser.Location = new System.Drawing.Point(4, 22);
+            this.tabBrowser.Name = "tabBrowser";
+            this.tabBrowser.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBrowser.Size = new System.Drawing.Size(1046, 285);
+            this.tabBrowser.TabIndex = 3;
+            this.tabBrowser.Text = "Website";
+            this.tabBrowser.UseVisualStyleBackColor = true;
+            this.tabBrowser.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // browser
+            // 
+            this.browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.browser.Location = new System.Drawing.Point(5, 3);
+            this.browser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.browser.Name = "browser";
+            this.browser.ScriptErrorsSuppressed = true;
+            this.browser.Size = new System.Drawing.Size(1037, 276);
+            this.browser.TabIndex = 5;
+            // 
+            // tabSource
+            // 
+            this.tabSource.Controls.Add(this.tbContent);
+            this.tabSource.Location = new System.Drawing.Point(4, 22);
+            this.tabSource.Name = "tabSource";
+            this.tabSource.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSource.Size = new System.Drawing.Size(1046, 285);
+            this.tabSource.TabIndex = 4;
+            this.tabSource.Text = "Source";
+            this.tabSource.UseVisualStyleBackColor = true;
+            // 
+            // tbContent
+            // 
+            this.tbContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbContent.Location = new System.Drawing.Point(5, 6);
+            this.tbContent.Multiline = true;
+            this.tbContent.Name = "tbContent";
+            this.tbContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbContent.Size = new System.Drawing.Size(1037, 273);
+            this.tbContent.TabIndex = 6;
             // 
             // VehicleGrabber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 565);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.btnLoadConfig);
             this.Controls.Add(this.grpConfig);
-            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.statusStrip1);
@@ -763,9 +764,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabWebsite.ResumeLayout(false);
-            this.tabSource.ResumeLayout(false);
-            this.tabSource.PerformLayout();
             this.tabLog.ResumeLayout(false);
             this.grpConfig.ResumeLayout(false);
             this.tabConfig.ResumeLayout(false);
@@ -777,6 +775,9 @@
             this.tabConfigMySQL.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).EndInit();
             this.mnuContextLog.ResumeLayout(false);
+            this.tabBrowser.ResumeLayout(false);
+            this.tabSource.ResumeLayout(false);
+            this.tabSource.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -801,10 +802,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toollblStatus;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabWebsite;
-        private System.Windows.Forms.TabPage tabSource;
-        private System.Windows.Forms.WebBrowser browser;
-        private System.Windows.Forms.TextBox tbContent;
         private System.Windows.Forms.GroupBox grpConfig;
         private System.Windows.Forms.TabPage tabLog;
         public System.Windows.Forms.ListBox lbLogWindow;
@@ -845,6 +842,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnuFatal;
         private System.Windows.Forms.ToolStripMenuItem mnuDebug;
         private System.Windows.Forms.ToolStripMenuItem mnuSaveToFile;
+        private System.Windows.Forms.TabPage tabBrowser;
+        private System.Windows.Forms.WebBrowser browser;
+        private System.Windows.Forms.TabPage tabSource;
+        private System.Windows.Forms.TextBox tbContent;
     }
 }
 

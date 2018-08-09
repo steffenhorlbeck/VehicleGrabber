@@ -13,6 +13,8 @@ namespace VehicleGrabberCore.Importer
     {
         private string startPath = "/infotestrat/autodatenbank/autokatalog/default.aspx";
 
+        private BackgroundWorker bw;
+
         public ADACImporter()
         {
             this.baseUrl = "https://www.adac.de";
@@ -35,9 +37,10 @@ namespace VehicleGrabberCore.Importer
 
         public override void StartImport(BackgroundWorker bw = null)
         {
+            string url = string.Empty;
             try
             {
-                string url = string.Format("{0}{1}{2}", this.baseUrl, this.startPath, this.baseUrlLang);
+                url = string.Format("{0}{1}{2}", this.baseUrl, this.startPath, this.baseUrlLang);
                 this.pageContent = GetContent(url);
                 this.GetMakers();
                 if (bw != null) { bw.ReportProgress(10);}
@@ -48,7 +51,15 @@ namespace VehicleGrabberCore.Importer
             }
             catch (Exception ex)
             {
-                throw new Exception("ADACImporter::ReadPageContent", ex);
+                if (this.Core != null && this.Core.Log != null)
+                {
+                    this.Core.Log.Error(string.Format("ADACImporter::ReadPageContent : {0} (URL:{1})", ex.Message, url));
+                }
+                else
+                {
+                    throw new Exception("ADACImporter::ReadPageContent", ex);
+                }
+
             }
         }
 
@@ -106,9 +117,22 @@ namespace VehicleGrabberCore.Importer
                     }
                     catch (Exception ex)
                     {
-
+                        if (this.Core != null && this.Core.Log != null)
+                        {
+                            this.Core.Log.Error(string.Format("ADACImporter::GetMakers : {0}", ex.Message));
+                        }
+                        else
+                        {
+                            throw new Exception("ADACImporter::GetMakers", ex);
+                        }
                     }
                 }
+
+                if (this.Core != null && this.Core.Log != null)
+                {
+                    this.Core.Log.Info(string.Format("{0} Maker Records imported.", MakersList.Count));
+                }
+
             }
         }
 
@@ -175,15 +199,24 @@ namespace VehicleGrabberCore.Importer
                             System.Threading.Thread.Sleep(500);
 
                             //DEBUG: Break after x number of models
+                            /*
                             if (debug_cnt >= 1)
                             {
                                 break;
                             }
+                            */
 
                         }
                         catch (Exception ex)
                         {
-
+                            if (this.Core != null && this.Core.Log != null)
+                            {
+                                this.Core.Log.Error(string.Format("ADACImporter::GetModels : {0}", ex.Message));
+                            }
+                            else
+                            {
+                                throw new Exception("ADACImporter::GetModels", ex);
+                            }
                         }
                     }
                 }
@@ -195,6 +228,13 @@ namespace VehicleGrabberCore.Importer
                 }
 
             }
+
+            if (this.Core != null && this.Core.Log != null)
+            {
+                this.Core.Log.Info(string.Format("{0} Model Records imported.", modelsList.Count));
+                this.Core.Log.Info(string.Format("{0} ModelType Records imported.", modelTypesList.Count));
+            }
+
         }
 
         private void GetModelTypes(ModelObj modelObj)
@@ -260,7 +300,14 @@ namespace VehicleGrabberCore.Importer
                     }
                     catch (Exception ex)
                     {
-
+                        if (this.Core != null && this.Core.Log != null)
+                        {
+                            this.Core.Log.Error(string.Format("ADACImporter::GetModelTypes : {0}", ex.Message));
+                        }
+                        else
+                        {
+                            throw new Exception("ADACImporter::GetModelTypes", ex);
+                        }
                     }
                 }
             }
@@ -408,7 +455,13 @@ namespace VehicleGrabberCore.Importer
 
                     carDetailsList.Add(carObj);
                 }
+
             }
+            if (this.Core != null && this.Core.Log != null)
+            {
+                this.Core.Log.Info(string.Format("{0} Car Detail Records imported.", carDetailsList.Count));
+            }
+            
         }
     }
 }

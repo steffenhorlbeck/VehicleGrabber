@@ -62,7 +62,16 @@ namespace VehicleGrabberCore.Importer
             }
             catch (Exception ex)
             {
-                throw new Exception("Importer::DownloadImageFile", ex);
+                if (this.Core != null && this.Core.Log != null)
+                {
+                    this.Core.Log.Error(string.Format("ImporterBase::DownloadImageFile : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("ImporterBase::DownloadImageFile", ex);
+                }
+
+                return result;
             }
         }
 
@@ -89,7 +98,16 @@ namespace VehicleGrabberCore.Importer
             }
             catch (Exception ex)
             {
-                throw new Exception("Importer::DownloadMakerImage", ex);
+                if (this.Core != null && this.Core.Log != null)
+                {
+                    this.Core.Log.Error(string.Format("ImporterBase::DownloadMakerImage : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("ImporterBase::DownloadMakerImage", ex);
+                }
+
+                return result;
             }
         }
 

@@ -136,8 +136,11 @@ namespace VehicleGrabberGUI
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
+            btnCancel.Enabled = false;
             bwImport.CancelAsync();
+            bwExport.CancelAsync();
         }
+
 
         private void BwImport_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -168,14 +171,14 @@ namespace VehicleGrabberGUI
             }
 
             //Change the status of the buttons on the UI accordingly
-            btnStart.Enabled = true;
-            btnCancel.Enabled = false;
+            btnStart.Enabled = true;            
 
             UpdateStatus();
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
         {
+            btnCancel.Enabled = true;
             bwExport.RunWorkerAsync();
             /*
             if (Core != null)
@@ -450,6 +453,16 @@ namespace VehicleGrabberGUI
 
 
         private void mnuSaveToFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbContent_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
         {
 
         }
