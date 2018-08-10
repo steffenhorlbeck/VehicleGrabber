@@ -100,7 +100,7 @@ namespace VehicleGrabberGUI
                 if (rbAutomobilio.Checked) { impType = 1; }
 
                 bwImport.ReportProgress(0);
-                Core.Import(impType);
+                Core.Import(impType, bwImport);
 
             }
             catch (Exception ex)
@@ -240,6 +240,8 @@ namespace VehicleGrabberGUI
             this.edtMySQLDataBase.Text = this.Core.Conf.SQLDataBase;
             this.edtMySQLUser.Text = this.Core.Conf.SQLUser;
             this.edtMySQLPassword.Text = this.Core.Conf.SQLPassword;
+
+            this.edtLimitRecords.Value = this.Core.Conf.RecordLimit;
         }
 
         /// <summary>Read the application configuration and write the values to the regarding fields/objects</summary>
@@ -262,6 +264,9 @@ namespace VehicleGrabberGUI
             this.Core.Conf.SQLDataBase = this.edtMySQLDataBase.Text;
             this.Core.Conf.SQLUser = this.edtMySQLUser.Text;
             this.Core.Conf.SQLPassword = this.edtMySQLPassword.Text;
+
+            //Import
+            this.Core.Conf.RecordLimit = (long) this.edtLimitRecords.Value;
         }
 
 
@@ -330,12 +335,12 @@ namespace VehicleGrabberGUI
 
         private void bwExport_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (bwImport.CancellationPending)
+            if (bwExport.CancellationPending)
             {
                 // Set the e.Cancel flag so that the WorkerCompleted event
                 // knows that the process was cancelled.
                 e.Cancel = true;
-                bwImport.ReportProgress(0);
+                bwExport.ReportProgress(0);
                 return;
             }
 
@@ -347,12 +352,12 @@ namespace VehicleGrabberGUI
 
                     if (this.Core.Conf.ExportCSV)
                     {
-                        Core.ExportToCSV();
+                        Core.ExportToCSV(bwExport);
                     }
 
                     if (this.Core.Conf.ExportMySQL)
                     {
-                        Core.ExportToMySQL();
+                        Core.ExportToMySQL(bwExport);
                     }
                 }
 
@@ -457,15 +462,22 @@ namespace VehicleGrabberGUI
 
         }
 
-        private void tbContent_TextChanged(object sender, EventArgs e)
+        private void chkCSV_Validated(object sender, EventArgs e)
         {
-
+            this.UpdateConfiguration();
         }
 
-        private void tabPage1_Click(object sender, EventArgs e)
+        private void chkMySQL_Validated(object sender, EventArgs e)
         {
-
+            this.UpdateConfiguration();
         }
+
+        private void edtLimitRecords_Validated(object sender, EventArgs e)
+        {
+            this.UpdateConfiguration();
+        }
+
+ 
     }
 }
 #pragma warning restore IDE1006 // Naming Styles

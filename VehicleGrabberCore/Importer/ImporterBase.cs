@@ -36,10 +36,6 @@ namespace VehicleGrabberCore.Importer
             this.RecLimit = this.Core.Conf.RecordLimit;
         }
 
-        protected ImporterBase()
-        {
-            this.RecLimit = this.Core.Conf.RecordLimit;
-        }
 
 
         public abstract void StartImport(BackgroundWorker bw = null);
@@ -68,11 +64,14 @@ namespace VehicleGrabberCore.Importer
         protected string DownloadModelImage(string imgUrl)
         {
             string result = string.Empty;
+            string url = string.Empty;
             try
             {
                 using (WebClient client = new WebClient())
                 {
-                    string url = string.Format("{0}{1}", this.baseUrl, imgUrl);
+                    client.Encoding = System.Text.Encoding.UTF8;
+
+                    url = string.Format("{0}{1}", this.baseUrl, imgUrl);
                     string fileName = Path.Combine(CSVExporter.ROOT, CSVExporter.MODELS,
                         imgUrl.Substring(imgUrl.LastIndexOf("/") + 1));
                     if (!File.Exists(fileName))
@@ -89,7 +88,7 @@ namespace VehicleGrabberCore.Importer
             {
                 if (this.Core != null && this.Core.Log != null)
                 {
-                    this.Core.Log.Error(string.Format("ImporterBase::DownloadImageFile : {0}", ex.Message));
+                    this.Core.Log.Error(string.Format("ImporterBase::DownloadImageFile : {0} (URL:{1})", ex.Message, url));
                 }
                 else
                 {
@@ -104,11 +103,14 @@ namespace VehicleGrabberCore.Importer
         protected string DownloadMakerImage(string imgUrl)
         {
             string result = string.Empty;
+            string url = string.Empty;
             try
             {
                 using (WebClient client = new WebClient())
                 {
-                    string url = string.Format("{0}{1}", this.baseUrl, imgUrl);
+                    client.Encoding = System.Text.Encoding.UTF8;
+
+                    url = string.Format("{0}{1}", this.baseUrl, imgUrl);
                     string fileName = Path.Combine(CSVExporter.ROOT, CSVExporter.MAKERS,
                         imgUrl.Substring(imgUrl.LastIndexOf("/") + 1));
                     if (!File.Exists(fileName))
@@ -125,7 +127,7 @@ namespace VehicleGrabberCore.Importer
             {
                 if (this.Core != null && this.Core.Log != null)
                 {
-                    this.Core.Log.Error(string.Format("ImporterBase::DownloadMakerImage : {0}", ex.Message));
+                    this.Core.Log.Error(string.Format("ImporterBase::DownloadMakerImage : {0} (URL:{1})", ex.Message, url));
                 }
                 else
                 {
@@ -147,6 +149,7 @@ namespace VehicleGrabberCore.Importer
 
             // Create web client.
             WebClient client = new WebClient();
+            client.Encoding = System.Text.Encoding.UTF8;
             return client.DownloadString(url);
         }
 

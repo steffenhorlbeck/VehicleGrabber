@@ -17,12 +17,12 @@ namespace VehicleGrabberCore.Exporter
         internal const string MODELTYPE_TABLE = @"car_modeltype";
         internal const string DETAILS_TABLE = @"car_details";
 
-        private string SQLServer = string.Empty;
-        private string SQLDatabase = string.Empty;
-        private bool SQLSSL = true;
-        private long SQLPort = 3306;
-        private string SQLUser = string.Empty;
-        private string SQLPassword = string.Empty;
+        public string SqlServer { get; } = string.Empty;
+        public string SqlDatabase { get; } = string.Empty;
+        public bool Sqlssl { get; } = true;
+        public long SqlPort { get; } = 3306;
+        public string SqlUser { get; } = string.Empty;
+        public string SqlPassword { get; } = string.Empty;
 
         public List<MakerObj> MakersObjList;
         public List<ModelObj> modelObjList;
@@ -40,12 +40,12 @@ namespace VehicleGrabberCore.Exporter
             string database = "h26346_cardata", bool ssl = true,
             long port = 3306, string user = "h26346_cardata", string password = "1Master!01")
         {
-            this.SQLServer = server;
-            this.SQLDatabase = database;
-            this.SQLSSL = ssl;
-            this.SQLPort = port;
-            this.SQLUser = user;
-            this.SQLPassword = password;
+            this.SqlServer = server;
+            this.SqlDatabase = database;
+            this.Sqlssl = ssl;
+            this.SqlPort = port;
+            this.SqlUser = user;
+            this.SqlPassword = password;
 
             this.MakersObjList = MakerObjObjects;
             this.modelObjList = modelsObjects;
@@ -69,26 +69,24 @@ namespace VehicleGrabberCore.Exporter
         private void Initialize()
         {
 
-            string user = !string.IsNullOrWhiteSpace(this.SQLUser)
-                ? string.Format("UID={0};", this.SQLUser)
+            string user = !string.IsNullOrWhiteSpace(this.SqlUser)
+                ? string.Format("UID={0};", this.SqlUser)
                 : string.Empty;
             
-            string password = !string.IsNullOrWhiteSpace(this.SQLPassword)
-                ? string.Format("PASSWORD={0};", this.SQLPassword)
+            string password = !string.IsNullOrWhiteSpace(this.SqlPassword)
+                ? string.Format("PASSWORD={0};", this.SqlPassword)
                 : string.Empty;
 
-            string ssl = !this.SQLSSL
+            string ssl = !this.Sqlssl
                 ? "SslMode=none;"
                 : string.Empty;
 
-            string connectionString = string.Format("SERVER={0};DATABASE={1};{2}{3}{4}", this.SQLServer, this.SQLDatabase, user, password, ssl);
+            string connectionString = string.Format("SERVER={0};DATABASE={1};{2}{3}{4}", this.SqlServer, this.SqlDatabase, user, password, ssl);
 
-            /*
-            connectionString = "SERVER=" + this.SQLServer + ";" + "DATABASE=" +
-                               this.SQLDatabase + ";" + "UID=" + this.SQLUser + ";" + "PASSWORD=" + this.SQLPassword + ";SslMode=none;";
-            */
-
+            
             connection = new MySqlConnection(connectionString);
+
+            this.Core.Log.Info(string.Format("SQL Connection set to server '{0}' and database '{1}'", this.SqlServer, this.SqlDatabase));
         }
 
         //open connection to database
@@ -157,22 +155,26 @@ namespace VehicleGrabberCore.Exporter
 
         public void HandleMakers()
         {            
-            _sqlCarMaker.Add_CarMakers();
+            _sqlCarMaker.Add_CarMakers();            
+            this.Core.Log.Info(string.Format("{0} makers exported to database", this.MakersObjList.Count));
         }
 
         public void HandleModels()
         {
             _sqlCarModel.Add_CarModels();
+            this.Core.Log.Info(string.Format("{0} models exported to database", this.modelObjList.Count));
         }
 
         public void HandleModelTypes()
         {
             _sqlCarModelType.Add_CarModelTypes();
+            this.Core.Log.Info(string.Format("{0} model types exported to database", this.modelTypeObjList.Count));
         }
 
         public void HandleCarDetails()
         {
             _sqlCarDetail.Add_CarDetails();
+            this.Core.Log.Info(string.Format("{0} cars exported to database", this.carDetailsObjList.Count));
         }
 
         public long GetMakerID(string name)

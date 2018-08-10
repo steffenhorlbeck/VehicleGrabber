@@ -4381,7 +4381,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\horlbeck\\.nuget\\packages\\": {},
+    "C:\\Users\\shorlbeck\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -4390,14 +4390,14 @@
       "projectUniqueName": "C:\\Projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
       "projectName": "VehicleGrabberCore",
       "projectPath": "C:\\Projects\\VehicleGrabber\\VehicleGrabberCore\\VehicleGrabberCore.csproj",
-      "packagesPath": "C:\\Users\\horlbeck\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\shorlbeck\\.nuget\\packages\\",
       "outputPath": "C:\\Projects\\VehicleGrabber\\VehicleGrabberCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\horlbeck\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\shorlbeck\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4405,6 +4405,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Projects\\Travel Data Suite\\TDhub\\packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

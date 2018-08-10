@@ -55,6 +55,7 @@ namespace VehicleGrabberCore.Helper
                 }
                 catch (Exception ex)
                 {
+                    string msg = ex.Message;
                 }
                 finally
                 {
@@ -272,6 +273,7 @@ namespace VehicleGrabberCore.Helper
             }
             catch (Exception ex)
             {
+                string msg = ex.Message;
             }
             finally
             {

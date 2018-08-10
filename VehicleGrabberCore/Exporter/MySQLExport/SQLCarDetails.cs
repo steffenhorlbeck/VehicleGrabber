@@ -264,9 +264,32 @@ namespace VehicleGrabberCore.Exporter
 
             //dateTime ?
             cmd.Parameters.AddWithValue("@model_start", obj.ModelStart.Length <= 7 ? string.Format("01/{0}",obj.ModelStart) : obj.ModelStart);
-            cmd.Parameters.AddWithValue("@model_end", obj.ModelEnd.Length <= 7 ? string.Format("28/{0}", obj.ModelEnd) : obj.ModelEnd);  
+
+            if (string.IsNullOrWhiteSpace(obj.ModelEnd))
+            {
+                cmd.Parameters.AddWithValue("@model_end", obj.ModelEnd);
+            }
+            else
+            {
+                string[] parts = obj.ModelEnd.Split('/');
+                string lastday = DateTime.DaysInMonth(Convert.ToInt32(parts[1]), Convert.ToInt32(parts[0])).ToString();
+                cmd.Parameters.AddWithValue("@model_end",
+                    obj.ModelEnd.Length <= 7 ? string.Format("{0}/{1}", lastday, obj.ModelEnd) : obj.ModelEnd);
+            }
+
             cmd.Parameters.AddWithValue("@series_start", obj.SeriesStart.Length <= 7 ? string.Format("01/{0}", obj.SeriesStart) : obj.SeriesStart);
-            cmd.Parameters.AddWithValue("@series_end", obj.SeriesEnd.Length <= 7 ? string.Format("28/{0}", obj.SeriesEnd) : obj.SeriesEnd); 
+
+            if (string.IsNullOrWhiteSpace(obj.SeriesEnd))
+            {
+                cmd.Parameters.AddWithValue("@series_end", obj.SeriesEnd);
+            }
+            else
+            {
+                string[] parts = obj.SeriesEnd.Split('/');
+                string lastday = DateTime.DaysInMonth(Convert.ToInt32(parts[1]), Convert.ToInt32(parts[0])).ToString();
+                cmd.Parameters.AddWithValue("@series_end",
+                    obj.SeriesEnd.Length <= 7 ? string.Format("{0}/{1}",lastday, obj.SeriesEnd) : obj.SeriesEnd);
+            }
 
             cmd.Parameters.AddWithValue("@hsn", obj.HSN);
             cmd.Parameters.AddWithValue("@tsn", obj.TSN);

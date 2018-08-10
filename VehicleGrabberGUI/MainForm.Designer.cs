@@ -67,6 +67,8 @@
             this.grpConfig = new System.Windows.Forms.GroupBox();
             this.tabConfig = new System.Windows.Forms.TabControl();
             this.tabExportTypes = new System.Windows.Forms.TabPage();
+            this.lblLimitRecords = new System.Windows.Forms.Label();
+            this.edtLimitRecords = new System.Windows.Forms.NumericUpDown();
             this.chkMySQL = new System.Windows.Forms.CheckBox();
             this.chkCSV = new System.Windows.Forms.CheckBox();
             this.tabConfigCSV = new System.Windows.Forms.TabPage();
@@ -91,8 +93,6 @@
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.bwExport = new System.ComponentModel.BackgroundWorker();
-            this.edtLimitRecords = new System.Windows.Forms.NumericUpDown();
-            this.lblLimitRecords = new System.Windows.Forms.Label();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -103,10 +103,10 @@
             this.grpConfig.SuspendLayout();
             this.tabConfig.SuspendLayout();
             this.tabExportTypes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.edtLimitRecords)).BeginInit();
             this.tabConfigCSV.SuspendLayout();
             this.tabConfigMySQL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.edtLimitRecords)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -407,7 +407,6 @@
             this.tabBrowser.TabIndex = 3;
             this.tabBrowser.Text = "Website";
             this.tabBrowser.UseVisualStyleBackColor = true;
-            this.tabBrowser.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // browser
             // 
@@ -484,6 +483,23 @@
             this.tabExportTypes.Text = "Export-Typen";
             this.tabExportTypes.UseVisualStyleBackColor = true;
             // 
+            // lblLimitRecords
+            // 
+            this.lblLimitRecords.AutoSize = true;
+            this.lblLimitRecords.Location = new System.Drawing.Point(205, 17);
+            this.lblLimitRecords.Name = "lblLimitRecords";
+            this.lblLimitRecords.Size = new System.Drawing.Size(97, 13);
+            this.lblLimitRecords.TabIndex = 5;
+            this.lblLimitRecords.Text = "Record Limit (0=all)";
+            // 
+            // edtLimitRecords
+            // 
+            this.edtLimitRecords.Location = new System.Drawing.Point(207, 36);
+            this.edtLimitRecords.Name = "edtLimitRecords";
+            this.edtLimitRecords.Size = new System.Drawing.Size(120, 20);
+            this.edtLimitRecords.TabIndex = 4;
+            this.edtLimitRecords.Validated += new System.EventHandler(this.edtLimitRecords_Validated);
+            // 
             // chkMySQL
             // 
             this.chkMySQL.AutoSize = true;
@@ -493,6 +509,7 @@
             this.chkMySQL.TabIndex = 3;
             this.chkMySQL.Text = "MySQL Export";
             this.chkMySQL.UseVisualStyleBackColor = true;
+            this.chkMySQL.Validated += new System.EventHandler(this.chkMySQL_Validated);
             // 
             // chkCSV
             // 
@@ -503,6 +520,7 @@
             this.chkCSV.TabIndex = 2;
             this.chkCSV.Text = "CSV Export";
             this.chkCSV.UseVisualStyleBackColor = true;
+            this.chkCSV.Validated += new System.EventHandler(this.chkCSV_Validated);
             // 
             // tabConfigCSV
             // 
@@ -748,22 +766,6 @@
             this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
             this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
             // 
-            // edtLimitRecords
-            // 
-            this.edtLimitRecords.Location = new System.Drawing.Point(207, 36);
-            this.edtLimitRecords.Name = "edtLimitRecords";
-            this.edtLimitRecords.Size = new System.Drawing.Size(120, 20);
-            this.edtLimitRecords.TabIndex = 4;
-            // 
-            // lblLimitRecords
-            // 
-            this.lblLimitRecords.AutoSize = true;
-            this.lblLimitRecords.Location = new System.Drawing.Point(205, 17);
-            this.lblLimitRecords.Name = "lblLimitRecords";
-            this.lblLimitRecords.Size = new System.Drawing.Size(97, 13);
-            this.lblLimitRecords.TabIndex = 5;
-            this.lblLimitRecords.Text = "Record Limit (0=all)";
-            // 
             // VehicleGrabber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -794,12 +796,12 @@
             this.tabConfig.ResumeLayout(false);
             this.tabExportTypes.ResumeLayout(false);
             this.tabExportTypes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.edtLimitRecords)).EndInit();
             this.tabConfigCSV.ResumeLayout(false);
             this.tabConfigCSV.PerformLayout();
             this.tabConfigMySQL.ResumeLayout(false);
             this.tabConfigMySQL.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.edtLimitRecords)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

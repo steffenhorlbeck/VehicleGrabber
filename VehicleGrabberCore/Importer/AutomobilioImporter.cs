@@ -11,7 +11,7 @@ namespace VehicleGrabberCore.Importer
     public class AutomobilioImporter : ImporterBase
     {
 
-        public AutomobilioImporter() : base()
+        public AutomobilioImporter(VGCore core) : base(core)
         {
             this.baseUrl = "http://automobilio.info";
             this.baseUrlLang = "/de/";

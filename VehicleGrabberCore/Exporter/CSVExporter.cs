@@ -15,13 +15,13 @@ namespace VehicleGrabberCore.Exporter
         public const string MODELS = "models";
         public const string MAKERS = "makers";
         public const string DELIMITER = ";";
-        private string modelsFileName = "model.csv";
-        private string modelTypesFileName = "modeltypes.csv";
-        private string carDetailsFileName = "cardetails.csv";
-        private List<MakerObj> MakersList;
-        private List<ModelObj> modelObjList;
-        private List<ModelTypeObj> modelTypeObjList;
-        private List<CarDetailsObj> carDetailsObjList;
+        private readonly string modelsFileName = "model.csv";
+        private readonly string modelTypesFileName = "modeltypes.csv";
+        private readonly string carDetailsFileName = "cardetails.csv";
+        public List<MakerObj> MakersList { get; }
+        public List<ModelObj> ModelObjList { get; }
+        public List<ModelTypeObj> ModelTypeObjList { get; }
+        public List<CarDetailsObj> CarDetailsObjList { get; }
         public VGCore Core { get; set; }
 
         public CSVExporter(List<MakerObj> MakerObjects, List<ModelObj> modelsObjects, List<ModelTypeObj> modelTypesObjects, List<CarDetailsObj> carDetailsObjects, string modelsFile = "", string typesFile = "")
@@ -40,9 +40,9 @@ namespace VehicleGrabberCore.Exporter
             }
 
             this.MakersList = MakerObjects;
-            this.modelObjList = modelsObjects;
-            this.modelTypeObjList = modelTypesObjects;
-            this.carDetailsObjList = carDetailsObjects;
+            this.ModelObjList = modelsObjects;
+            this.ModelTypeObjList = modelTypesObjects;
+            this.CarDetailsObjList = carDetailsObjects;
         }
 
         public void ExportModels()
@@ -59,7 +59,7 @@ namespace VehicleGrabberCore.Exporter
 
             var models = new List<ModelsClass>();
 
-            foreach(ModelObj model in modelObjList)
+            foreach(ModelObj model in ModelObjList)
             {
                 models.Add(new ModelsClass()
                 {
@@ -100,7 +100,7 @@ namespace VehicleGrabberCore.Exporter
 
             var modeltypes = new List<ModelTypesClass>();
 
-            foreach (ModelTypeObj type in modelTypeObjList)
+            foreach (ModelTypeObj type in ModelTypeObjList)
             {
                 modeltypes.Add(new ModelTypesClass()
                 {
@@ -145,7 +145,7 @@ namespace VehicleGrabberCore.Exporter
 
             var cardetails = new List<CarDetailsClass>();
 
-            foreach (CarDetailsObj car in carDetailsObjList)
+            foreach (CarDetailsObj car in CarDetailsObjList)
             {
                 cardetails.Add(new CarDetailsClass()
                 {

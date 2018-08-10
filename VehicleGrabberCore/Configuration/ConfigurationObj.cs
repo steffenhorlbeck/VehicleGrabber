@@ -12,11 +12,11 @@ namespace VehicleGrabberCore.Configuration
 {
     public class ConfigurationObj
     {
-        private VGCore Core = null;
+        private readonly VGCore _core = null;
 
         public ConfigurationObj(string configFile = null, VGCore core = null)
         {
-            this.Core = core;
+            this._core = core;
             this.SetDefaultSettings();
 
             if (!string.IsNullOrWhiteSpace(configFile))
@@ -114,7 +114,7 @@ namespace VehicleGrabberCore.Configuration
                     this.SQLUser = conf.SQLUser;                    
                     this.SQLSSLConnection = conf.SQLSSLConnection;
                     this.SQLPassword = this.SQLPassword = conf.SQLPassword != string.Empty
-                        ? StringCipher.Decrypt(conf.SQLPassword, this.Core.GetCipherPW())
+                        ? StringCipher.Decrypt(conf.SQLPassword, this._core.GetCipherPW())
                         : string.Empty;
 
                     //Import
@@ -123,22 +123,22 @@ namespace VehicleGrabberCore.Configuration
                    
 
                     LogItem logItem = new LogItem(string.Format("Load configuration file. '{0}'", configFile), DateTime.Now, LogLevel.INFO);
-                    this.Core.preLogItems.Capacity++;
-                    this.Core.preLogItems.Add(logItem);
+                    this._core.preLogItems.Capacity++;
+                    this._core.preLogItems.Add(logItem);
                 }
                 else
                 {
                     LogItem logItem = new LogItem(string.Format("File not found: '{0}'", configFile), DateTime.Now, LogLevel.ERROR);
-                    this.Core.preLogItems.Capacity++;
-                    this.Core.preLogItems.Add(logItem);
+                    this._core.preLogItems.Capacity++;
+                    this._core.preLogItems.Add(logItem);
                 }
             }
             catch (Exception ex)
             {
 
                 LogItem logItem = new LogItem(ex.Message, DateTime.Now, LogLevel.ERROR);
-                this.Core.preLogItems.Capacity++;
-                this.Core.preLogItems.Add(logItem);
+                this._core.preLogItems.Capacity++;
+                this._core.preLogItems.Add(logItem);
 
                 //this.Core.Log.Error(string.Format("Error on loading configuration file. '{0}'", ex.Message));
 
@@ -150,7 +150,7 @@ namespace VehicleGrabberCore.Configuration
             try
             {
                 // encrypt password before storing the config to file
-                this.SQLPassword = StringCipher.Encrypt(this.SQLPassword, this.Core.GetCipherPW());
+                this.SQLPassword = StringCipher.Encrypt(this.SQLPassword, this._core.GetCipherPW());
                 XmlSerializer mySerializer = new XmlSerializer(typeof(ConfigurationObj));
                 StreamWriter myWriter = new StreamWriter(fileName);
                 mySerializer.Serialize(myWriter, this);
@@ -159,7 +159,7 @@ namespace VehicleGrabberCore.Configuration
             }
             catch (Exception ex)
             {
-                this.Core.Log.Error(string.Format("Error on saving configuration file: {0}", ex.Message));
+                this._core.Log.Error(string.Format("Error on saving configuration file: {0}", ex.Message));
             }
         }
 

@@ -60,18 +60,18 @@ namespace VehicleGrabberCore
             return CipherPW;
         }
 
+
+
         public void Import(int importType = 0, BackgroundWorker bw = null)
         {
             if (importType == (int)ImporterBase.ImporterType.ADAC)
             {
-                Importer = new ADACImporter();
+                Importer = new ADACImporter(this);
             } else if (importType == (int)ImporterBase.ImporterType.AUTOMOBILIO)
             {
-                Importer = new AutomobilioImporter();
+                Importer = new AutomobilioImporter(this);
             }
-
-            Importer.Core = this;
-
+           
             Importer.StartImport(bw);
         }
 

@@ -17,7 +17,7 @@ namespace VehicleGrabberCore.Importer
         private string pageContent = string.Empty;
 
 
-        public ADACImporter()
+        public ADACImporter(VGCore core) : base(core)
         {
             this.baseUrl = "https://www.adac.de";
             this.baseUrlLang = string.Empty;            
@@ -159,8 +159,10 @@ namespace VehicleGrabberCore.Importer
 
                 if (model_div != null)
                 {
+                    int limit_cnt1 = 0;
                     foreach (HtmlNode modelNode in model_div)
                     {
+                        limit_cnt1++;
                         ModelObj modelObj = new ModelObj();
 
                         try
@@ -198,7 +200,7 @@ namespace VehicleGrabberCore.Importer
 
                             //DEBUG: Break after x number of models
                             
-                            if (this.IsLimited(limit_cnt))
+                            if (this.IsLimited(limit_cnt1))
                             {
                                 break;
                             }
