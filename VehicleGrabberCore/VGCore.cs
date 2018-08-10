@@ -62,7 +62,7 @@ namespace VehicleGrabberCore
 
 
 
-        public void Import(int importType = 0, BackgroundWorker bw = null)
+        public void InitImporter(int importType = 0)
         {
             if (importType == (int)ImporterBase.ImporterType.ADAC)
             {
@@ -72,9 +72,14 @@ namespace VehicleGrabberCore
                 Importer = new AutomobilioImporter(this);
             }
            
-            Importer.StartImport(bw);
+            //Importer.StartImport(bw);
         }
 
+
+        public void StartImporter(BackgroundWorker bw)
+        {
+            Importer.StartImport(bw);
+        }
 
 
         public void ExportToCSV(BackgroundWorker bw = null)
@@ -146,6 +151,15 @@ namespace VehicleGrabberCore
             return result;
         }
 
+
+        public void SetPageContent(string content)
+        {
+            if (Importer != null)
+            {
+                Importer.SetPageContent(content);
+            }
+        }
+
         public string GetBaseUrl()
         {
             string result = string.Empty;
@@ -157,6 +171,19 @@ namespace VehicleGrabberCore
 
             return result;
         }
+
+        public string GetCatalogUrl()
+        {
+            string result = string.Empty;
+
+            if (Importer != null)
+            {
+                result = Importer.GetCatalogUrl();
+            }
+
+            return result;
+        }
+
 
         public void UpdateTriggerLogLine()
         {

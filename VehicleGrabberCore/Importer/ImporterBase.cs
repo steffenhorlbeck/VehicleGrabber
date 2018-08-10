@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using HtmlAgilityPack;
 using VehicleGrabberCore.DataObjects;
 using VehicleGrabberCore.Exporter;
 
@@ -12,6 +13,8 @@ namespace VehicleGrabberCore.Importer
     {
         protected string baseUrl = "http://automobilio.info";
         protected string baseUrlLang = "/de/";
+
+        
 
         public List<MakerObj> MakersList = new List<MakerObj>();
         public List<ModelObj> modelsList = new List<ModelObj>();
@@ -43,6 +46,8 @@ namespace VehicleGrabberCore.Importer
         public abstract string GetPageContent();
 
         public abstract string GetBaseUrl();
+
+        public abstract string GetCatalogUrl();
 
         protected bool IsLimited(long cnt)
         {
@@ -150,9 +155,15 @@ namespace VehicleGrabberCore.Importer
             // Create web client.
             WebClient client = new WebClient();
             client.Encoding = System.Text.Encoding.UTF8;
-            return client.DownloadString(url);
+
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
+            return doc.Text;
+            //return client.DownloadString(url);
         }
 
         #endregion
+
+        public abstract void SetPageContent(string content);
     }
 }

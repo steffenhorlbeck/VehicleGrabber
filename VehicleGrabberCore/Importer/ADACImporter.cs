@@ -12,6 +12,7 @@ namespace VehicleGrabberCore.Importer
     public class ADACImporter:ImporterBase
     {
         private string startPath = "/infotestrat/autodatenbank/autokatalog/default.aspx";
+        private string parameters = "ctl00$ctl00$cphContentRow$cphContent$wucNFBAutokatalogMarken1$rb123=radioAllModels";
 
         private BackgroundWorker bw;
         private string pageContent = string.Empty;
@@ -28,6 +29,17 @@ namespace VehicleGrabberCore.Importer
             return this.baseUrl;
         }
 
+
+        public override string GetCatalogUrl()
+        {
+            return string.Format("{0}{1}{2}?{3}", this.baseUrl, this.startPath, this.baseUrlLang, this.parameters);
+        }
+
+        public override void SetPageContent(string content)
+        {
+            this.pageContent = content;
+        }
+
         public override string GetPageContent()
         {
             return this.pageContent;
@@ -38,8 +50,12 @@ namespace VehicleGrabberCore.Importer
             string url = string.Empty;
             try
             {
-                url = string.Format("{0}{1}{2}", this.baseUrl, this.startPath, this.baseUrlLang);
-                this.pageContent = GetContent(url);
+                if (string.IsNullOrWhiteSpace(this.pageContent))
+                {
+                    url = this.GetCatalogUrl();
+                    this.pageContent = GetContent(url);
+                }
+
                 this.GetMakers();
                 if (bw != null) { bw.ReportProgress(10);}
                 GetModels();

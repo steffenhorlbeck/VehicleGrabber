@@ -25,6 +25,16 @@ namespace VehicleGrabberCore.Importer
             return this.baseUrl;
         }
 
+        public override string GetCatalogUrl()
+        {
+            return string.Format("{0}{1}", this.baseUrl, this.baseUrlLang);
+        }
+
+        public override void SetPageContent(string content)
+        {
+            this.pageContent = content;
+        }
+
         public override string GetPageContent()
         {
             return this.pageContent;
@@ -34,7 +44,7 @@ namespace VehicleGrabberCore.Importer
         {
             try
             {
-                string url = string.Format("{0}{1}", this.baseUrl, this.baseUrlLang);
+                string url = this.GetCatalogUrl();
                 this.pageContent = GetContent(url);
                 GetMakers();
                 if (bw != null) { bw.ReportProgress(10); }

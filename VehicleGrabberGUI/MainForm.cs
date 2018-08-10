@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 using VehicleGrabberCore;
 using VehicleGrabberCore.Configuration;
@@ -15,8 +16,13 @@ namespace VehicleGrabberGUI
         private VGCore Core;
         private string pageContent = string.Empty;
         private string baseUrl = string.Empty;
+        private string catalogUrl = string.Empty;
 
         private string configFileName = string.Empty;
+
+
+        private int pageReloaded = 0;
+
 
         public VehicleGrabber()
         {
@@ -49,28 +55,28 @@ namespace VehicleGrabberGUI
 
             try
             {
-                
-                bwImport.RunWorkerAsync();
-                
-                /*
                 int impType = -1;
+                int tmr = 0;
 
                 if (rbADAC.Checked) { impType = 0; }
                 if (rbAutomobilio.Checked) { impType = 1; }
+                Core.InitImporter(impType);
+
+                catalogUrl = Core.GetCatalogUrl();
+                browser.Navigate(catalogUrl);
 
 
+                // continue after page was reloaded a second time so the auto selection all makers was done or a timeout (in seconds) occurs
+                
+ /*               while (tmr < 10)
+                {
+                    Thread.Sleep(1000);
+                    tmr++;
+                }
+                
 
-
-                Core.Import(impType);
-
-
-
-                pageContent = Core.GetPageContent();
-                baseUrl = Core.GetBaseUrl();
-                browser.Navigate(baseUrl);
-                tbContent.Clear();
-                tbContent.AppendText(pageContent);
-                */
+                bwImport.RunWorkerAsync();
+*/                
             }
             catch (Exception ex)
             {
@@ -81,6 +87,8 @@ namespace VehicleGrabberGUI
 
         private void BwImport_DoWork(object sender, DoWorkEventArgs e)
         {
+
+
             if (bwImport.CancellationPending)
             {
                 // Set the e.Cancel flag so that the WorkerCompleted event
@@ -94,13 +102,12 @@ namespace VehicleGrabberGUI
 
             try
             {
-                int impType = -1;
 
-                if (rbADAC.Checked) { impType = 0; }
-                if (rbAutomobilio.Checked) { impType = 1; }
 
                 bwImport.ReportProgress(0);
-                Core.Import(impType, bwImport);
+                
+
+                Core.StartImporter(bwImport);
 
             }
             catch (Exception ex)
@@ -164,8 +171,7 @@ namespace VehicleGrabberGUI
                 toollblStatus.Text = "Task Completed...";
 
                 pageContent = Core.GetPageContent();
-                baseUrl = Core.GetBaseUrl();
-                browser.Navigate(baseUrl);
+
                 tbContent.Clear();
                 tbContent.AppendText(pageContent);
             }
@@ -180,22 +186,7 @@ namespace VehicleGrabberGUI
         {
             btnCancel.Enabled = true;
             bwExport.RunWorkerAsync();
-            /*
-            if (Core != null)
-            {
-                this.UpdateConfiguration();
 
-                if (this.Core.Conf.ExportCSV)
-                {
-                    Core.ExportToCSV();
-                }
-
-                if (this.Core.Conf.ExportMySQL)
-                {
-                    Core.ExportToMySQL();
-                }
-            }
-            */
         }
 
 
@@ -265,7 +256,7 @@ namespace VehicleGrabberGUI
             this.Core.Conf.SQLUser = this.edtMySQLUser.Text;
             this.Core.Conf.SQLPassword = this.edtMySQLPassword.Text;
 
-            //Import
+            //InitImporter
             this.Core.Conf.RecordLimit = (long) this.edtLimitRecords.Value;
         }
 
@@ -477,7 +468,40 @@ namespace VehicleGrabberGUI
             this.UpdateConfiguration();
         }
 
- 
+        private void browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            {
+                // Automatically clck that image hyperlink
+
+                HtmlElementCollection theElementCollection = browser.Document.GetElementsByTagName("input");
+
+                foreach (HtmlElement curElement in theElementCollection)
+
+                {
+
+                    if (curElement.GetAttribute("value").Equals("radioAllModels"))
+
+                    {
+
+                        curElement.InvokeMember("click");
+
+                        
+
+                        // Javascript has a click method for you need to invoke on button and hyperlink elements.
+
+                    }
+                }                
+            }
+            this.pageReloaded++;
+
+            if (this.pageReloaded == 2)
+            {
+                this.pageReloaded = 0;
+                Core.SetPageContent(browser.DocumentText);
+
+                bwImport.RunWorkerAsync();
+            }
+        }
     }
 }
 #pragma warning restore IDE1006 // Naming Styles
