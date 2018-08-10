@@ -9,21 +9,19 @@ using VehicleGrabberCore.DataObjects;
 
 namespace VehicleGrabberCore.Importer
 {
-    public class ADACImporter : ImporterBase
+    public class ADACImporter:ImporterBase
     {
         private string startPath = "/infotestrat/autodatenbank/autokatalog/default.aspx";
 
         private BackgroundWorker bw;
+        private string pageContent = string.Empty;
+
 
         public ADACImporter()
         {
             this.baseUrl = "https://www.adac.de";
-            this.baseUrlLang = string.Empty;
+            this.baseUrlLang = string.Empty;            
         }
-
-
-        private string pageContent = string.Empty;
-
 
         public override string GetBaseUrl()
         {
@@ -138,10 +136,10 @@ namespace VehicleGrabberCore.Importer
 
         private void GetModels()
         {
-            int debug_cnt = 0;
+            int limit_cnt = 0;
             foreach (MakerObj obj in this.MakersList)
             {
-                debug_cnt++;
+                limit_cnt++;
 
                 string modelsUrl = string.Format("{0}{1}", this.baseUrl, obj.MakerUrlPath);
                 string modelsContent = GetContent(modelsUrl);
@@ -199,12 +197,12 @@ namespace VehicleGrabberCore.Importer
                             System.Threading.Thread.Sleep(500);
 
                             //DEBUG: Break after x number of models
-                            /*
-                            if (debug_cnt >= 1)
+                            
+                            if (this.IsLimited(limit_cnt))
                             {
                                 break;
                             }
-                            */
+                            
 
                         }
                         catch (Exception ex)
@@ -222,7 +220,7 @@ namespace VehicleGrabberCore.Importer
                 }
 
 
-                if (debug_cnt >= 3)
+                if (this.IsLimited(limit_cnt))
                 {
                     break;
                 }
@@ -253,14 +251,14 @@ namespace VehicleGrabberCore.Importer
 
             if (types_div != null)
             {
-                int debug_cnt = 0;
+                int limit_cnt = 0;
                 foreach (var node in types_div.First().ChildNodes)
                 {
                     try
                     {
                         if (node.Name.ToLower().Equals("tr"))
                         {
-                            debug_cnt++;
+                            limit_cnt++;
 
                             ModelTypeObj typeObj = new ModelTypeObj();
 
@@ -292,7 +290,7 @@ namespace VehicleGrabberCore.Importer
                             modelTypesList.Add(typeObj);
 
                             //DEBUG: Break after x number of model types
-                            if (debug_cnt >= 3)
+                            if (this.IsLimited(limit_cnt))
                             {
                                 break;
                             }

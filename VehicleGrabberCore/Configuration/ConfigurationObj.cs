@@ -65,6 +65,9 @@ namespace VehicleGrabberCore.Configuration
             this.SQLUser = string.Empty;
             this.SQLPassword = String.Empty;
             this.SQLSSLConnection = true;
+
+            //Import
+            this.RecordLimit = 0;
         }
 
 
@@ -114,6 +117,8 @@ namespace VehicleGrabberCore.Configuration
                         ? StringCipher.Decrypt(conf.SQLPassword, this.Core.GetCipherPW())
                         : string.Empty;
 
+                    //Import
+                    this.RecordLimit = conf.RecordLimit;
 
                    
 
@@ -206,5 +211,7 @@ namespace VehicleGrabberCore.Configuration
 
         public string SQLPassword { get; set; }
 
+        //Importer
+        public long RecordLimit { get; set; }
     }
 }

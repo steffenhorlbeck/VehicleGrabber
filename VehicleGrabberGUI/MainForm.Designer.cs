@@ -50,6 +50,20 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.lbLogWindow = new System.Windows.Forms.ListBox();
+            this.mnuContextLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuClearLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuShowTypes = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogWarning = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLogError = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFatal = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDebug = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabBrowser = new System.Windows.Forms.TabPage();
+            this.browser = new System.Windows.Forms.WebBrowser();
+            this.tabSource = new System.Windows.Forms.TabPage();
+            this.tbContent = new System.Windows.Forms.TextBox();
             this.grpConfig = new System.Windows.Forms.GroupBox();
             this.tabConfig = new System.Windows.Forms.TabControl();
             this.tabExportTypes = new System.Windows.Forms.TabPage();
@@ -77,33 +91,22 @@
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.bwExport = new System.ComponentModel.BackgroundWorker();
-            this.mnuContextLog = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuClearLog = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuShowTypes = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLogInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLogWarning = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuLogError = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFatal = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDebug = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSaveToFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabBrowser = new System.Windows.Forms.TabPage();
-            this.browser = new System.Windows.Forms.WebBrowser();
-            this.tabSource = new System.Windows.Forms.TabPage();
-            this.tbContent = new System.Windows.Forms.TextBox();
+            this.edtLimitRecords = new System.Windows.Forms.NumericUpDown();
+            this.lblLimitRecords = new System.Windows.Forms.Label();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabLog.SuspendLayout();
+            this.mnuContextLog.SuspendLayout();
+            this.tabBrowser.SuspendLayout();
+            this.tabSource.SuspendLayout();
             this.grpConfig.SuspendLayout();
             this.tabConfig.SuspendLayout();
             this.tabExportTypes.SuspendLayout();
             this.tabConfigCSV.SuspendLayout();
             this.tabConfigMySQL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).BeginInit();
-            this.mnuContextLog.SuspendLayout();
-            this.tabBrowser.SuspendLayout();
-            this.tabSource.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.edtLimitRecords)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -299,6 +302,148 @@
             this.lbLogWindow.Size = new System.Drawing.Size(1034, 264);
             this.lbLogWindow.TabIndex = 2;
             // 
+            // mnuContextLog
+            // 
+            this.mnuContextLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuClearLog,
+            this.mnuSelectAll,
+            this.mnuShowTypes,
+            this.mnuSaveToFile});
+            this.mnuContextLog.Name = "mnuContextLog";
+            this.mnuContextLog.Size = new System.Drawing.Size(137, 92);
+            // 
+            // mnuClearLog
+            // 
+            this.mnuClearLog.Name = "mnuClearLog";
+            this.mnuClearLog.Size = new System.Drawing.Size(136, 22);
+            this.mnuClearLog.Text = "Clear Log";
+            this.mnuClearLog.Click += new System.EventHandler(this.mnuClearLog_Click);
+            // 
+            // mnuSelectAll
+            // 
+            this.mnuSelectAll.Name = "mnuSelectAll";
+            this.mnuSelectAll.Size = new System.Drawing.Size(136, 22);
+            this.mnuSelectAll.Text = "Select All";
+            this.mnuSelectAll.Visible = false;
+            this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
+            // 
+            // mnuShowTypes
+            // 
+            this.mnuShowTypes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuLogInfo,
+            this.mnuLogWarning,
+            this.mnuLogError,
+            this.mnuFatal,
+            this.mnuDebug});
+            this.mnuShowTypes.Name = "mnuShowTypes";
+            this.mnuShowTypes.Size = new System.Drawing.Size(136, 22);
+            this.mnuShowTypes.Text = "Show Types";
+            // 
+            // mnuLogInfo
+            // 
+            this.mnuLogInfo.Checked = true;
+            this.mnuLogInfo.CheckOnClick = true;
+            this.mnuLogInfo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuLogInfo.Name = "mnuLogInfo";
+            this.mnuLogInfo.Size = new System.Drawing.Size(137, 22);
+            this.mnuLogInfo.Text = "Information";
+            this.mnuLogInfo.Click += new System.EventHandler(this.mnuLogInfo_Click);
+            // 
+            // mnuLogWarning
+            // 
+            this.mnuLogWarning.Checked = true;
+            this.mnuLogWarning.CheckOnClick = true;
+            this.mnuLogWarning.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuLogWarning.Name = "mnuLogWarning";
+            this.mnuLogWarning.Size = new System.Drawing.Size(137, 22);
+            this.mnuLogWarning.Text = "Warnings";
+            this.mnuLogWarning.Click += new System.EventHandler(this.mnuLogWarning_Click);
+            // 
+            // mnuLogError
+            // 
+            this.mnuLogError.Checked = true;
+            this.mnuLogError.CheckOnClick = true;
+            this.mnuLogError.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuLogError.Name = "mnuLogError";
+            this.mnuLogError.Size = new System.Drawing.Size(137, 22);
+            this.mnuLogError.Text = "Errors";
+            this.mnuLogError.Click += new System.EventHandler(this.mnuLogError_Click);
+            // 
+            // mnuFatal
+            // 
+            this.mnuFatal.Checked = true;
+            this.mnuFatal.CheckOnClick = true;
+            this.mnuFatal.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuFatal.Name = "mnuFatal";
+            this.mnuFatal.Size = new System.Drawing.Size(137, 22);
+            this.mnuFatal.Text = "Fatal";
+            this.mnuFatal.Click += new System.EventHandler(this.mnuFatal_Click);
+            // 
+            // mnuDebug
+            // 
+            this.mnuDebug.Checked = true;
+            this.mnuDebug.CheckOnClick = true;
+            this.mnuDebug.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuDebug.Name = "mnuDebug";
+            this.mnuDebug.Size = new System.Drawing.Size(137, 22);
+            this.mnuDebug.Text = "Debug";
+            this.mnuDebug.Click += new System.EventHandler(this.mnuDebug_Click);
+            // 
+            // mnuSaveToFile
+            // 
+            this.mnuSaveToFile.Name = "mnuSaveToFile";
+            this.mnuSaveToFile.Size = new System.Drawing.Size(136, 22);
+            this.mnuSaveToFile.Text = "Save To File";
+            this.mnuSaveToFile.Visible = false;
+            this.mnuSaveToFile.Click += new System.EventHandler(this.mnuSaveToFile_Click);
+            // 
+            // tabBrowser
+            // 
+            this.tabBrowser.Controls.Add(this.browser);
+            this.tabBrowser.Location = new System.Drawing.Point(4, 22);
+            this.tabBrowser.Name = "tabBrowser";
+            this.tabBrowser.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBrowser.Size = new System.Drawing.Size(1046, 285);
+            this.tabBrowser.TabIndex = 3;
+            this.tabBrowser.Text = "Website";
+            this.tabBrowser.UseVisualStyleBackColor = true;
+            this.tabBrowser.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // browser
+            // 
+            this.browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.browser.Location = new System.Drawing.Point(5, 3);
+            this.browser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.browser.Name = "browser";
+            this.browser.ScriptErrorsSuppressed = true;
+            this.browser.Size = new System.Drawing.Size(1037, 276);
+            this.browser.TabIndex = 5;
+            // 
+            // tabSource
+            // 
+            this.tabSource.Controls.Add(this.tbContent);
+            this.tabSource.Location = new System.Drawing.Point(4, 22);
+            this.tabSource.Name = "tabSource";
+            this.tabSource.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSource.Size = new System.Drawing.Size(1046, 285);
+            this.tabSource.TabIndex = 4;
+            this.tabSource.Text = "Source";
+            this.tabSource.UseVisualStyleBackColor = true;
+            // 
+            // tbContent
+            // 
+            this.tbContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbContent.Location = new System.Drawing.Point(5, 6);
+            this.tbContent.Multiline = true;
+            this.tbContent.Name = "tbContent";
+            this.tbContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbContent.Size = new System.Drawing.Size(1037, 273);
+            this.tbContent.TabIndex = 6;
+            // 
             // grpConfig
             // 
             this.grpConfig.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -327,6 +472,8 @@
             // 
             // tabExportTypes
             // 
+            this.tabExportTypes.Controls.Add(this.lblLimitRecords);
+            this.tabExportTypes.Controls.Add(this.edtLimitRecords);
             this.tabExportTypes.Controls.Add(this.chkMySQL);
             this.tabExportTypes.Controls.Add(this.chkCSV);
             this.tabExportTypes.Location = new System.Drawing.Point(4, 22);
@@ -601,147 +748,21 @@
             this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
             this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
             // 
-            // mnuContextLog
+            // edtLimitRecords
             // 
-            this.mnuContextLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuClearLog,
-            this.mnuSelectAll,
-            this.mnuShowTypes,
-            this.mnuSaveToFile});
-            this.mnuContextLog.Name = "mnuContextLog";
-            this.mnuContextLog.Size = new System.Drawing.Size(137, 92);
+            this.edtLimitRecords.Location = new System.Drawing.Point(207, 36);
+            this.edtLimitRecords.Name = "edtLimitRecords";
+            this.edtLimitRecords.Size = new System.Drawing.Size(120, 20);
+            this.edtLimitRecords.TabIndex = 4;
             // 
-            // mnuClearLog
+            // lblLimitRecords
             // 
-            this.mnuClearLog.Name = "mnuClearLog";
-            this.mnuClearLog.Size = new System.Drawing.Size(136, 22);
-            this.mnuClearLog.Text = "Clear Log";
-            this.mnuClearLog.Click += new System.EventHandler(this.mnuClearLog_Click);
-            // 
-            // mnuSelectAll
-            // 
-            this.mnuSelectAll.Name = "mnuSelectAll";
-            this.mnuSelectAll.Size = new System.Drawing.Size(136, 22);
-            this.mnuSelectAll.Text = "Select All";
-            this.mnuSelectAll.Visible = false;
-            this.mnuSelectAll.Click += new System.EventHandler(this.mnuSelectAll_Click);
-            // 
-            // mnuShowTypes
-            // 
-            this.mnuShowTypes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuLogInfo,
-            this.mnuLogWarning,
-            this.mnuLogError,
-            this.mnuFatal,
-            this.mnuDebug});
-            this.mnuShowTypes.Name = "mnuShowTypes";
-            this.mnuShowTypes.Size = new System.Drawing.Size(136, 22);
-            this.mnuShowTypes.Text = "Show Types";
-            // 
-            // mnuLogInfo
-            // 
-            this.mnuLogInfo.Checked = true;
-            this.mnuLogInfo.CheckOnClick = true;
-            this.mnuLogInfo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuLogInfo.Name = "mnuLogInfo";
-            this.mnuLogInfo.Size = new System.Drawing.Size(180, 22);
-            this.mnuLogInfo.Text = "Information";
-            this.mnuLogInfo.Click += new System.EventHandler(this.mnuLogInfo_Click);
-            // 
-            // mnuLogWarning
-            // 
-            this.mnuLogWarning.Checked = true;
-            this.mnuLogWarning.CheckOnClick = true;
-            this.mnuLogWarning.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuLogWarning.Name = "mnuLogWarning";
-            this.mnuLogWarning.Size = new System.Drawing.Size(180, 22);
-            this.mnuLogWarning.Text = "Warnings";
-            this.mnuLogWarning.Click += new System.EventHandler(this.mnuLogWarning_Click);
-            // 
-            // mnuLogError
-            // 
-            this.mnuLogError.Checked = true;
-            this.mnuLogError.CheckOnClick = true;
-            this.mnuLogError.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuLogError.Name = "mnuLogError";
-            this.mnuLogError.Size = new System.Drawing.Size(180, 22);
-            this.mnuLogError.Text = "Errors";
-            this.mnuLogError.Click += new System.EventHandler(this.mnuLogError_Click);
-            // 
-            // mnuFatal
-            // 
-            this.mnuFatal.Checked = true;
-            this.mnuFatal.CheckOnClick = true;
-            this.mnuFatal.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuFatal.Name = "mnuFatal";
-            this.mnuFatal.Size = new System.Drawing.Size(180, 22);
-            this.mnuFatal.Text = "Fatal";
-            this.mnuFatal.Click += new System.EventHandler(this.mnuFatal_Click);
-            // 
-            // mnuDebug
-            // 
-            this.mnuDebug.Checked = true;
-            this.mnuDebug.CheckOnClick = true;
-            this.mnuDebug.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuDebug.Name = "mnuDebug";
-            this.mnuDebug.Size = new System.Drawing.Size(180, 22);
-            this.mnuDebug.Text = "Debug";
-            this.mnuDebug.Click += new System.EventHandler(this.mnuDebug_Click);
-            // 
-            // mnuSaveToFile
-            // 
-            this.mnuSaveToFile.Name = "mnuSaveToFile";
-            this.mnuSaveToFile.Size = new System.Drawing.Size(136, 22);
-            this.mnuSaveToFile.Text = "Save To File";
-            this.mnuSaveToFile.Visible = false;
-            this.mnuSaveToFile.Click += new System.EventHandler(this.mnuSaveToFile_Click);
-            // 
-            // tabBrowser
-            // 
-            this.tabBrowser.Controls.Add(this.browser);
-            this.tabBrowser.Location = new System.Drawing.Point(4, 22);
-            this.tabBrowser.Name = "tabBrowser";
-            this.tabBrowser.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBrowser.Size = new System.Drawing.Size(1046, 285);
-            this.tabBrowser.TabIndex = 3;
-            this.tabBrowser.Text = "Website";
-            this.tabBrowser.UseVisualStyleBackColor = true;
-            this.tabBrowser.Click += new System.EventHandler(this.tabPage1_Click);
-            // 
-            // browser
-            // 
-            this.browser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.browser.Location = new System.Drawing.Point(5, 3);
-            this.browser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.browser.Name = "browser";
-            this.browser.ScriptErrorsSuppressed = true;
-            this.browser.Size = new System.Drawing.Size(1037, 276);
-            this.browser.TabIndex = 5;
-            // 
-            // tabSource
-            // 
-            this.tabSource.Controls.Add(this.tbContent);
-            this.tabSource.Location = new System.Drawing.Point(4, 22);
-            this.tabSource.Name = "tabSource";
-            this.tabSource.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSource.Size = new System.Drawing.Size(1046, 285);
-            this.tabSource.TabIndex = 4;
-            this.tabSource.Text = "Source";
-            this.tabSource.UseVisualStyleBackColor = true;
-            // 
-            // tbContent
-            // 
-            this.tbContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbContent.Location = new System.Drawing.Point(5, 6);
-            this.tbContent.Multiline = true;
-            this.tbContent.Name = "tbContent";
-            this.tbContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbContent.Size = new System.Drawing.Size(1037, 273);
-            this.tbContent.TabIndex = 6;
+            this.lblLimitRecords.AutoSize = true;
+            this.lblLimitRecords.Location = new System.Drawing.Point(205, 17);
+            this.lblLimitRecords.Name = "lblLimitRecords";
+            this.lblLimitRecords.Size = new System.Drawing.Size(97, 13);
+            this.lblLimitRecords.TabIndex = 5;
+            this.lblLimitRecords.Text = "Record Limit (0=all)";
             // 
             // VehicleGrabber
             // 
@@ -765,6 +786,10 @@
             this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabLog.ResumeLayout(false);
+            this.mnuContextLog.ResumeLayout(false);
+            this.tabBrowser.ResumeLayout(false);
+            this.tabSource.ResumeLayout(false);
+            this.tabSource.PerformLayout();
             this.grpConfig.ResumeLayout(false);
             this.tabConfig.ResumeLayout(false);
             this.tabExportTypes.ResumeLayout(false);
@@ -774,10 +799,7 @@
             this.tabConfigMySQL.ResumeLayout(false);
             this.tabConfigMySQL.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.edtMySQLPort)).EndInit();
-            this.mnuContextLog.ResumeLayout(false);
-            this.tabBrowser.ResumeLayout(false);
-            this.tabSource.ResumeLayout(false);
-            this.tabSource.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.edtLimitRecords)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -846,6 +868,8 @@
         private System.Windows.Forms.WebBrowser browser;
         private System.Windows.Forms.TabPage tabSource;
         private System.Windows.Forms.TextBox tbContent;
+        private System.Windows.Forms.Label lblLimitRecords;
+        private System.Windows.Forms.NumericUpDown edtLimitRecords;
     }
 }
 

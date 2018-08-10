@@ -20,18 +20,26 @@ namespace VehicleGrabberCore.Importer
 
         public VGCore Core { get; set; }
 
+        public long RecLimit { get; set; }
+
         public enum ImporterType
         {
             ADAC,
             AUTOMOBILIO
         };
 
+            
 
-
-        public ImporterBase()
+        protected ImporterBase(VGCore core)
         {
+            this.Core = core;
+            this.RecLimit = this.Core.Conf.RecordLimit;
         }
 
+        protected ImporterBase()
+        {
+            this.RecLimit = this.Core.Conf.RecordLimit;
+        }
 
 
         public abstract void StartImport(BackgroundWorker bw = null);
@@ -39,6 +47,23 @@ namespace VehicleGrabberCore.Importer
         public abstract string GetPageContent();
 
         public abstract string GetBaseUrl();
+
+        protected bool IsLimited(long cnt)
+        {
+            if (this.Core.Conf.RecordLimit == 0)
+            {
+                return false;
+            }
+            else
+            {
+                if (cnt > this.Core.Conf.RecordLimit)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         protected string DownloadModelImage(string imgUrl)
         {
