@@ -108,7 +108,7 @@ namespace VehicleGrabberCore.Importer
                         //MakerObj.MakerLogoUrl = node.SelectSingleNode("/li[1]/a[1]/div[1]/img[1]").Attributes //"//*[@id=\"  //
                         //    .AttributesWithName("src").First().Value;
 
-                        MakerObj.MakerLogoUrl = node.ChildNodes[1].ChildNodes[1].FirstChild.ChildAttributes("src")
+                        MakerObj.MakerLogoUrl = node.FirstChild.ChildNodes[1].FirstChild.ChildAttributes("src")
                             .First().Value;
                         //    .AttributesWithName("src").First().Value;
 
@@ -123,7 +123,7 @@ namespace VehicleGrabberCore.Importer
                         //MakerObj.MakerUrlPath = node.SelectSingleNode("/li[1]/a[1]").Attributes.AttributesWithName("href")
                         //    .First().Value;
 
-                        MakerObj.MakerUrlPath = node.ChildNodes[1].Attributes.AttributesWithName("href")
+                        MakerObj.MakerUrlPath = node.FirstChild.Attributes.AttributesWithName("href")
                             .First().Value;
 
                         this.MakersList.Add(MakerObj);

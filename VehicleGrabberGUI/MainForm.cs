@@ -185,8 +185,15 @@ namespace VehicleGrabberGUI
         private void BtnExport_Click(object sender, EventArgs e)
         {
             btnCancel.Enabled = true;
-            bwExport.RunWorkerAsync();
-
+            btnExport.Enabled = false;
+            try
+            {
+                bwExport.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -332,6 +339,7 @@ namespace VehicleGrabberGUI
                 // knows that the process was cancelled.
                 e.Cancel = true;
                 bwExport.ReportProgress(0);
+                btnExport.Enabled = true;
                 return;
             }
 
@@ -351,12 +359,13 @@ namespace VehicleGrabberGUI
                         Core.ExportToMySQL(bwExport);
                     }
                 }
-
+                btnExport.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
         }
 
         private void bwExport_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -381,6 +390,7 @@ namespace VehicleGrabberGUI
                 // do nothing here
                 string msg = ex.Message;
             }
+            btnExport.Enabled = true;
         }
 
         private void mnuClearLog_Click(object sender, EventArgs e)
@@ -474,23 +484,26 @@ namespace VehicleGrabberGUI
                 // Automatically clck that image hyperlink
 
                 HtmlElementCollection theElementCollection = browser.Document.GetElementsByTagName("input");
-
                 foreach (HtmlElement curElement in theElementCollection)
-
                 {
-
                     if (curElement.GetAttribute("value").Equals("radioAllModels"))
-
                     {
-
                         curElement.InvokeMember("click");
-
-                        
-
+                        break;
                         // Javascript has a click method for you need to invoke on button and hyperlink elements.
+                    }               
+                }
 
+                HtmlElementCollection theElementCollection1 = browser.Document.GetElementsByTagName("a");
+
+                foreach (HtmlElement curElement in theElementCollection1)
+                {
+                    if (curElement.GetAttribute("href").Contains("linkReiterAlphabetisch"))
+                    {
+                        curElement.InvokeMember("click");
+                        break;
                     }
-                }                
+                }
             }
             this.pageReloaded++;
 
