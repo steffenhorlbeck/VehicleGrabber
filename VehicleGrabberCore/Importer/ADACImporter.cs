@@ -337,141 +337,167 @@ namespace VehicleGrabberCore.Importer
             foreach (ModelTypeObj type in modelTypesList)
             {
                 string modelDetailsUrl = string.Format("{0}{1}", this.baseUrl, type.ModelTypeDetailsUrl);
-                string carContent = GetContent(modelDetailsUrl);
+                try
+                {                    
+                    string carContent = GetContent(modelDetailsUrl);
 
-                var htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(carContent);
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(carContent);
 
-                HtmlNodeCollection cars_div = null;
-                if (htmlDoc.DocumentNode != null)
-                {
-                    cars_div = htmlDoc.DocumentNode.SelectNodes(
-                        "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[1]/table/tbody");
+                    HtmlNodeCollection cars_div = null;
+                    if (htmlDoc.DocumentNode != null)
+                    {
+                        cars_div = htmlDoc.DocumentNode.SelectNodes(
+                            "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[1]/table/tbody");
+                    }
+
+                    if (cars_div != null)
+                    {
+                        CarDetailsObj carObj = new CarDetailsObj();
+
+                        carObj.ModelTypeID = type.ModelTypeID;
+                        carObj.ModelID = type.ModelID;
+                        carObj.Maker = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                        carObj.Model = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[2].ChildNodes[1].InnerText);
+                        carObj.Type = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[3].ChildNodes[1].InnerText);
+                        carObj.Series = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[4].ChildNodes[1].InnerText);
+                        carObj.ModelTypeName = type.ModelTypeName;
+                        carObj.InternalClassName =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[5].ChildNodes[1].InnerText);
+                        carObj.ModelStart =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[6].ChildNodes[1].InnerText);
+                        carObj.ModelEnd =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[7].ChildNodes[1].InnerText);
+                        carObj.SeriesStart =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[8].ChildNodes[1].InnerText);
+                        carObj.SeriesEnd =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[9].ChildNodes[1].InnerText);
+                        carObj.HSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[10].ChildNodes[1].InnerText);
+                        carObj.TSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[11].ChildNodes[1].InnerText);
+                        carObj.TSN2 = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[12].ChildNodes[1].InnerText);
+                        carObj.CarTax = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[13].ChildNodes[1].InnerText);
+                        carObj.CO2Class =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[14].ChildNodes[1].InnerText);
+                        carObj.BasePrice =
+                            HttpUtility.HtmlDecode(cars_div.First().ChildNodes[15].ChildNodes[1].InnerText);
+
+
+
+
+                        // Motor & Antrieb
+                        HtmlNodeCollection carEngine_div = null;
+                        carEngine_div = htmlDoc.DocumentNode.SelectNodes(
+                            "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[2]/table/tbody");
+
+                        if (carEngine_div != null)
+                        {
+                            carObj.EngineType =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[0].ChildNodes[1].InnerText);
+                            carObj.Fuel =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                            carObj.Fuel2 =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[2].ChildNodes[1].InnerText);
+                            carObj.EmissionControl =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[3].ChildNodes[1].InnerText);
+                            carObj.EngineDesign =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[4].ChildNodes[1].InnerText);
+                            carObj.Cylinder =
+                                Convert.ToInt32(carEngine_div.First().ChildNodes[5].ChildNodes[1].InnerText);
+                            carObj.FuelType =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[6].ChildNodes[1].InnerText);
+                            carObj.Charge =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[7].ChildNodes[1].InnerText);
+                            carObj.Valves =
+                                Convert.ToInt32(carEngine_div.First().ChildNodes[8].ChildNodes[1].InnerText);
+                            carObj.Cubic =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[9].ChildNodes[1].InnerText);
+                            carObj.PowerKW =
+                                Convert.ToInt32(carEngine_div.First().ChildNodes[10].ChildNodes[1].InnerText);
+                            carObj.PowerPS =
+                                Convert.ToInt32(carEngine_div.First().ChildNodes[11].ChildNodes[1].InnerText);
+                            carObj.MaxPower =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[12].ChildNodes[1].InnerText);
+                            carObj.TurningMoment =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[13].ChildNodes[1].InnerText);
+                            carObj.MaxTurningMoment =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[14].ChildNodes[1].InnerText);
+                            carObj.TypeOfDrive =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[15].ChildNodes[1].InnerText);
+                            carObj.Gearing =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[16].ChildNodes[1].InnerText);
+                            carObj.Gears =
+                                Convert.ToInt32(carEngine_div.First().ChildNodes[17].ChildNodes[1].InnerText);
+                            carObj.StartStopAutomatic =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[18].ChildNodes[1].InnerText);
+                            carObj.EmissionClass =
+                                HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[20].ChildNodes[1].InnerText);
+                        }
+
+
+                        // Maße & Gewicht
+                        HtmlNodeCollection carDimensions_div = null;
+                        carDimensions_div = htmlDoc.DocumentNode.SelectNodes(
+                            "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[3]/table/tbody");
+
+                        if (carDimensions_div != null)
+                        {
+                            carObj.Length =
+                                HttpUtility.HtmlDecode(carDimensions_div.First().ChildNodes[0].ChildNodes[1].InnerText);
+                            carObj.Width =
+                                HttpUtility.HtmlDecode(carDimensions_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                            carObj.Height =
+                                HttpUtility.HtmlDecode(carDimensions_div.First().ChildNodes[2].ChildNodes[1].InnerText);
+
+                        }
+
+                        // Karosserie & Fahrwerk
+                        HtmlNodeCollection carChassis_div = null;
+                        carChassis_div = htmlDoc.DocumentNode.SelectNodes(
+                            "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[4]/table/tbody");
+
+                        if (carChassis_div != null)
+                        {
+                            carObj.Chassis =
+                                HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[0].ChildNodes[1].InnerText);
+                            carObj.Doors =
+                                Convert.ToInt32(carChassis_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                            carObj.CarClass =
+                                HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[3].ChildNodes[1].InnerText);
+                            carObj.Seats =
+                                Convert.ToInt32(carChassis_div.First().ChildNodes[4].ChildNodes[1].InnerText);
+                        }
+
+                        //Messwerte Hersteller
+                        HtmlNodeCollection carMeasured_div = null;
+                        carMeasured_div = htmlDoc.DocumentNode.SelectNodes(
+                            "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[5]/table/tbody");
+
+                        if (carMeasured_div != null)
+                        {
+                            carObj.SpeedUp =
+                                HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[0].ChildNodes[1].InnerText);
+                            carObj.MaxSpeed =
+                                HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                            carObj.Tank =
+                                HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[26].ChildNodes[1].InnerText);
+                            carObj.Tank2 =
+                                HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[27].ChildNodes[1].InnerText);
+                        }
+
+                        carDetailsList.Add(carObj);
+                    }
                 }
-
-                if (cars_div != null)
+                catch (Exception ex)
                 {
-                    CarDetailsObj carObj = new CarDetailsObj();
-
-                    carObj.ModelTypeID = type.ModelTypeID;
-                    carObj.ModelID = type.ModelID;
-                    carObj.Maker = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[1].ChildNodes[1].InnerText);
-                    carObj.Model = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[2].ChildNodes[1].InnerText);
-                    carObj.Type = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[3].ChildNodes[1].InnerText);
-                    carObj.Series = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[4].ChildNodes[1].InnerText);
-                    carObj.ModelTypeName = type.ModelTypeName;
-                    carObj.InternalClassName =
-                        HttpUtility.HtmlDecode(cars_div.First().ChildNodes[5].ChildNodes[1].InnerText);
-                    carObj.ModelStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[6].ChildNodes[1].InnerText);
-                    carObj.ModelEnd = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[7].ChildNodes[1].InnerText);
-                    carObj.SeriesStart = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[8].ChildNodes[1].InnerText);
-                    carObj.SeriesEnd = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[9].ChildNodes[1].InnerText);
-                    carObj.HSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[10].ChildNodes[1].InnerText);
-                    carObj.TSN = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[11].ChildNodes[1].InnerText);
-                    carObj.TSN2 = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[12].ChildNodes[1].InnerText);
-                    carObj.CarTax = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[13].ChildNodes[1].InnerText);
-                    carObj.CO2Class = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[14].ChildNodes[1].InnerText);
-                    carObj.BasePrice = HttpUtility.HtmlDecode(cars_div.First().ChildNodes[15].ChildNodes[1].InnerText);
-
-
-
-
-                    // Motor & Antrieb
-                    HtmlNodeCollection carEngine_div = null;
-                    carEngine_div = htmlDoc.DocumentNode.SelectNodes(
-                        "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[2]/table/tbody");
-
-                    if (carEngine_div != null)
+                    if (this.Core != null && this.Core.Log != null)
                     {
-                        carObj.EngineType =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[0].ChildNodes[1].InnerText);
-                        carObj.Fuel =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[1].ChildNodes[1].InnerText);
-                        carObj.Fuel2 =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[2].ChildNodes[1].InnerText);
-                        carObj.EmissionControl =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[3].ChildNodes[1].InnerText);
-                        carObj.EngineDesign =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[4].ChildNodes[1].InnerText);
-                        carObj.Cylinder = Convert.ToInt32(carEngine_div.First().ChildNodes[5].ChildNodes[1].InnerText);
-                        carObj.FuelType =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[6].ChildNodes[1].InnerText);
-                        carObj.Charge =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[7].ChildNodes[1].InnerText);
-                        carObj.Valves = Convert.ToInt32(carEngine_div.First().ChildNodes[8].ChildNodes[1].InnerText);
-                        carObj.Cubic =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[9].ChildNodes[1].InnerText);
-                        carObj.PowerKW = Convert.ToInt32(carEngine_div.First().ChildNodes[10].ChildNodes[1].InnerText);
-                        carObj.PowerPS = Convert.ToInt32(carEngine_div.First().ChildNodes[11].ChildNodes[1].InnerText);
-                        carObj.MaxPower =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[12].ChildNodes[1].InnerText);
-                        carObj.TurningMoment =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[13].ChildNodes[1].InnerText);
-                        carObj.MaxTurningMoment =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[14].ChildNodes[1].InnerText);
-                        carObj.TypeOfDrive =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[15].ChildNodes[1].InnerText);
-                        carObj.Gearing =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[16].ChildNodes[1].InnerText);
-                        carObj.Gears = Convert.ToInt32(carEngine_div.First().ChildNodes[17].ChildNodes[1].InnerText);
-                        carObj.StartStopAutomatic =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[18].ChildNodes[1].InnerText);
-                        carObj.EmissionClass =
-                            HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[20].ChildNodes[1].InnerText);
+                        this.Core.Log.Error(string.Format("MySQLExporter::CloseConnection : {0} ({1})", ex.Message, modelDetailsUrl));
                     }
-
-
-                    // Maße & Gewicht
-                    HtmlNodeCollection carDimensions_div = null;
-                    carDimensions_div = htmlDoc.DocumentNode.SelectNodes(
-                        "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[3]/table/tbody");
-
-                    if (carDimensions_div != null)
+                    else
                     {
-                        carObj.Length =
-                            HttpUtility.HtmlDecode(carDimensions_div.First().ChildNodes[0].ChildNodes[1].InnerText);
-                        carObj.Width =
-                            HttpUtility.HtmlDecode(carDimensions_div.First().ChildNodes[1].ChildNodes[1].InnerText);
-                        carObj.Height =
-                            HttpUtility.HtmlDecode(carDimensions_div.First().ChildNodes[2].ChildNodes[1].InnerText);
-
+                        throw new Exception("MySQLExporter::CloseConnection", ex);
                     }
-
-                    // Karosserie & Fahrwerk
-                    HtmlNodeCollection carChassis_div = null;
-                    carChassis_div = htmlDoc.DocumentNode.SelectNodes(
-                        "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[4]/table/tbody");
-
-                    if (carChassis_div != null)
-                    {
-                        carObj.Chassis =
-                            HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[0].ChildNodes[1].InnerText);
-                        carObj.Doors = Convert.ToInt32(carChassis_div.First().ChildNodes[1].ChildNodes[1].InnerText);
-                        carObj.CarClass =
-                            HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[3].ChildNodes[1].InnerText);
-                        carObj.Seats = Convert.ToInt32(carChassis_div.First().ChildNodes[4].ChildNodes[1].InnerText);
-                    }
-
-                    //Messwerte Hersteller
-                    HtmlNodeCollection carMeasured_div = null;
-                    carMeasured_div = htmlDoc.DocumentNode.SelectNodes(
-                        "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogDetail1_ctl01_updatePanelDetail\"]/div[2]/div[3]/div[5]/table/tbody");
-
-                    if (carMeasured_div != null)
-                    {
-                        carObj.SpeedUp =
-                            HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[0].ChildNodes[1].InnerText);
-                        carObj.MaxSpeed =
-                            HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[1].ChildNodes[1].InnerText);
-                        carObj.Tank =
-                            HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[26].ChildNodes[1].InnerText);
-                        carObj.Tank2 =
-                            HttpUtility.HtmlDecode(carMeasured_div.First().ChildNodes[27].ChildNodes[1].InnerText);
-                    }
-
-                    carDetailsList.Add(carObj);
                 }
-
             }
             if (this.Core != null && this.Core.Log != null)
             {

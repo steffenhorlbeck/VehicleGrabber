@@ -28,7 +28,8 @@ namespace VehicleGrabberCore.Importer
         public enum ImporterType
         {
             ADAC,
-            AUTOMOBILIO
+            AUTOMOBILIO,
+            ADAC_TYPEDB
         };
 
             

@@ -70,6 +70,9 @@ namespace VehicleGrabberCore
             } else if (importType == (int)ImporterBase.ImporterType.AUTOMOBILIO)
             {
                 Importer = new AutomobilioImporter(this);
+            } else if (importType == (int) ImporterBase.ImporterType.ADAC_TYPEDB)
+            {
+                Importer = new ADACImportCarDetails(this);
             }
            
             //Importer.StartImport(bw);
@@ -97,7 +100,7 @@ namespace VehicleGrabberCore
 
 
 
-        public void ExportToMySQL(BackgroundWorker bw = null)
+        public void ExportToMySQL(BackgroundWorker bw = null, bool carDetailsOnly = false)
         {
             string server = this.Conf.SQLServer;
             string db = this.Conf.SQLDataBase;
@@ -113,22 +116,25 @@ namespace VehicleGrabberCore
             {
                 exporter.CloseConnection();
 
-                exporter.HandleMakers();
-                if (bw != null)
+                if (!carDetailsOnly)
                 {
-                    bw.ReportProgress(10);
-                }
+                    exporter.HandleMakers();
+                    if (bw != null)
+                    {
+                        bw.ReportProgress(10);
+                    }
 
-                exporter.HandleModels();
-                if (bw != null)
-                {
-                    bw.ReportProgress(20);
-                }
+                    exporter.HandleModels();
+                    if (bw != null)
+                    {
+                        bw.ReportProgress(20);
+                    }
 
-                exporter.HandleModelTypes();
-                if (bw != null)
-                {
-                    bw.ReportProgress(30);
+                    exporter.HandleModelTypes();
+                    if (bw != null)
+                    {
+                        bw.ReportProgress(30);
+                    }
                 }
 
                 exporter.HandleCarDetails();

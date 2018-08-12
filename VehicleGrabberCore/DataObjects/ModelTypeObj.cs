@@ -8,6 +8,7 @@ namespace VehicleGrabberCore.DataObjects
     {
         public ModelTypeObj()
         {
+            MakerID = -1;
             ModelID = -1;
             ModelTypeID = -1;
             MakerName = string.Empty;
@@ -23,7 +24,7 @@ namespace VehicleGrabberCore.DataObjects
             ModelTypeChassis = string.Empty;
             ModelTypeDoors = 0;
         }
-
+        public long MakerID { get; set; }
         public long ModelID { get; set; }
         public long ModelTypeID { get; set; }
         public string MakerName { get; set; }

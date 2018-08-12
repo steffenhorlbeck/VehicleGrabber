@@ -60,6 +60,8 @@ namespace VehicleGrabberGUI
 
                 if (rbADAC.Checked) { impType = 0; }
                 if (rbAutomobilio.Checked) { impType = 1; }
+                if (rbADAC_TypeDB.Checked) { impType = 2;}
+
                 Core.InitImporter(impType);
 
                 catalogUrl = Core.GetCatalogUrl();
@@ -185,7 +187,6 @@ namespace VehicleGrabberGUI
         private void BtnExport_Click(object sender, EventArgs e)
         {
             btnCancel.Enabled = true;
-            btnExport.Enabled = false;
             try
             {
                 bwExport.RunWorkerAsync();
@@ -339,7 +340,7 @@ namespace VehicleGrabberGUI
                 // knows that the process was cancelled.
                 e.Cancel = true;
                 bwExport.ReportProgress(0);
-                btnExport.Enabled = true;
+                
                 return;
             }
 
@@ -356,10 +357,17 @@ namespace VehicleGrabberGUI
 
                     if (this.Core.Conf.ExportMySQL)
                     {
-                        Core.ExportToMySQL(bwExport);
+                        if (rbADAC_TypeDB.Checked)
+                        {
+                            Core.ExportToMySQL(bwExport, true);
+                        }
+                        else
+                        {
+                            Core.ExportToMySQL(bwExport);
+                        }
                     }
                 }
-                btnExport.Enabled = true;
+
             }
             catch (Exception ex)
             {
@@ -390,8 +398,7 @@ namespace VehicleGrabberGUI
                 // do nothing here
                 string msg = ex.Message;
             }
-            btnExport.Enabled = true;
-        }
+             }
 
         private void mnuClearLog_Click(object sender, EventArgs e)
         {
@@ -507,13 +514,18 @@ namespace VehicleGrabberGUI
             }
             this.pageReloaded++;
 
-            if (this.pageReloaded == 2)
+            if (this.pageReloaded == 1)
             {
                 this.pageReloaded = 0;
                 Core.SetPageContent(browser.DocumentText);
 
                 bwImport.RunWorkerAsync();
             }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

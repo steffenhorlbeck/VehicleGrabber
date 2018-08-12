@@ -93,6 +93,7 @@
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.bwExport = new System.ComponentModel.BackgroundWorker();
+            this.rbADAC_TypeDB = new System.Windows.Forms.RadioButton();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -122,6 +123,7 @@
             // 
             // grpSource
             // 
+            this.grpSource.Controls.Add(this.rbADAC_TypeDB);
             this.grpSource.Controls.Add(this.rbAutomobilio);
             this.grpSource.Controls.Add(this.rbADAC);
             this.grpSource.Location = new System.Drawing.Point(39, 13);
@@ -135,7 +137,7 @@
             // 
             this.rbAutomobilio.AutoSize = true;
             this.rbAutomobilio.Enabled = false;
-            this.rbAutomobilio.Location = new System.Drawing.Point(7, 51);
+            this.rbAutomobilio.Location = new System.Drawing.Point(7, 93);
             this.rbAutomobilio.Name = "rbAutomobilio";
             this.rbAutomobilio.Size = new System.Drawing.Size(118, 17);
             this.rbAutomobilio.TabIndex = 1;
@@ -767,6 +769,19 @@
             this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
             this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
             // 
+            // rbADAC_TypeDB
+            // 
+            this.rbADAC_TypeDB.AutoSize = true;
+            this.rbADAC_TypeDB.Checked = true;
+            this.rbADAC_TypeDB.Location = new System.Drawing.Point(7, 51);
+            this.rbADAC_TypeDB.Name = "rbADAC_TypeDB";
+            this.rbADAC_TypeDB.Size = new System.Drawing.Size(96, 17);
+            this.rbADAC_TypeDB.TabIndex = 2;
+            this.rbADAC_TypeDB.TabStop = true;
+            this.rbADAC_TypeDB.Text = "ADAC TypeDB";
+            this.rbADAC_TypeDB.UseVisualStyleBackColor = true;
+            this.rbADAC_TypeDB.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
             // VehicleGrabber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -873,6 +888,7 @@
         private System.Windows.Forms.TextBox tbContent;
         private System.Windows.Forms.Label lblLimitRecords;
         private System.Windows.Forms.NumericUpDown edtLimitRecords;
+        private System.Windows.Forms.RadioButton rbADAC_TypeDB;
     }
 }
 
