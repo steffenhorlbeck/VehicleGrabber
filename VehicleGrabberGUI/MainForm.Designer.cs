@@ -68,6 +68,8 @@
             this.grpConfig = new System.Windows.Forms.GroupBox();
             this.tabConfig = new System.Windows.Forms.TabControl();
             this.tabExportTypes = new System.Windows.Forms.TabPage();
+            this.lblMakerName = new System.Windows.Forms.Label();
+            this.edtMakerName = new System.Windows.Forms.TextBox();
             this.lblLimitRecords = new System.Windows.Forms.Label();
             this.edtLimitRecords = new System.Windows.Forms.NumericUpDown();
             this.chkMySQL = new System.Windows.Forms.CheckBox();
@@ -94,8 +96,7 @@
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.bwExport = new System.ComponentModel.BackgroundWorker();
-            this.edtMakerName = new System.Windows.Forms.TextBox();
-            this.lblMakerName = new System.Windows.Forms.Label();
+            this.rbADAC_curMaker = new System.Windows.Forms.RadioButton();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -125,6 +126,7 @@
             // 
             // grpSource
             // 
+            this.grpSource.Controls.Add(this.rbADAC_curMaker);
             this.grpSource.Controls.Add(this.rbADAC_TypeDB);
             this.grpSource.Controls.Add(this.rbAutomobilio);
             this.grpSource.Controls.Add(this.rbADAC);
@@ -138,12 +140,10 @@
             // rbADAC_TypeDB
             // 
             this.rbADAC_TypeDB.AutoSize = true;
-            this.rbADAC_TypeDB.Checked = true;
             this.rbADAC_TypeDB.Location = new System.Drawing.Point(7, 51);
             this.rbADAC_TypeDB.Name = "rbADAC_TypeDB";
             this.rbADAC_TypeDB.Size = new System.Drawing.Size(96, 17);
             this.rbADAC_TypeDB.TabIndex = 2;
-            this.rbADAC_TypeDB.TabStop = true;
             this.rbADAC_TypeDB.Text = "ADAC TypeDB";
             this.rbADAC_TypeDB.UseVisualStyleBackColor = true;
             this.rbADAC_TypeDB.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
@@ -152,7 +152,7 @@
             // 
             this.rbAutomobilio.AutoSize = true;
             this.rbAutomobilio.Enabled = false;
-            this.rbAutomobilio.Location = new System.Drawing.Point(7, 93);
+            this.rbAutomobilio.Location = new System.Drawing.Point(7, 133);
             this.rbAutomobilio.Name = "rbAutomobilio";
             this.rbAutomobilio.Size = new System.Drawing.Size(118, 17);
             this.rbAutomobilio.TabIndex = 1;
@@ -167,7 +167,6 @@
             this.rbADAC.Name = "rbADAC";
             this.rbADAC.Size = new System.Drawing.Size(114, 17);
             this.rbADAC.TabIndex = 0;
-            this.rbADAC.TabStop = true;
             this.rbADAC.Text = "ADAC Autokatalog";
             this.rbADAC.UseVisualStyleBackColor = true;
             // 
@@ -503,6 +502,22 @@
             this.tabExportTypes.Text = "Export-Typen";
             this.tabExportTypes.UseVisualStyleBackColor = true;
             // 
+            // lblMakerName
+            // 
+            this.lblMakerName.AutoSize = true;
+            this.lblMakerName.Location = new System.Drawing.Point(207, 70);
+            this.lblMakerName.Name = "lblMakerName";
+            this.lblMakerName.Size = new System.Drawing.Size(51, 13);
+            this.lblMakerName.TabIndex = 7;
+            this.lblMakerName.Text = "Hersteller";
+            // 
+            // edtMakerName
+            // 
+            this.edtMakerName.Location = new System.Drawing.Point(207, 85);
+            this.edtMakerName.Name = "edtMakerName";
+            this.edtMakerName.Size = new System.Drawing.Size(120, 20);
+            this.edtMakerName.TabIndex = 6;
+            // 
             // lblLimitRecords
             // 
             this.lblLimitRecords.AutoSize = true;
@@ -786,21 +801,15 @@
             this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
             this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
             // 
-            // edtMakerName
+            // rbADAC_curMaker
             // 
-            this.edtMakerName.Location = new System.Drawing.Point(207, 85);
-            this.edtMakerName.Name = "edtMakerName";
-            this.edtMakerName.Size = new System.Drawing.Size(120, 20);
-            this.edtMakerName.TabIndex = 6;
-            // 
-            // lblMakerName
-            // 
-            this.lblMakerName.AutoSize = true;
-            this.lblMakerName.Location = new System.Drawing.Point(207, 70);
-            this.lblMakerName.Name = "lblMakerName";
-            this.lblMakerName.Size = new System.Drawing.Size(51, 13);
-            this.lblMakerName.TabIndex = 7;
-            this.lblMakerName.Text = "Hersteller";
+            this.rbADAC_curMaker.AutoSize = true;
+            this.rbADAC_curMaker.Location = new System.Drawing.Point(7, 81);
+            this.rbADAC_curMaker.Name = "rbADAC_curMaker";
+            this.rbADAC_curMaker.Size = new System.Drawing.Size(121, 17);
+            this.rbADAC_curMaker.TabIndex = 3;
+            this.rbADAC_curMaker.Text = "ADAC CurrentMaker";
+            this.rbADAC_curMaker.UseVisualStyleBackColor = true;
             // 
             // VehicleGrabber
             // 
@@ -911,6 +920,7 @@
         private System.Windows.Forms.RadioButton rbADAC_TypeDB;
         private System.Windows.Forms.Label lblMakerName;
         private System.Windows.Forms.TextBox edtMakerName;
+        private System.Windows.Forms.RadioButton rbADAC_curMaker;
     }
 }
 

@@ -61,7 +61,7 @@ namespace VehicleGrabberCore.Importer
 
 
 
-        public override void StartImport(BackgroundWorker bw = null)
+        public override void StartImport(BackgroundWorker bw = null, string content = "")
         {
             string url = string.Empty;
             try

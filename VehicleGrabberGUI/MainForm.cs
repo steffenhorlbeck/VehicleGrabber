@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using VehicleGrabberCore;
 using VehicleGrabberCore.Configuration;
+using VehicleGrabberCore.Importer;
 
 namespace VehicleGrabberGUI
 {
@@ -58,9 +59,10 @@ namespace VehicleGrabberGUI
                 int impType = -1;
                 int tmr = 0;
 
-                if (rbADAC.Checked) { impType = 0; }
-                if (rbAutomobilio.Checked) { impType = 1; }
-                if (rbADAC_TypeDB.Checked) { impType = 2;}
+                if (rbADAC.Checked) { impType = (int)ImporterBase.ImporterType.ADAC; }
+                if (rbAutomobilio.Checked) { impType = (int)ImporterBase.ImporterType.AUTOMOBILIO; }
+                if (rbADAC_TypeDB.Checked) { impType = (int)ImporterBase.ImporterType.ADAC_TYPEDB; }
+                if (rbADAC_curMaker.Checked) { impType = (int)ImporterBase.ImporterType.ADAC_CURRENTMAKER; }
 
                 Core.InitImporter(impType);
 

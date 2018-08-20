@@ -31,7 +31,8 @@ namespace VehicleGrabberCore.Importer
         {
             ADAC,
             AUTOMOBILIO,
-            ADAC_TYPEDB
+            ADAC_TYPEDB,
+            ADAC_CURRENTMAKER
         };
 
             
@@ -44,7 +45,7 @@ namespace VehicleGrabberCore.Importer
 
 
 
-        public abstract void StartImport(BackgroundWorker bw = null);
+        public abstract void StartImport(BackgroundWorker bw = null, string content = "");
 
         public abstract string GetPageContent();
 

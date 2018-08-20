@@ -74,7 +74,11 @@ namespace VehicleGrabberCore
             {
                 Importer = new ADACImportCarDetails(this);
             }
-           
+            else if (importType == (int)ImporterBase.ImporterType.ADAC_CURRENTMAKER)
+            {
+                Importer = new ADACImportCurrentMakerModels(this);
+            }
+
             //Importer.StartImport(bw);
         }
 
