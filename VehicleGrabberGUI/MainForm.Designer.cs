@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.btnStart = new System.Windows.Forms.Button();
             this.grpSource = new System.Windows.Forms.GroupBox();
+            this.rbADAC_TypeDB = new System.Windows.Forms.RadioButton();
             this.rbAutomobilio = new System.Windows.Forms.RadioButton();
             this.rbADAC = new System.Windows.Forms.RadioButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -93,7 +94,8 @@
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.bwExport = new System.ComponentModel.BackgroundWorker();
-            this.rbADAC_TypeDB = new System.Windows.Forms.RadioButton();
+            this.edtMakerName = new System.Windows.Forms.TextBox();
+            this.lblMakerName = new System.Windows.Forms.Label();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -132,6 +134,19 @@
             this.grpSource.TabIndex = 5;
             this.grpSource.TabStop = false;
             this.grpSource.Text = "Quelle";
+            // 
+            // rbADAC_TypeDB
+            // 
+            this.rbADAC_TypeDB.AutoSize = true;
+            this.rbADAC_TypeDB.Checked = true;
+            this.rbADAC_TypeDB.Location = new System.Drawing.Point(7, 51);
+            this.rbADAC_TypeDB.Name = "rbADAC_TypeDB";
+            this.rbADAC_TypeDB.Size = new System.Drawing.Size(96, 17);
+            this.rbADAC_TypeDB.TabIndex = 2;
+            this.rbADAC_TypeDB.TabStop = true;
+            this.rbADAC_TypeDB.Text = "ADAC TypeDB";
+            this.rbADAC_TypeDB.UseVisualStyleBackColor = true;
+            this.rbADAC_TypeDB.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // rbAutomobilio
             // 
@@ -474,6 +489,8 @@
             // 
             // tabExportTypes
             // 
+            this.tabExportTypes.Controls.Add(this.lblMakerName);
+            this.tabExportTypes.Controls.Add(this.edtMakerName);
             this.tabExportTypes.Controls.Add(this.lblLimitRecords);
             this.tabExportTypes.Controls.Add(this.edtLimitRecords);
             this.tabExportTypes.Controls.Add(this.chkMySQL);
@@ -769,18 +786,21 @@
             this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
             this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
             // 
-            // rbADAC_TypeDB
+            // edtMakerName
             // 
-            this.rbADAC_TypeDB.AutoSize = true;
-            this.rbADAC_TypeDB.Checked = true;
-            this.rbADAC_TypeDB.Location = new System.Drawing.Point(7, 51);
-            this.rbADAC_TypeDB.Name = "rbADAC_TypeDB";
-            this.rbADAC_TypeDB.Size = new System.Drawing.Size(96, 17);
-            this.rbADAC_TypeDB.TabIndex = 2;
-            this.rbADAC_TypeDB.TabStop = true;
-            this.rbADAC_TypeDB.Text = "ADAC TypeDB";
-            this.rbADAC_TypeDB.UseVisualStyleBackColor = true;
-            this.rbADAC_TypeDB.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.edtMakerName.Location = new System.Drawing.Point(207, 85);
+            this.edtMakerName.Name = "edtMakerName";
+            this.edtMakerName.Size = new System.Drawing.Size(120, 20);
+            this.edtMakerName.TabIndex = 6;
+            // 
+            // lblMakerName
+            // 
+            this.lblMakerName.AutoSize = true;
+            this.lblMakerName.Location = new System.Drawing.Point(207, 70);
+            this.lblMakerName.Name = "lblMakerName";
+            this.lblMakerName.Size = new System.Drawing.Size(51, 13);
+            this.lblMakerName.TabIndex = 7;
+            this.lblMakerName.Text = "Hersteller";
             // 
             // VehicleGrabber
             // 
@@ -889,6 +909,8 @@
         private System.Windows.Forms.Label lblLimitRecords;
         private System.Windows.Forms.NumericUpDown edtLimitRecords;
         private System.Windows.Forms.RadioButton rbADAC_TypeDB;
+        private System.Windows.Forms.Label lblMakerName;
+        private System.Windows.Forms.TextBox edtMakerName;
     }
 }
 

@@ -68,6 +68,7 @@ namespace VehicleGrabberCore.Configuration
 
             //InitImporter
             this.RecordLimit = 0;
+            this.MakerName = string.Empty;
         }
 
 
@@ -119,7 +120,7 @@ namespace VehicleGrabberCore.Configuration
 
                     //InitImporter
                     this.RecordLimit = conf.RecordLimit;
-
+                    this.MakerName = conf.MakerName;
                    
 
                     LogItem logItem = new LogItem(string.Format("Load configuration file. '{0}'", configFile), DateTime.Now, LogLevel.INFO);
@@ -213,5 +214,7 @@ namespace VehicleGrabberCore.Configuration
 
         //Importer
         public long RecordLimit { get; set; }
+
+        public string MakerName { get; set; }
     }
 }

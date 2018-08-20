@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Windows.Forms;
 using VehicleGrabberCore.DataObjects;
+using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace VehicleGrabberCore.Importer
 {
@@ -100,11 +102,16 @@ namespace VehicleGrabberCore.Importer
                 foreach (var node in MakerNodes
                 ) //.Zip(descriptions, (n, d) => new MakerClass { MakerName = n.InnerText, MakerUrlPath = d.InnerText }))
                 {
+                    if(this.Core.Conf.MakerName.Trim().Equals(string.Empty) ||
+                       this.Core.Conf.MakerName.Trim().Equals("*") ||
+                       this.Core.Conf.MakerName.ToUpper().Equals(CleanNameString(node.InnerText.Trim().ToUpper())))
                     try
                     {
                         MakerObj MakerObj = new MakerObj();
 
-                        MakerObj.MakerName = node.InnerText.Trim();
+                        MakerObj.MakerName = CleanNameString(node.InnerText.Trim());
+                        
+
                         //MakerObj.MakerLogoUrl = node.SelectSingleNode("/li[1]/a[1]/div[1]/img[1]").Attributes //"//*[@id=\"  //
                         //    .AttributesWithName("src").First().Value;
 
@@ -150,6 +157,20 @@ namespace VehicleGrabberCore.Importer
             }
         }
 
+        private static string CleanNameString(string name)
+        {
+            string retval = name.Replace(Environment.NewLine, "");
+
+            while (retval.Contains("  "))
+            {
+                retval = retval.Replace("  ", " ");
+            }
+            return retval; 
+        }
+
+
+
+
         private void GetModels()
         {
             int limit_cnt = 0;
@@ -168,9 +189,19 @@ namespace VehicleGrabberCore.Importer
                 {
                     model_div = htmlDoc.DocumentNode.SelectNodes(
                         "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogBaureihe1_updatePanelBaureihe\"]/div[2]/div[2]/a");
-                    //"//*[@id="ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogBaureihe1_updatePanelBaureihe"]/div[2]/div[2]"
+
+                    if (model_div == null)
+                    {
+                        model_div = htmlDoc.DocumentNode.SelectNodes(
+                            "//*[@id=\"ctl00_ctl00_cphContentRow_cphContent_wucNFBAutokatalogBaureihe1_updatePanelBaureihe\"]/div[2]/div[2]");
+                        
+                    }
 
                 }
+
+
+                
+
                 //sleep(1000);
 
                 if (model_div != null)
@@ -184,12 +215,12 @@ namespace VehicleGrabberCore.Importer
                         try
                         {
                             modelObj.ModelID = this.modelsList.Count + 1;
-                            modelObj.ModelName = modelNode.ChildNodes[3].ChildNodes[0].InnerText;
+                            modelObj.ModelName = CleanNameString(modelNode.ChildNodes[3].ChildNodes[0].InnerText.Trim());
                             modelObj.ModelUrlPath = modelNode.Attributes.AttributesWithName("href").First().Value;
                             modelObj.ModelThumbUrl = modelNode.ChildNodes[1].ChildNodes[1].Attributes
                                 .AttributesWithName("src")
                                 .First().Value;
-                            modelObj.MakerName = obj.MakerName;
+                            modelObj.MakerName = obj.MakerName.Trim();
                             modelObj.MakerUrlPath = obj.MakerUrlPath;
                             modelObj.MakerLogoUrl = obj.MakerLogoUrl;
                             modelObj.MakerLogoBase64 = obj.MakerLogoBase64;

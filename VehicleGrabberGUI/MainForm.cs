@@ -241,6 +241,7 @@ namespace VehicleGrabberGUI
             this.edtMySQLPassword.Text = this.Core.Conf.SQLPassword;
 
             this.edtLimitRecords.Value = this.Core.Conf.RecordLimit;
+            this.edtMakerName.Text = this.Core.Conf.MakerName;
         }
 
         /// <summary>Read the application configuration and write the values to the regarding fields/objects</summary>
@@ -266,6 +267,8 @@ namespace VehicleGrabberGUI
 
             //InitImporter
             this.Core.Conf.RecordLimit = (long) this.edtLimitRecords.Value;
+            this.Core.Conf.MakerName = this.edtMakerName.Text;
+
         }
 
 
@@ -514,7 +517,7 @@ namespace VehicleGrabberGUI
             }
             this.pageReloaded++;
 
-            if (this.pageReloaded == 1)
+            if (this.pageReloaded == 2)
             {
                 this.pageReloaded = 0;
                 Core.SetPageContent(browser.DocumentText);

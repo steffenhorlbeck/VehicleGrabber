@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
+using System.Windows.Forms;
 using HtmlAgilityPack;
 using VehicleGrabberCore.DataObjects;
 using VehicleGrabberCore.Exporter;
+using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace VehicleGrabberCore.Importer
 {
@@ -157,13 +159,66 @@ namespace VehicleGrabberCore.Importer
             WebClient client = new WebClient();
             client.Encoding = System.Text.Encoding.UTF8;
 
+            
             var web = new HtmlWeb();
             var doc = web.Load(url);
             return doc.Text;
+            
+
+
+            //return GetAllCurrentAndOldModels(url);
+
             //return client.DownloadString(url);
+
+
         }
 
         #endregion
+
+
+
+
+        protected string GetAllCurrentAndOldModels(string url = "")
+        {
+            System.Windows.Forms.WebBrowser browser = new WebBrowser();
+
+
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                url = string.Format("{0}{1}", this.baseUrl, this.baseUrlLang);
+            }
+
+            browser.Navigate(url);
+
+            HtmlElementCollection theElementCollection = browser.Document.GetElementsByTagName("input");
+            foreach (HtmlElement curElement in theElementCollection)
+            {
+                if (curElement.GetAttribute("value").Equals("radioAllModels"))
+                {
+                    curElement.InvokeMember("click");
+                    break;
+                    // Javascript has a click method for you need to invoke on button and hyperlink elements.
+                }
+            }
+
+            HtmlElementCollection theElementCollection1 = browser.Document.GetElementsByTagName("a");
+
+            foreach (HtmlElement curElement in theElementCollection1)
+            {
+                if (curElement.GetAttribute("href").Contains("linkReiterAlphabetisch"))
+                {
+                    curElement.InvokeMember("click");
+                    break;
+                }
+            }
+
+
+            return browser.DocumentText;
+        }
+
+
+
+
 
         public abstract void SetPageContent(string content);
     }
