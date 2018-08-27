@@ -27,7 +27,10 @@ namespace VehicleGrabberCore.Exporter
             {
                 try
                 {
-                   
+                    if (string.IsNullOrWhiteSpace(obj.MakerName))
+                    {
+                        obj.MakerName = Core.Conf.MakerName;
+                    }
                     long makerId = SQLCarMaker.GetMakerId(obj.MakerName);
                     long modelId = SQLCarModel.GetModelId(obj.ModelName);
 

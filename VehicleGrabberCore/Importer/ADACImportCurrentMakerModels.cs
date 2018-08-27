@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Web;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using VehicleGrabberCore.DataObjects;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
@@ -231,7 +231,7 @@ namespace VehicleGrabberCore.Importer
                                 GetModelTypes(modelObj);
                             }
 
-                            System.Threading.Thread.Sleep(500);
+                            System.Threading.Thread.Sleep(50);
 
                             //DEBUG: Break after x number of models
 

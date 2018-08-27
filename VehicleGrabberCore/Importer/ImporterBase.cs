@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Windows.Forms;
 using HtmlAgilityPack;
 using VehicleGrabberCore.DataObjects;
 using VehicleGrabberCore.Exporter;
-using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 
 namespace VehicleGrabberCore.Importer
 {
@@ -177,7 +175,7 @@ namespace VehicleGrabberCore.Importer
         #endregion
 
 
-
+        /*
 
         protected string GetAllCurrentAndOldModels(string url = "")
         {
@@ -216,7 +214,7 @@ namespace VehicleGrabberCore.Importer
 
             return browser.DocumentText;
         }
-
+        */
 
 
 

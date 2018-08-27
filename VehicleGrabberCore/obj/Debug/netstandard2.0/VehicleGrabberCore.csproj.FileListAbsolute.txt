@@ -18,16 +18,3 @@ C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGr
 C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.dll
 C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.pdb
 C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.csprojAssemblyReference.cache
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Windows.Forms.dll
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Security.dll
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Configuration.dll
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\Accessibility.dll
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Deployment.dll
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Runtime.Serialization.Formatters.Soap.dll
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Windows.Forms.xml
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Security.xml
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Configuration.xml
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\Accessibility.xml
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Deployment.xml
-C:\Projects\VehicleGrabber\VehicleGrabberCore\bin\Debug\netstandard2.0\System.Runtime.Serialization.Formatters.Soap.xml
-C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.csproj.CopyComplete

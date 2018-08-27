@@ -79,7 +79,16 @@ namespace VehicleGrabberCore.Exporter
             {
                 Directory.CreateDirectory(ROOT);
 
-                string fileName = Path.Combine(ROOT, this.modelsFileName);
+                string fileName = String.Empty;
+                if (!string.IsNullOrWhiteSpace(this.Core.Conf.MakerName))
+                {
+                    fileName = Path.Combine(ROOT, string.Format("{0}.{1}",this.Core.Conf.MakerName, this.Core.Conf.DefaultCSVFileExtension));
+                }
+                else
+                {
+                    fileName = Path.Combine(ROOT, this.modelsFileName);
+                }
+
                 engine.WriteFile(fileName, models);
             }
             catch (Exception ex)

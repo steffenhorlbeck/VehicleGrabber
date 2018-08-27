@@ -191,6 +191,8 @@ namespace VehicleGrabberGUI
             btnCancel.Enabled = true;
             try
             {
+                this.UpdateConfiguration();
+
                 bwExport.RunWorkerAsync();
             }
             catch (Exception ex)
@@ -353,7 +355,7 @@ namespace VehicleGrabberGUI
             {
                 if (Core != null)
                 {
-                    this.UpdateConfiguration();
+                    
 
                     if (this.Core.Conf.ExportCSV)
                     {

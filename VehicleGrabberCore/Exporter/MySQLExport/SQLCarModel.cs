@@ -24,6 +24,10 @@ namespace VehicleGrabberCore.Exporter
             {
                 try
                 {
+                    if (string.IsNullOrWhiteSpace(obj.MakerName))
+                    {
+                        obj.MakerName = Core.Conf.MakerName;
+                    }
                     long makerId = SQLCarMaker.GetMakerId(obj.MakerName);
                     long modelId = GetModelId(obj.ModelName);
                     if (modelId == -1)
@@ -187,11 +191,52 @@ namespace VehicleGrabberCore.Exporter
             {
                 if (Core != null && Core.Log != null)
                 {
-                    Core.Log.Error(string.Format("SQLCarModel::Add_CarModels : {0}", ex.Message));
+                    Core.Log.Error(string.Format("SQLCarModel::GetModelId : {0}", ex.Message));
                 }
                 else
                 {
-                    throw new Exception("SQLCarModel::Add_CarModels", ex);
+                    throw new Exception("SQLCarModel::GetModelId", ex);
+                }
+
+                return id;
+            }
+        }
+
+        public static long GetMakerId(string maker)
+        {
+            long id = -1;
+            try
+            {
+                string query = string.Format("SELECT id FROM {0} WHERE name = upper('{1}')", MySQLExporter.MAKER_TABLE, maker.ToUpper());
+
+                //Open Connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+                {
+                    //Create Mysql Command
+                    MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    //cmd.CommandText = query;
+
+                    //ExecuteScalar will return one value
+                    var retVal = cmd.ExecuteScalar();
+                    id = retVal == null ? -1 : Convert.ToInt32(retVal);
+
+                    //close Connection
+                    _mySqlExporter.CloseConnection();
+
+                }
+
+                return id;
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarModel::GetMakerId : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarModel::GetMakerId", ex);
                 }
 
                 return id;
