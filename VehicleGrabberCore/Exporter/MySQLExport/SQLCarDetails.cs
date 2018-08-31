@@ -34,7 +34,8 @@ namespace VehicleGrabberCore.Exporter
                     long modelId = SQLCarModel.GetModelId(obj.Series);
                     long typeId = SQLCarModelType.GetModelTypeId(obj.ModelTypeName);
 
-                    long id = GetCarDetailsId(makerId, modelId, typeId, obj.ModelTypeName);
+                    //long id = GetCarDetailsId(makerId, modelId, typeId, obj.ModelTypeName);
+                    long id = GetCarDetailsId(obj.HSN, obj.TSN, obj.ModelTypeName);
                     if (id == -1)
                     {
                         Insert_CarDetails(obj, makerId, modelId, typeId);
@@ -215,7 +216,7 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 string query = string.Format(
-                    "SELECT id FROM {0} WHERE maker_id = {1} AND model_id = {2} AND modeltype_id = {3} AND modeltypename = upper('{4}');",
+                    "SELECT id FROM {0} WHERE maker_id = {1} AND model_id = {2} AND modeltype_id = {3} AND modeltypename = upper({4});",
                     MySQLExporter.DETAILS_TABLE,
                     maker_id, model_id, modeltype_id, modeltypename.ToUpper());
 
@@ -252,6 +253,53 @@ namespace VehicleGrabberCore.Exporter
                 return id;
             }
         }
+
+
+        public long GetCarDetailsId(string hsn, string tsn, string modeltypename)
+        {
+            long id = -1;
+            try
+            {
+                string query = string.Format(
+                    "SELECT id FROM {0} WHERE hsn = '{1}' AND tsn = '{2}' AND modeltypename = upper({3});",
+                    MySQLExporter.DETAILS_TABLE,
+                    hsn, tsn, modeltypename.ToUpper());
+
+                //Open Connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+                {
+                    //Create Mysql Command
+                    MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    //cmd.CommandText = query;
+
+                    //ExecuteScalar will return one value
+                    var retVal = cmd.ExecuteScalar();
+                    id = retVal == null ? -1 : Convert.ToInt32(retVal);
+
+                    //close Connection
+                    _mySqlExporter.CloseConnection();
+
+                }
+
+                return id;
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarDetails::GetCarDetailsId : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarDetails::GetCarDetailsId", ex);
+                }
+
+                return id;
+            }
+        }
+
+
 
         private static void SetSQLParameters(CarDetailsObj obj, MySqlCommand cmd, long makerId, long modelId,
             long typeId)

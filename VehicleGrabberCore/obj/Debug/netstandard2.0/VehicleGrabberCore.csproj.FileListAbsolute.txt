@@ -17,4 +17,3 @@ C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGr
 C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.AssemblyInfo.cs
 C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.dll
 C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.pdb
-C:\Projects\VehicleGrabber\VehicleGrabberCore\obj\Debug\netstandard2.0\VehicleGrabberCore.csprojAssemblyReference.cache

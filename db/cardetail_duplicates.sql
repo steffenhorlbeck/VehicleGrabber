@@ -1,5 +1,5 @@
-SELECT car_details.modeltypename, car_details.hsn, car_details.tsn
-FROM car_details
+SELECT car_details.id, car_details.modeltypename, car_details.hsn, car_details.tsn
+FROM car_detailscar_modeltype
 INNER JOIN (
 SELECT modeltypename,hsn,tsn
 FROM car_details

@@ -1,13 +1,11 @@
-﻿using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Web;
-//using System.Windows.Forms;
+using HtmlAgilityPack;
 using VehicleGrabberCore.DataObjects;
-using HtmlDocument = HtmlAgilityPack.HtmlDocument;
+using VehicleGrabberCore.Helper;
 
 namespace VehicleGrabberCore.Importer
 {
@@ -22,29 +20,29 @@ namespace VehicleGrabberCore.Importer
 
         public ADACImporter(VGCore core) : base(core)
         {
-            this.baseUrl = "https://www.adac.de";
-            this.baseUrlLang = string.Empty;            
+            baseUrl = "https://www.adac.de";
+            baseUrlLang = string.Empty;            
         }
 
         public override string GetBaseUrl()
         {
-            return this.baseUrl;
+            return baseUrl;
         }
 
 
         public override string GetCatalogUrl()
         {
-            return string.Format("{0}{1}{2}?{3}", this.baseUrl, this.startPath, this.baseUrlLang, this.parameters);
+            return string.Format("{0}{1}{2}?{3}", baseUrl, startPath, baseUrlLang, parameters);
         }
 
         public override void SetPageContent(string content)
         {
-            this.pageContent = content;
+            pageContent = content;
         }
 
         public override string GetPageContent()
         {
-            return this.pageContent;
+            return pageContent;
         }
 
         public override void StartImport(BackgroundWorker bw = null, string content = "")
@@ -52,13 +50,13 @@ namespace VehicleGrabberCore.Importer
             string url = string.Empty;
             try
             {
-                if (string.IsNullOrWhiteSpace(this.pageContent))
+                if (string.IsNullOrWhiteSpace(pageContent))
                 {
-                    url = this.GetCatalogUrl();
-                    this.pageContent = GetContent(url);
+                    url = GetCatalogUrl();
+                    pageContent = GetContent(url);
                 }
 
-                this.GetMakers();
+                GetMakers();
                 if (bw != null) { bw.ReportProgress(10);}
                 GetModels();
                 if (bw != null) { bw.ReportProgress(25); }
@@ -67,9 +65,9 @@ namespace VehicleGrabberCore.Importer
             }
             catch (Exception ex)
             {
-                if (this.Core != null && this.Core.Log != null)
+                if (Core != null && Core.Log != null)
                 {
-                    this.Core.Log.Error(string.Format("ADACImporter::ReadPageContent : {0} (URL:{1})", ex.Message, url));
+                    Core.Log.Error(string.Format("ADACImporter::ReadPageContent : {0} (URL:{1})", ex.Message, url));
                 }
                 else
                 {
@@ -83,7 +81,7 @@ namespace VehicleGrabberCore.Importer
         private void GetMakers()
         {
             var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(this.pageContent);
+            htmlDoc.LoadHtml(pageContent);
 
             HtmlNodeCollection Maker_div = null;
             if (htmlDoc.DocumentNode != null)
@@ -102,9 +100,9 @@ namespace VehicleGrabberCore.Importer
                 foreach (var node in MakerNodes
                 ) //.Zip(descriptions, (n, d) => new MakerClass { MakerName = n.InnerText, MakerUrlPath = d.InnerText }))
                 {
-                    if(this.Core.Conf.MakerName.Trim().Equals(string.Empty) ||
-                       this.Core.Conf.MakerName.Trim().Equals("*") ||
-                       this.Core.Conf.MakerName.ToUpper().Equals(CleanNameString(node.InnerText.Trim().ToUpper())))
+                    if(Core.Conf.MakerName.Trim().Equals(string.Empty) ||
+                       Core.Conf.MakerName.Trim().Equals("*") ||
+                       Core.Conf.MakerName.ToUpper().Equals(CleanNameString(node.InnerText.Trim().ToUpper())))
                     try
                     {
                         MakerObj MakerObj = new MakerObj();
@@ -133,14 +131,14 @@ namespace VehicleGrabberCore.Importer
                         MakerObj.MakerUrlPath = node.FirstChild.Attributes.AttributesWithName("href")
                             .First().Value;
 
-                        this.MakersList.Add(MakerObj);
-                        System.Threading.Thread.Sleep(100);
+                        MakersList.Add(MakerObj);
+                        Thread.Sleep(100);
                     }
                     catch (Exception ex)
                     {
-                        if (this.Core != null && this.Core.Log != null)
+                        if (Core != null && Core.Log != null)
                         {
-                            this.Core.Log.Error(string.Format("ADACImporter::GetMakers : {0}", ex.Message));
+                            Core.Log.Error(string.Format("ADACImporter::GetMakers : {0}", ex.Message));
                         }
                         else
                         {
@@ -149,9 +147,9 @@ namespace VehicleGrabberCore.Importer
                     }
                 }
 
-                if (this.Core != null && this.Core.Log != null)
+                if (Core != null && Core.Log != null)
                 {
-                    this.Core.Log.Info(string.Format("{0} Maker Records imported.", MakersList.Count));
+                    Core.Log.Info(string.Format("{0} Maker Records imported.", MakersList.Count));
                 }
 
             }
@@ -174,11 +172,11 @@ namespace VehicleGrabberCore.Importer
         private void GetModels()
         {
             int limit_cnt = 0;
-            foreach (MakerObj obj in this.MakersList)
+            foreach (MakerObj obj in MakersList)
             {
                 limit_cnt++;
 
-                string modelsUrl = string.Format("{0}{1}", this.baseUrl, obj.MakerUrlPath);
+                string modelsUrl = string.Format("{0}{1}", baseUrl, obj.MakerUrlPath);
                 string modelsContent = GetContent(modelsUrl);
 
                 var htmlDoc = new HtmlDocument();
@@ -214,7 +212,7 @@ namespace VehicleGrabberCore.Importer
 
                         try
                         {
-                            modelObj.ModelID = this.modelsList.Count + 1;
+                            modelObj.ModelID = modelsList.Count + 1;
                             modelObj.ModelName = CleanNameString(modelNode.ChildNodes[3].ChildNodes[0].InnerText.Trim());
                             modelObj.ModelUrlPath = modelNode.Attributes.AttributesWithName("href").First().Value;
                             modelObj.ModelThumbUrl = modelNode.ChildNodes[1].ChildNodes[1].Attributes
@@ -233,21 +231,21 @@ namespace VehicleGrabberCore.Importer
                             // get image url
 
 
-                            if (this.modelsList.Find(x =>
+                            if (modelsList.Find(x =>
                                     x.MakerName.ToUpper().Equals(obj.MakerName.ToUpper()) &&
                                     x.ModelName.ToUpper().Equals(modelObj.ModelName.ToUpper())) == null)
                             {
-                                this.modelsList.Add(modelObj);
+                                modelsList.Add(modelObj);
                                 string localImgFile = DownloadModelImage(modelObj.ModelThumbUrl);
                                 modelObj.ModelLocalFile = localImgFile;
                                 GetModelTypes(modelObj);
                             }
 
-                            System.Threading.Thread.Sleep(500);
+                            Thread.Sleep(500);
 
                             //DEBUG: Break after x number of models
                             
-                            if (this.IsLimited(limit_cnt1))
+                            if (IsLimited(limit_cnt1))
                             {
                                 break;
                             }
@@ -256,9 +254,9 @@ namespace VehicleGrabberCore.Importer
                         }
                         catch (Exception ex)
                         {
-                            if (this.Core != null && this.Core.Log != null)
+                            if (Core != null && Core.Log != null)
                             {
-                                this.Core.Log.Error(string.Format("ADACImporter::GetModels : {0}", ex.Message));
+                                Core.Log.Error(string.Format("ADACImporter::GetModels : {0}", ex.Message));
                             }
                             else
                             {
@@ -269,24 +267,24 @@ namespace VehicleGrabberCore.Importer
                 }
 
 
-                if (this.IsLimited(limit_cnt))
+                if (IsLimited(limit_cnt))
                 {
                     break;
                 }
 
             }
 
-            if (this.Core != null && this.Core.Log != null)
+            if (Core != null && Core.Log != null)
             {
-                this.Core.Log.Info(string.Format("{0} Model Records imported.", modelsList.Count));
-                this.Core.Log.Info(string.Format("{0} ModelType Records imported.", modelTypesList.Count));
+                Core.Log.Info(string.Format("{0} Model Records imported.", modelsList.Count));
+                Core.Log.Info(string.Format("{0} ModelType Records imported.", modelTypesList.Count));
             }
 
         }
 
         private void GetModelTypes(ModelObj modelObj)
         {
-            string modelTypesUrl = string.Format("{0}{1}", this.baseUrl, modelObj.ModelUrlPath);
+            string modelTypesUrl = string.Format("{0}{1}", baseUrl, modelObj.ModelUrlPath);
             string modelsContent = GetContent(modelTypesUrl);
 
             var htmlDoc = new HtmlDocument();
@@ -320,7 +318,7 @@ namespace VehicleGrabberCore.Importer
                                 .First().Value;
                             typeObj.ModelTypeName = node.ChildNodes[5].InnerText.Trim();
                             typeObj.ModelTypeChassis = node.ChildNodes[7].InnerText.Trim();
-                            typeObj.ModelTypeDoors = Convert.ToInt32(node.ChildNodes[9].InnerText.Trim());
+                            typeObj.ModelTypeDoors = node.ChildNodes[9].InnerText.Trim().ToInt32OrDefault(0);
                             typeObj.ModelTypeFuel = node.ChildNodes[11].InnerText.Trim();
                             typeObj.ModelTypePower = node.ChildNodes[13].InnerText.Trim();
                             typeObj.ModelTypeCubic = node.ChildNodes[17].InnerText.Trim();
@@ -339,7 +337,7 @@ namespace VehicleGrabberCore.Importer
                             modelTypesList.Add(typeObj);
 
                             //DEBUG: Break after x number of model types
-                            if (this.IsLimited(limit_cnt))
+                            if (IsLimited(limit_cnt))
                             {
                                 break;
                             }
@@ -347,9 +345,9 @@ namespace VehicleGrabberCore.Importer
                     }
                     catch (Exception ex)
                     {
-                        if (this.Core != null && this.Core.Log != null)
+                        if (Core != null && Core.Log != null)
                         {
-                            this.Core.Log.Error(string.Format("ADACImporter::GetModelTypes : {0}", ex.Message));
+                            Core.Log.Error(string.Format("ADACImporter::GetModelTypes : {0}", ex.Message));
                         }
                         else
                         {
@@ -367,7 +365,7 @@ namespace VehicleGrabberCore.Importer
 
             foreach (ModelTypeObj type in modelTypesList)
             {
-                string modelDetailsUrl = string.Format("{0}{1}", this.baseUrl, type.ModelTypeDetailsUrl);
+                string modelDetailsUrl = string.Format("{0}{1}", baseUrl, type.ModelTypeDetailsUrl);
                 try
                 {                    
                     string carContent = GetContent(modelDetailsUrl);
@@ -432,20 +430,18 @@ namespace VehicleGrabberCore.Importer
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[3].ChildNodes[1].InnerText);
                             carObj.EngineDesign =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[4].ChildNodes[1].InnerText);
-                            carObj.Cylinder =
-                                Convert.ToInt32(carEngine_div.First().ChildNodes[5].ChildNodes[1].InnerText);
+                            carObj.Cylinder = carEngine_div.First().ChildNodes[5].ChildNodes[1].InnerText.ToInt32OrDefault(0);
+                                //Convert.ToInt32();
                             carObj.FuelType =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[6].ChildNodes[1].InnerText);
                             carObj.Charge =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[7].ChildNodes[1].InnerText);
-                            carObj.Valves =
-                                Convert.ToInt32(carEngine_div.First().ChildNodes[8].ChildNodes[1].InnerText);
+                            carObj.Valves = carEngine_div.First().ChildNodes[8].ChildNodes[1].InnerText.ToInt32OrDefault(0);
                             carObj.Cubic =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[9].ChildNodes[1].InnerText);
-                            carObj.PowerKW =
-                                Convert.ToInt32(carEngine_div.First().ChildNodes[10].ChildNodes[1].InnerText);
-                            carObj.PowerPS =
-                                Convert.ToInt32(carEngine_div.First().ChildNodes[11].ChildNodes[1].InnerText);
+                            carObj.PowerKW =carEngine_div.First().ChildNodes[10].ChildNodes[1].InnerText.ToInt32OrDefault(0);
+                            carObj.PowerPS = carEngine_div.First().ChildNodes[11].ChildNodes[1].InnerText
+                                .ToInt32OrDefault(0);
                             carObj.MaxPower =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[12].ChildNodes[1].InnerText);
                             carObj.TurningMoment =
@@ -456,8 +452,8 @@ namespace VehicleGrabberCore.Importer
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[15].ChildNodes[1].InnerText);
                             carObj.Gearing =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[16].ChildNodes[1].InnerText);
-                            carObj.Gears =
-                                Convert.ToInt32(carEngine_div.First().ChildNodes[17].ChildNodes[1].InnerText);
+                            carObj.Gears = carEngine_div.First().ChildNodes[17].ChildNodes[1].InnerText
+                                .ToInt32OrDefault(0);
                             carObj.StartStopAutomatic =
                                 HttpUtility.HtmlDecode(carEngine_div.First().ChildNodes[18].ChildNodes[1].InnerText);
                             carObj.EmissionClass =
@@ -490,12 +486,10 @@ namespace VehicleGrabberCore.Importer
                         {
                             carObj.Chassis =
                                 HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[0].ChildNodes[1].InnerText);
-                            carObj.Doors =
-                                Convert.ToInt32(carChassis_div.First().ChildNodes[1].ChildNodes[1].InnerText);
+                            carObj.Doors =carChassis_div.First().ChildNodes[1].ChildNodes[1].InnerText.ToInt32OrDefault(0);
                             carObj.CarClass =
                                 HttpUtility.HtmlDecode(carChassis_div.First().ChildNodes[3].ChildNodes[1].InnerText);
-                            carObj.Seats =
-                                Convert.ToInt32(carChassis_div.First().ChildNodes[4].ChildNodes[1].InnerText);
+                            carObj.Seats =carChassis_div.First().ChildNodes[4].ChildNodes[1].InnerText.ToInt32OrDefault(0);
                         }
 
                         //Messwerte Hersteller
@@ -520,19 +514,19 @@ namespace VehicleGrabberCore.Importer
                 }
                 catch (Exception ex)
                 {
-                    if (this.Core != null && this.Core.Log != null)
+                    if (Core != null && Core.Log != null)
                     {
-                        this.Core.Log.Error(string.Format("MySQLExporter::CloseConnection : {0} ({1})", ex.Message, modelDetailsUrl));
+                        Core.Log.Error(string.Format("ADACImporter::GetCarDetails : {0} ({1})", ex.Message, modelDetailsUrl));
                     }
                     else
                     {
-                        throw new Exception("MySQLExporter::CloseConnection", ex);
+                        throw new Exception("ADACImporter::GetCarDetails", ex);
                     }
                 }
             }
-            if (this.Core != null && this.Core.Log != null)
+            if (Core != null && Core.Log != null)
             {
-                this.Core.Log.Info(string.Format("{0} Car Detail Records imported.", carDetailsList.Count));
+                Core.Log.Info(string.Format("{0} Car Detail Records imported.", carDetailsList.Count));
             }
             
         }
