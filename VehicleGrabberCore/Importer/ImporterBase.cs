@@ -25,6 +25,8 @@ namespace VehicleGrabberCore.Importer
 
         public long RecLimit { get; set; }
 
+        public int CurrentType = (int)ImporterBase.ImporterType.ADAC;
+
         public enum ImporterType
         {
             ADAC,

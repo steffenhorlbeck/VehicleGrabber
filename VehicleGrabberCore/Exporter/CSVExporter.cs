@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using VehicleGrabberCore.Configuration;
 using VehicleGrabberCore.DataObjects;
+using VehicleGrabberCore.Importer;
 
 
 namespace VehicleGrabberCore.Exporter
@@ -15,9 +16,9 @@ namespace VehicleGrabberCore.Exporter
         public const string MODELS = "models";
         public const string MAKERS = "makers";
         public const string DELIMITER = ";";
-        private readonly string modelsFileName = "model.csv";
-        private readonly string modelTypesFileName = "modeltypes.csv";
-        private readonly string carDetailsFileName = "cardetails.csv";
+        private readonly string modelsFileName = "model";
+        private readonly string modelTypesFileName = "modeltypes";
+        private readonly string carDetailsFileName = "cardetails";
         public List<MakerObj> MakersList { get; }
         public List<ModelObj> ModelObjList { get; }
         public List<ModelTypeObj> ModelTypeObjList { get; }
@@ -82,11 +83,11 @@ namespace VehicleGrabberCore.Exporter
                 string fileName = String.Empty;
                 if (!string.IsNullOrWhiteSpace(this.Core.Conf.MakerName))
                 {
-                    fileName = Path.Combine(ROOT, string.Format("{0}.{1}",this.Core.Conf.MakerName, this.Core.Conf.DefaultCSVFileExtension));
+                    fileName = Path.Combine(ROOT, string.Format("{0}_{1}.{2}", this.modelsFileName, this.Core.Conf.MakerName, this.Core.Conf.DefaultCSVFileExtension));
                 }
                 else
                 {
-                    fileName = Path.Combine(ROOT, this.modelsFileName);
+                    fileName = Path.Combine(ROOT, String.Format("{0}.{1}",this.modelsFileName, this.Core.Conf.DefaultCSVFileExtension));
                 }
 
                 engine.WriteFile(fileName, models);
@@ -131,7 +132,15 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 Directory.CreateDirectory(ROOT);
-                string fileName = Path.Combine(ROOT, this.modelTypesFileName);
+
+                string maker = string.Empty;
+                if (this.Core.Importer.CurrentType == (int)ImporterBase.ImporterType.ADAC_CURRENTMAKER)
+                {
+                    maker = string.Format("_{0}", this.Core.Conf.MakerName);
+                }
+
+                string fileName = Path.Combine(ROOT, string.Format("{0}{1}.{2}", this.modelTypesFileName, maker, this.Core.Conf.DefaultCSVFileExtension));
+              
                 engine.WriteFile(fileName, modeltypes);
             }
             catch (Exception ex)
@@ -219,7 +228,14 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 Directory.CreateDirectory(ROOT);
-                string fileName = Path.Combine(ROOT, this.carDetailsFileName);
+
+                string maker = string.Empty;
+                if (this.Core.Importer.CurrentType == (int) ImporterBase.ImporterType.ADAC_CURRENTMAKER)
+                {
+                    maker = string.Format("_{0}", this.Core.Conf.MakerName);
+                }
+                
+                string fileName = Path.Combine(ROOT, string.Format("{0}{1}.{2}",this.carDetailsFileName, maker, this.Core.Conf.DefaultCSVFileExtension));
                 engine.WriteFile(fileName, cardetails);
             }
             catch (Exception ex)

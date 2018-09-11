@@ -19,9 +19,10 @@ namespace VehicleGrabberCore.Importer
         private BackgroundWorker bw;
         private string pageContent = string.Empty;
 
-
         public ADACImportCurrentMakerModels(VGCore core) : base(core)
         {
+            this.CurrentType = (int)ImporterBase.ImporterType.ADAC_CURRENTMAKER;
+
             this.baseUrl = "https://www.adac.de";
             this.baseUrlLang = string.Empty;
         }

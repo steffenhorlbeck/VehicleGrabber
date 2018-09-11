@@ -28,6 +28,8 @@ namespace VehicleGrabberCore.Importer
 
         public ADACImportCarDetails(VGCore core) : base(core)
         {
+            this.CurrentType = (int)ImporterBase.ImporterType.ADAC_TYPEDB;
+
             this.baseUrl = "https://www.adac.de";
             this.baseUrlLang = string.Empty;
 

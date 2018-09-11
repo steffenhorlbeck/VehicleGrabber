@@ -519,6 +519,7 @@ namespace VehicleGrabberGUI
                     }
                 }
             }
+            /*
             this.pageReloaded++;
 
             if (this.pageReloaded == 2)
@@ -528,11 +529,23 @@ namespace VehicleGrabberGUI
 
                 bwImport.RunWorkerAsync();
             }
+            */
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            //if (this.pageReloaded == 2)
+            //{
+                //this.pageReloaded = 0;
+                Core.SetPageContent(browser.DocumentText);
+
+                bwImport.RunWorkerAsync();
+            //}
         }
     }
 }

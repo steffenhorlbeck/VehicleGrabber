@@ -163,7 +163,7 @@ namespace VehicleGrabberCore.Exporter
             long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name = upper('{1}')", MySQLExporter.MODELTYPE_TABLE, modeltype.ToUpper());
+                string query = string.Format("SELECT id FROM {0} WHERE name = '{1}'", MySQLExporter.MODELTYPE_TABLE, modeltype);
                 //int Count = -1;
 
                 //Open Connection

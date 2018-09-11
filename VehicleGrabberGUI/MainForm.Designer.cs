@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.btnStart = new System.Windows.Forms.Button();
             this.grpSource = new System.Windows.Forms.GroupBox();
+            this.rbADAC_curMaker = new System.Windows.Forms.RadioButton();
             this.rbADAC_TypeDB = new System.Windows.Forms.RadioButton();
             this.rbAutomobilio = new System.Windows.Forms.RadioButton();
             this.rbADAC = new System.Windows.Forms.RadioButton();
@@ -96,7 +97,7 @@
             this.btnLoadConfig = new System.Windows.Forms.Button();
             this.btnSaveConfig = new System.Windows.Forms.Button();
             this.bwExport = new System.ComponentModel.BackgroundWorker();
-            this.rbADAC_curMaker = new System.Windows.Forms.RadioButton();
+            this.btnImport = new System.Windows.Forms.Button();
             this.grpSource.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -120,7 +121,7 @@
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(97, 23);
             this.btnStart.TabIndex = 2;
-            this.btnStart.Text = "Import";
+            this.btnStart.Text = "Load";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
@@ -136,6 +137,16 @@
             this.grpSource.TabIndex = 5;
             this.grpSource.TabStop = false;
             this.grpSource.Text = "Quelle";
+            // 
+            // rbADAC_curMaker
+            // 
+            this.rbADAC_curMaker.AutoSize = true;
+            this.rbADAC_curMaker.Location = new System.Drawing.Point(7, 81);
+            this.rbADAC_curMaker.Name = "rbADAC_curMaker";
+            this.rbADAC_curMaker.Size = new System.Drawing.Size(121, 17);
+            this.rbADAC_curMaker.TabIndex = 3;
+            this.rbADAC_curMaker.Text = "ADAC CurrentMaker";
+            this.rbADAC_curMaker.UseVisualStyleBackColor = true;
             // 
             // rbADAC_TypeDB
             // 
@@ -167,6 +178,7 @@
             this.rbADAC.Name = "rbADAC";
             this.rbADAC.Size = new System.Drawing.Size(114, 17);
             this.rbADAC.TabIndex = 0;
+            this.rbADAC.TabStop = true;
             this.rbADAC.Text = "ADAC Autokatalog";
             this.rbADAC.UseVisualStyleBackColor = true;
             // 
@@ -260,7 +272,7 @@
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(986, 36);
+            this.btnCancel.Location = new System.Drawing.Point(986, 93);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(97, 23);
             this.btnCancel.TabIndex = 7;
@@ -271,7 +283,7 @@
             // btnExport
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Location = new System.Drawing.Point(986, 58);
+            this.btnExport.Location = new System.Drawing.Point(986, 64);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(97, 23);
             this.btnExport.TabIndex = 8;
@@ -774,7 +786,7 @@
             // btnLoadConfig
             // 
             this.btnLoadConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadConfig.Location = new System.Drawing.Point(986, 103);
+            this.btnLoadConfig.Location = new System.Drawing.Point(986, 155);
             this.btnLoadConfig.Name = "btnLoadConfig";
             this.btnLoadConfig.Size = new System.Drawing.Size(97, 23);
             this.btnLoadConfig.TabIndex = 11;
@@ -785,7 +797,7 @@
             // btnSaveConfig
             // 
             this.btnSaveConfig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveConfig.Location = new System.Drawing.Point(986, 128);
+            this.btnSaveConfig.Location = new System.Drawing.Point(986, 180);
             this.btnSaveConfig.Name = "btnSaveConfig";
             this.btnSaveConfig.Size = new System.Drawing.Size(97, 23);
             this.btnSaveConfig.TabIndex = 12;
@@ -801,21 +813,23 @@
             this.bwExport.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwExport_ProgressChanged);
             this.bwExport.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwExport_RunWorkerCompleted);
             // 
-            // rbADAC_curMaker
+            // btnImport
             // 
-            this.rbADAC_curMaker.AutoSize = true;
-            this.rbADAC_curMaker.Location = new System.Drawing.Point(7, 81);
-            this.rbADAC_curMaker.Name = "rbADAC_curMaker";
-            this.rbADAC_curMaker.Size = new System.Drawing.Size(121, 17);
-            this.rbADAC_curMaker.TabIndex = 3;
-            this.rbADAC_curMaker.Text = "ADAC CurrentMaker";
-            this.rbADAC_curMaker.UseVisualStyleBackColor = true;
+            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImport.Location = new System.Drawing.Point(986, 36);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(97, 23);
+            this.btnImport.TabIndex = 13;
+            this.btnImport.Text = "Import";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // VehicleGrabber
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1112, 565);
+            this.Controls.Add(this.btnImport);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnSaveConfig);
             this.Controls.Add(this.btnLoadConfig);
@@ -921,6 +935,7 @@
         private System.Windows.Forms.Label lblMakerName;
         private System.Windows.Forms.TextBox edtMakerName;
         private System.Windows.Forms.RadioButton rbADAC_curMaker;
+        private System.Windows.Forms.Button btnImport;
     }
 }
 

@@ -216,7 +216,7 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 string query = string.Format(
-                    "SELECT id FROM {0} WHERE maker_id = {1} AND model_id = {2} AND modeltype_id = {3} AND modeltypename = upper({4});",
+                    "SELECT id FROM {0} WHERE maker_id = {1} AND model_id = {2} AND modeltype_id = {3} AND modeltypename = '{4}';",
                     MySQLExporter.DETAILS_TABLE,
                     maker_id, model_id, modeltype_id, modeltypename.ToUpper());
 
@@ -261,7 +261,7 @@ namespace VehicleGrabberCore.Exporter
             try
             {
                 string query = string.Format(
-                    "SELECT id FROM {0} WHERE hsn = '{1}' AND tsn = '{2}' AND modeltypename = upper({3});",
+                    "SELECT id FROM {0} WHERE hsn = '{1}' AND tsn = '{2}' AND modeltypename = '{3}';",
                     MySQLExporter.DETAILS_TABLE,
                     hsn, tsn, modeltypename.ToUpper());
 

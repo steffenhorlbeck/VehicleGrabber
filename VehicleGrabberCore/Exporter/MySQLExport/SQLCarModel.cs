@@ -166,7 +166,7 @@ namespace VehicleGrabberCore.Exporter
             long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name = upper('{1}')", MySQLExporter.MODEL_TABLE, model.ToUpper());
+                string query = string.Format("SELECT id FROM {0} WHERE name = '{1}'", MySQLExporter.MODEL_TABLE, model);
 
                 //Open Connection
                 if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
@@ -207,7 +207,7 @@ namespace VehicleGrabberCore.Exporter
             long id = -1;
             try
             {
-                string query = string.Format("SELECT id FROM {0} WHERE name = upper('{1}')", MySQLExporter.MAKER_TABLE, maker.ToUpper());
+                string query = string.Format("SELECT id FROM {0} WHERE name = '{1}'", MySQLExporter.MAKER_TABLE, maker);
 
                 //Open Connection
                 if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
