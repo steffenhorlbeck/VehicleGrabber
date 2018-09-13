@@ -51,6 +51,8 @@ namespace VehicleGrabberCore.Importer
             string url = string.Empty;
             try
             {
+                this.EmptyLists();
+
                 if (string.IsNullOrWhiteSpace(pageContent))
                 {
                     url = GetCatalogUrl();

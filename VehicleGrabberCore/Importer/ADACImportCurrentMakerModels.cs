@@ -53,6 +53,8 @@ namespace VehicleGrabberCore.Importer
             string url = string.Empty;
             try
             {
+                this.EmptyLists();
+
                 //this.pageContent = content;
 
                 GetModels();

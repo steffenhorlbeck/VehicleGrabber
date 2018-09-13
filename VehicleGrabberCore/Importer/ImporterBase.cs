@@ -43,7 +43,17 @@ namespace VehicleGrabberCore.Importer
             this.RecLimit = this.Core.Conf.RecordLimit;
         }
 
+        protected void EmptyLists()
+        {
+            this.modelsList.Clear();
+            this.modelsList.Capacity = 1;
 
+            this.modelTypesList.Clear();
+            this.modelTypesList.Capacity = 1;
+
+            this.carDetailsList.Clear();
+            this.carDetailsList.Capacity = 1;
+        }
 
         public abstract void StartImport(BackgroundWorker bw = null, string content = "");
 
