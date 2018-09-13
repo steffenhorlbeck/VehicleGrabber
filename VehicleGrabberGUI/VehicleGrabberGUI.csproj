@@ -11,7 +11,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Projects\VehicleGrabber\install\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -21,10 +22,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,6 +46,21 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>342562DA71368873781068C2ECC9315C3D585BE5</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>VehicleGrabberGUI_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>contract.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FileHelpers, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
@@ -109,6 +125,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="VehicleGrabberGUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -125,7 +142,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 und x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -133,6 +150,72 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="contract.ico" />
+    <Content Include="resources\car-icons\bmp\ambulance.bmp" />
+    <Content Include="resources\car-icons\bmp\contract.bmp" />
+    <Content Include="resources\car-icons\bmp\news.bmp" />
+    <Content Include="resources\car-icons\gif\ambulance-128x128x8b.gif" />
+    <Content Include="resources\car-icons\gif\ambulance-16x16x8b.gif" />
+    <Content Include="resources\car-icons\gif\ambulance-24x24x8b.gif" />
+    <Content Include="resources\car-icons\gif\ambulance-256x256x8b.gif" />
+    <Content Include="resources\car-icons\gif\ambulance-32x32x8b.gif" />
+    <Content Include="resources\car-icons\gif\ambulance-48x48x8b.gif" />
+    <Content Include="resources\car-icons\gif\contract-128x128x8b.gif" />
+    <Content Include="resources\car-icons\gif\contract-16x16x8b.gif" />
+    <Content Include="resources\car-icons\gif\contract-24x24x8b.gif" />
+    <Content Include="resources\car-icons\gif\contract-256x256x8b.gif" />
+    <Content Include="resources\car-icons\gif\contract-32x32x8b.gif" />
+    <Content Include="resources\car-icons\gif\contract-48x48x8b.gif" />
+    <Content Include="resources\car-icons\gif\news-128x128x8b.gif" />
+    <Content Include="resources\car-icons\gif\news-16x16x8b.gif" />
+    <Content Include="resources\car-icons\gif\news-24x24x8b.gif" />
+    <Content Include="resources\car-icons\gif\news-256x256x8b.gif" />
+    <Content Include="resources\car-icons\gif\news-32x32x8b.gif" />
+    <Content Include="resources\car-icons\gif\news-48x48x8b.gif" />
+    <Content Include="resources\car-icons\ico\ambulance.ico" />
+    <Content Include="resources\car-icons\ico\contract.ico" />
+    <Content Include="resources\car-icons\ico\news.ico" />
+    <Content Include="resources\car-icons\png-8\ambulance-128x128x8b.png" />
+    <Content Include="resources\car-icons\png-8\ambulance-16x16x8b.png" />
+    <Content Include="resources\car-icons\png-8\ambulance-24x24x8b.png" />
+    <Content Include="resources\car-icons\png-8\ambulance-256x256x8b.png" />
+    <Content Include="resources\car-icons\png-8\ambulance-32x32x8b.png" />
+    <Content Include="resources\car-icons\png-8\ambulance-48x48x8b.png" />
+    <Content Include="resources\car-icons\png-8\contract-128x128x8b.png" />
+    <Content Include="resources\car-icons\png-8\contract-16x16x8b.png" />
+    <Content Include="resources\car-icons\png-8\contract-24x24x8b.png" />
+    <Content Include="resources\car-icons\png-8\contract-256x256x8b.png" />
+    <Content Include="resources\car-icons\png-8\contract-32x32x8b.png" />
+    <Content Include="resources\car-icons\png-8\contract-48x48x8b.png" />
+    <Content Include="resources\car-icons\png-8\news-128x128x8b.png" />
+    <Content Include="resources\car-icons\png-8\news-16x16x8b.png" />
+    <Content Include="resources\car-icons\png-8\news-24x24x8b.png" />
+    <Content Include="resources\car-icons\png-8\news-256x256x8b.png" />
+    <Content Include="resources\car-icons\png-8\news-32x32x8b.png" />
+    <Content Include="resources\car-icons\png-8\news-48x48x8b.png" />
+    <Content Include="resources\car-icons\png24\1.png" />
+    <Content Include="resources\car-icons\png24\2.png" />
+    <Content Include="resources\car-icons\png24\3.png" />
+    <Content Include="resources\car-icons\png\ambulance-128x128x32b.png" />
+    <Content Include="resources\car-icons\png\ambulance-16x16x32b.png" />
+    <Content Include="resources\car-icons\png\ambulance-24x24x32b.png" />
+    <Content Include="resources\car-icons\png\ambulance-256x256x32b.png" />
+    <Content Include="resources\car-icons\png\ambulance-32x32x32b.png" />
+    <Content Include="resources\car-icons\png\ambulance-48x48x32b.png" />
+    <Content Include="resources\car-icons\png\contract-128x128x32b.png" />
+    <Content Include="resources\car-icons\png\contract-16x16x32b.png" />
+    <Content Include="resources\car-icons\png\contract-24x24x32b.png" />
+    <Content Include="resources\car-icons\png\contract-256x256x32b.png" />
+    <Content Include="resources\car-icons\png\contract-32x32x32b.png" />
+    <Content Include="resources\car-icons\png\contract-48x48x32b.png" />
+    <Content Include="resources\car-icons\png\news-128x128x32b.png" />
+    <Content Include="resources\car-icons\png\news-16x16x32b.png" />
+    <Content Include="resources\car-icons\png\news-24x24x32b.png" />
+    <Content Include="resources\car-icons\png\news-256x256x32b.png" />
+    <Content Include="resources\car-icons\png\news-32x32x32b.png" />
+    <Content Include="resources\car-icons\png\news-48x48x32b.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

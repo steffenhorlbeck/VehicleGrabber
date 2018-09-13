@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VehicleGrabber));
             this.btnStart = new System.Windows.Forms.Button();
             this.grpSource = new System.Windows.Forms.GroupBox();
             this.rbADAC_curMaker = new System.Windows.Forms.RadioButton();
@@ -839,6 +840,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.grpSource);
             this.Controls.Add(this.btnStart);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VehicleGrabber";
             this.Text = "VehicleGrabber";
             this.grpSource.ResumeLayout(false);
