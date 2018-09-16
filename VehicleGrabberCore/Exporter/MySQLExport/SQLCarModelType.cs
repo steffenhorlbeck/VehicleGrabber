@@ -44,6 +44,7 @@ namespace VehicleGrabberCore.Exporter
                         Update_CarModelType(obj, makerId, modelId, modelTypeId);
                     }
 
+                    SetModelYears(obj);
                 }
                 catch (Exception ex)
                 {
@@ -153,6 +154,43 @@ namespace VehicleGrabberCore.Exporter
                 else
                 {
                     throw new Exception("SQLCarModelType::Update_CarModel", ex);
+                }
+            }
+        }
+
+
+        public void SetModelYears(ModelTypeObj obj)
+        {
+            try
+            {
+                string query = "CREATE_MODEL_YEARS_BY_MODEL_ID";
+
+                //open connection
+                if (_mySqlExporter.connection.State == ConnectionState.Open || _mySqlExporter.OpenConnection() == true)
+                {
+                    //create command and assign the query and connection from the constructor
+                    MySqlCommand cmd = new MySqlCommand(query, _mySqlExporter.connection);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new MySqlParameter("m_id", obj.ModelTypeID));
+                    
+
+                    //Execute command
+                    cmd.ExecuteNonQuery();
+
+                    //close connection
+                    _mySqlExporter.CloseConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Core != null && Core.Log != null)
+                {
+                    Core.Log.Error(string.Format("SQLCarModelType::SetModelYears : {0}", ex.Message));
+                }
+                else
+                {
+                    throw new Exception("SQLCarModelType::SetModelYears", ex);
                 }
             }
         }
